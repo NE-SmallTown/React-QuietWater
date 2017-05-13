@@ -1,0 +1,39 @@
+.wrap {
+    margin-top: 10px;
+    line-height: 1.9;
+
+    font-size: 15px;
+
+    overflow: hidden;
+}
+
+.content {
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+
+.lastUpdatedTime {
+    margin-top: 10px;
+
+    font-size: 14px;
+    color: #8590a6;
+}
+
+.expanded {
+    max-height: 200px;
+}
+
+.expanded::after {
+    content: "";
+
+    position: absolute;
+    display: block;
+
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+
+    cursor: pointer;
+    background: linear-gradient(180deg,hsla(0,0%,100%,0),#fff);
+    pointer-events: none;
+}

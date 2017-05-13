@@ -1,0 +1,12 @@
+.wrap {
+    position: relative;
+
+    border-bottom: 1px solid #f0f2f7;
+    line-height: 30px;
+
+    z-index: 100;
+}
+
+.replyCountText {
+    font-size: 17px;
+}

@@ -1,0 +1,51 @@
+.wrap {
+    margin-bottom: 10px;
+}
+
+.authorInfo {
+    margin-bottom: 10px;
+}
+
+.avatar-wrap {
+    display: inline-block;
+
+    vertical-align: top;
+
+    margin-right: 5px;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.otherInfo {
+    display: inline-block;
+
+    padding-left: 10px;
+    line-height: 1.4;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+
+    overflow: hidden;
+}
+
+.userName-wrap {
+    margin-left: 1px;
+
+    font-size: 15px;
+}
+
+.userName {
+    color: #e9803e;
+}
+
+.replyCreatedTime {
+    margin-top: 5px;
+
+    color: rgba(0,0,0,.44);
+    font-size: 12px;
+}
