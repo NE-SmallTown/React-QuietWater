@@ -1,3 +1,5 @@
+**NOTE**: Now this repo has not finished,this is just for backup
+
 # <a href='http://redux.js.org'><img src='' height='50'></a>
 
 React-QuietWater is a comment system based on react, css-modules and redux, redux-orm, react-css-themr.
