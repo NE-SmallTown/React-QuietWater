@@ -8,12 +8,19 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import SvgIcon from '../../SvgIcon';
 
+import { priNetwork } from '../../../utils/network';
+import globalConfig from '../../../globalConfig';
+import { getToken as getCurHostUserToken } from '../../../security/authService';
+import { updatePraiseCount } from '../../../actions/QuietWater';
+
 import './ReplyItemOperation.css';
 
-export default class ReplyItemOperation extends React.PureComponent {
+const { praiseUrl } = globalConfig.api.post.operationBar;
+class ReplyItemOperation extends React.PureComponent {
   static propTypes = {
     replyId: PropTypes.string,
     commentCount: PropTypes.number,
@@ -22,19 +29,58 @@ export default class ReplyItemOperation extends React.PureComponent {
     isContentTooLong: PropTypes.bool,
     onClickReadAll: PropTypes.func,
     onClickFold: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
+    userToken: PropTypes.string,
+    updatePraiseCount: PropTypes.func
   }
 
   static contextTypes = {
     quietWaterLanguage: PropTypes.object
   }
 
-  handleClickPraiseBtn = () => {
-    console.log('点赞');
+  _handlePraiseOrThumbDown = (type) => {
+    if (typeof type !== 'number') {
+      console.warn(`type must be a number but passed in ${type}`);
+
+      return;
+    }
+
+    if (this.props.userToken == null) {
+      browerHistory.push(hostUserLoginUrl);
+
+      return;
+    }
+
+    const oldPraiseCount = this.props.praiseCount;
+    const newPraiseCount = oldPraiseCount + type;
+
+    const { replyId, userToken } = this.props;
+    priNetwork.post({
+      url: praiseUrl,
+      data: {
+        replyId,
+        praiseCount: newPraiseCount,
+        userToken
+      },
+      responseStatusHandler: status => {
+        console.log(status);
+        if (status === 'ok') {
+          this.props.updatePraiseCount(replyId, newPraiseCount);
+        }
+      }
+    });
   }
 
-  handleClickThumbsdownBtn = () => {
+  handleClickPraiseBtn = () => {
+    console.log('点赞');
+
+    this._handlePraiseOrThumbDown(1);
+  }
+
+  handleClickThumbdownBtn = () => {
     console.log('踩');
+
+    this._handlePraiseOrThumbDown(-1);
   }
 
   handleClickCommentBtn = () => {
@@ -67,6 +113,7 @@ export default class ReplyItemOperation extends React.PureComponent {
     // TODO 只能点赞一次
     // TODO 图标可配置
     // TODO 图标的命名是否需要统一(展开图标到底是叫expand还是根据形状划分叫triangle-down)
+    // TODO 现在权限还不复杂,暂时没考虑针对权限控制进行抽象
     return (
       <div styleName="wrap" className={`clearfix ${className}`}>
         <button styleName="btn-praise" onClick={this.handleClickPraiseBtn}>
@@ -75,7 +122,7 @@ export default class ReplyItemOperation extends React.PureComponent {
           {praiseCount}
         </button>
 
-        <button styleName="btn-thumbdown" onClick={this.handleClickThumbsdownBtn}>
+        <button styleName="btn-thumbdown" onClick={this.handleClickThumbdownBtn}>
           <SvgIcon iconName="icon-thumbdown3" styleName="icon-thumbdown" />
         </button>
 
@@ -110,3 +157,10 @@ export default class ReplyItemOperation extends React.PureComponent {
   }
 };
 
+const mapStateToProps = state => ({
+  userToken: getCurHostUserToken()
+});
+
+export default connect(mapStateToProps, {
+  updatePraiseCount
+})(ReplyItemOperation);

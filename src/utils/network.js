@@ -15,7 +15,7 @@ import { getToken } from '../security/authService';
 const responseStatusHandler = globalConfig.api.responseStatusHandler;
 
 // 处理http响应的状态码的异常
-const httpStatusHandler = globalConfig.api.httpStatusHandler;
+const httpStatusExcptionHandler = globalConfig.api.httpStatusExcptionHandler;
 
 // 处理接口返回的数据中含有error字段的情况
 const responseErrorHandler = globalConfig.api.responseErrorHandler;
@@ -30,7 +30,8 @@ export const network = networkHelper({
 
     responseErrorHandler[errorCode] && responseErrorHandler[errorCode]();
   },
-  responseStatusHandler: status => responseStatusHandler[status] && responseStatusHandler[status]()
+  responseStatusHandler: status => responseStatusHandler[status] && responseStatusHandler[status](),
+  httpStatusExcptionHandler: status => httpStatusExcptionHandler[status] && httpStatusExcptionHandler[status]()
 });
 
 // 私有接口
@@ -46,6 +47,6 @@ export const priNetwork = networkHelper({
 
     responseErrorHandler[errorCode] && responseErrorHandler[errorCode]();
   },
-  responseStatusHandler: (httpStatus, dataStatus) => responseStatusHandler[dataStatus] && responseStatusHandler[dataStatus](),
-  httpStatusExcptionHandler: status => httpStatusHandler[status] && httpStatusHandler[status]()
+  responseStatusHandler: dataStatus => responseStatusHandler[dataStatus] && responseStatusHandler[dataStatus](),
+  httpStatusExcptionHandler: status => httpStatusExcptionHandler[status] && httpStatusExcptionHandler[status]()
 });

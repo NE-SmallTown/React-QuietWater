@@ -8,7 +8,7 @@
 
 import { attr, Model, fk } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT } from '../../actions';
 
 export default class Reply extends Model {
   static modelName = 'Reply'
@@ -36,6 +36,12 @@ export default class Reply extends Model {
           // Reply.create({ ...reply, author: reply.author.userId });
           Reply.create({ ...reply, host: hostId, author: reply.author.userId });
         });
+
+        break;
+      case UPDATE_PRAISECOUNT:
+        const { replyId, newPraiseCount } = action;
+
+        Reply.withId(replyId).update({ praiseCount: newPraiseCount });
 
         break;
       /* case REPLY_SUCCESS:

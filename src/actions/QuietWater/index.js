@@ -7,3 +7,5 @@
  */
 
 export * from './loadQuietWaterOfHost';
+
+export * from './updatePraiseCount';

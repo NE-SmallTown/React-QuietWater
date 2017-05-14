@@ -22,20 +22,29 @@ const configParams = {
   },
   api: {
     PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/',
-    P_PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/p/',
+    P_PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/p/', // p represent private
 
+    quietWaterInitUrl: , // 初始化QuietWater时需要获取某些数据存储到localstorage里面
+    hostUserLoginUrl: , // 很多操作都需要用户登录后才能操作,这个url是接入QuietWater的网站的用户的登录界面的url
     userInfoUrl: 'user/userInfo', // 获取网站本身的某个用户的信息
     quietWaterOfHostUrl: 'articles/info', // 获取QuietWater添加到的那个item的基本信息（如某篇文章,某个歌曲等.包括id,reply列表信息等等）
 
+    post: {
+      operationBar: {
+        praiseUrl: 'reply/praise'
+      }
+    },
 
     responseStatusHandler: {
       'ok': () => {
-        console.log(`backend's response's 'status' filed's value is 'ok'`);
+        if (__DEV__) {
+          console.log(`backend's response's 'status' filed's value is 'ok'`);
+        }
 
         Message.success('操作成功');
       }
     },
-    httpStatusHandler: {
+    httpStatusExcptionHandler: {
       401: () => {
         Message.error(`你的权限无法支持你现在的操作，如果你确认自己有权限的话，请联系管理员～`);
       }

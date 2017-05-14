@@ -72,7 +72,7 @@ export default ({
           responseErrorHandler && !isEmpty(responseErrorHandlerParams) && responseErrorHandler(responseErrorHandlerParams);
 
           // 请求接口成功时检测是否需要调用处理状态码的回调函数，注意，状态包括两类。一类是http(s)响应本身的状态码，一类是响应的实体中的status字段（因为大多数后端会返回一个叫status的字段）
-          responseStatusHandler && responseStatusHandler(res.status, data.status);
+          responseStatusHandler && responseStatusHandler(data.status, res.status);
 
           return typeof unwrapResponse === 'string' ? data[unwrapResponse] : data;
         });
@@ -107,9 +107,12 @@ export default ({
      data,
      unwrapResponse = _unwrapResponse,
      responseErrorKeys = _responseErrorKeys,
+     responseStatusHandler = _responseStatusHandler,
      responseErrorHandler = _responseErrorHandler,
-     fetchOptions }
-   ) {
+     fetchOptions = {
+       defaultHeaders: _defaultHeaders
+     }
+  }) {
     let headers;
 
     if (fetchOptions) {
@@ -136,7 +139,11 @@ export default ({
       unwrapResponse,
       headers,
       responseErrorKeys,
-      responseErrorHandler
+      responseErrorHandler,
+      responseStatusHandler: (...args) => {
+        _responseStatusHandler(...args); // 先调用全局的状态处理函数(因为一般在这里面进行全局的提示)
+        responseStatusHandler(...args); // 然后调用每个请求单独的状态处理函数(不同的调用方处理逻辑不同,比如在不同组件中进行setState)
+      }
     };
     const method = options.method.toLowerCase();
 
@@ -151,12 +158,7 @@ export default ({
   // 对外暴露的接口
   function fetch_get (url, data) {
     const simpleOptions = {
-      url,
-      unwrapResponse: _unwrapResponse,
-      responseErrorHandler: _responseErrorHandler,
-      fetchOptions: {
-        headers: _defaultHeaders
-      }
+      url
     };
 
     // 最简单的情况，只传入url
@@ -177,20 +179,22 @@ export default ({
       console.warn(`get method's arguments must be a string which represents an url or a object which represent options`);
     } else {
       const {
-        url,
+        _url,
         data,
         headers,
         responseErrorKeys,
         responseErrorHandler,
+        responseStatusHandler,
         unwrapResponse
       } = url; // 这里的url实际是配置对象
 
       return unifiedFetch({
-        url,
+        _url,
         data,
         unwrapResponse,
         responseErrorKeys,
         responseErrorHandler,
+        responseStatusHandler,
         fetchOptions: {
           headers: { ..._defaultHeaders, ...headers }
         }
@@ -203,13 +207,22 @@ export default ({
     if (!isPlainObject(options)) {
       console.warn(`post method must accept an options plain object but passed is ${options}`);
     } else {
-      const { url, data, headers, responseErrorKeys, responseErrorHandler, unwrapResponse = _unwrapResponse } = options;
+      const {
+        url,
+        data,
+        headers,
+        responseErrorKeys,
+        responseErrorHandler,
+        responseStatusHandler,
+        unwrapResponse
+      } = options;
 
       return unifiedFetch({
         url,
         unwrapResponse,
         responseErrorKeys,
         responseErrorHandler,
+        responseStatusHandler,
         fetchOptions: {
           method: 'post',
           body: formatQuery({ userId: getCurrentUserId(), ...data }),
