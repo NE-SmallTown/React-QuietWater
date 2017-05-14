@@ -1,0 +1,183 @@
+{
+  "name": "react-QuietWater",
+  "version": "0.0.1",
+  "description": "One comment system based on react.",
+  "keywords": [
+    "react-component",
+    "react",
+    "comment"
+  ],
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=6.0",
+    "npm": "^3.0.0"
+  },
+  "scripts": {
+    "flow": "flow",
+    "clean": "rimraf dist",
+    "compile": "better-npm-run compile",
+    "lint": "eslint bin build config server src tests",
+    "lint:fix": "npm run lint -- --fix",
+    "start": "better-npm-run start",
+    "dev": "better-npm-run dev",
+    "test": "jest",
+    "test:dev": "npm run test -- --watch",
+    "deploy": "better-npm-run deploy",
+    "deploy:dev": "better-npm-run deploy:dev",
+    "deploy:prod": "better-npm-run deploy:prod",
+    "codecov": "cat coverage/*/lcov.info | codecov"
+  },
+  "betterScripts": {
+    "compile": {
+      "command": "node bin/compile",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    },
+    "dev": {
+      "command": "nodemon bin/dev-server --ignore dist --ignore coverage --ignore tests --ignore src",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      }
+    },
+    "deploy": {
+      "command": "npm run lint && npm run test && npm run clean && npm run compile",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    },
+    "deploy:dev": {
+      "command": "npm run deploy",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      }
+    },
+    "deploy:prod": {
+      "command": "npm run deploy",
+      "env": {
+        "NODE_ENV": "production",
+        "DEBUG": "app:*"
+      }
+    },
+    "start": {
+      "command": "node bin/dev-server",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    },
+    "test": {
+      "command": "node ./node_modules/karma/bin/karma start config/karma.config",
+      "env": {
+        "NODE_ENV": "test",
+        "DEBUG": "app:*"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NE-SmallTown/react-QuietWater.git"
+  },
+  "author": "NE-SmallTown(https://github.com/NE-SmallTown)",
+  "bugs": {
+    "url": "https://github.com/NE-SmallTown/react-QuietWater/issues"
+  },
+  "homepage": "https://github.com/NE-SmallTown/react-QuietWater",
+  "license": "MIT",
+  "dependencies": {
+    "classnames": "^2.2.0",
+    "dompurify": "^0.8.9",
+    "humps": "^2.0.0",
+    "invariant": "^2.2.2",
+    "jwt-decode": "^2.1.0",
+    "lodash": "4.17.4",
+    "moment": "^2.18.0",
+    "normalize.css": "^5.0.0",
+    "normalizr": "3.2.2",
+    "object-assign": "^4.1.1",
+    "rc-notification": "^1.4.2",
+    "rc-tooltip": "^3.4.3",
+    "react": "^16.0.0-alpha.11",
+    "react-css-themr": "^2.0.0",
+    "react-dom": "^16.0.0-alpha.11",
+    "react-redux": "^5.0.1",
+    "react-router": "^3.0.0",
+    "react-spark-scroll": "^3.0.2",
+    "redux": "^3.6.0",
+    "redux-orm": "^0.9.0-rc.3",
+    "redux-thunk": "^2.0.0",
+    "reselect": "^2.5.4",
+    "url-lib": "^2.0.2",
+    "viewport-js": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.21.0",
+    "babel-eslint": "^7.1.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-istanbul": "^3.0.0",
+    "babel-plugin-react-css-modules": "^2.1.3",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-runtime": "^6.11.6",
+    "better-npm-run": "0.0.13",
+    "chai": "^3.4.1",
+    "chai-as-promised": "^6.0.0",
+    "chai-enzyme": "^0.6.1",
+    "cheerio": "^0.22.0",
+    "codecov": "^1.0.1",
+    "compression": "^1.6.2",
+    "css-loader": "^0.26.1",
+    "cssnano": "^3.7.4",
+    "debug": "^2.2.0",
+    "enzyme": "^2.0.0",
+    "eslint": "^3.0.1",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-config-standard-react": "^4.0.0",
+    "eslint-plugin-babel": "^4.0.0",
+    "eslint-plugin-promise": "^3.0.0",
+    "eslint-plugin-react": "^6.0.0",
+    "eslint-plugin-standard": "^2.0.0",
+    "express": "^4.14.0",
+    "extract-text-webpack-plugin": "^1.0.0",
+    "file-loader": "^0.9.0",
+    "flow-bin": "^0.45.0",
+    "fs-extra": "^1.0.0",
+    "html-webpack-plugin": "^2.22.0",
+    "imports-loader": "^0.7.0",
+    "ip": "^1.1.2",
+    "jest": "^19.0.2",
+    "json-loader": "^0.5.4",
+    "karma": "^1.0.0",
+    "karma-coverage": "^1.0.0",
+    "karma-mocha": "^1.0.1",
+    "karma-mocha-reporter": "^2.0.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-webpack-with-fast-source-maps": "^1.9.2",
+    "mocha": "^3.0.1",
+    "node-sass": "^4.0.0",
+    "nodemon": "^1.10.2",
+    "normalize.css": "^5.0.0",
+    "phantomjs-prebuilt": "^2.1.12",
+    "postcss-loader": "^1.1.0",
+    "react-addons-test-utils": "^15.0.0",
+    "redbox-react": "^1.2.10",
+    "rimraf": "^2.5.4",
+    "sass-loader": "^4.0.0",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.12.14",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.12.2",
+    "yargs": "^6.3.0"
+  }
+}

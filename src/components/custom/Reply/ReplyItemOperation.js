@@ -59,29 +59,34 @@ export default class ReplyItemOperation extends React.PureComponent {
 
   render () {
     const { replyId, commentCount, praiseCount, isContentExpanded, className, isContentTooLong } = this.props;
-    const { shareText, commentBtnPostfix, expandText, foldText } = this.context.quietWaterLanguage.Reply;
+    const {
+      Reply: { shareText, commentBtnPostfix, expandText, foldText }
+    } = this.context.quietWaterLanguage;
 
+    // TODO 图标下载到本地
     // TODO 只能点赞一次
+    // TODO 图标可配置
+    // TODO 图标的命名是否需要统一(展开图标到底是叫expand还是根据形状划分叫triangle-down)
     return (
       <div styleName="wrap" className={`clearfix ${className}`}>
         <button styleName="btn-praise" onClick={this.handleClickPraiseBtn}>
-          <SvgIcon iconName="icon-praise" styleName="icon-praise" />
+          <SvgIcon iconName="icon-praise3" styleName="icon-praise" />
 
           {praiseCount}
         </button>
 
-        <button styleName="btn-thumbsdown" onClick={this.handleClickThumbsdownBtn}>
-          <SvgIcon iconName="icon-thumbsdown" styleName="icon-thumbsdown" />
+        <button styleName="btn-thumbdown" onClick={this.handleClickThumbsdownBtn}>
+          <SvgIcon iconName="icon-thumbdown3" styleName="icon-thumbdown" />
         </button>
 
         <button styleName="btn-comment" onClick={this.handleClickCommentBtn}>
-          <SvgIcon iconName="icon-comment" styleName="icon-comment" />
+          <SvgIcon iconName="icon-comment1" styleName="icon-comment" />
 
           {`${commentCount}${commentBtnPostfix}`}
         </button>
 
         <button styleName="btn-share" onClick={this.handleClickShareBtn}>
-          <SvgIcon iconName="icon-share" styleName="icon-share" />
+          <SvgIcon iconName="icon-share2" styleName="icon-share" />
 
           {shareText}
         </button>
@@ -91,12 +96,12 @@ export default class ReplyItemOperation extends React.PureComponent {
             ? <button styleName="btn-fold" onClick={this.handleClickFold}>
                 {foldText}
 
-                <SvgIcon iconName="icon-fold" styleName="icon-fold" />
+                <SvgIcon iconName="icon-fold2" styleName="icon-fold" />
               </button>
             : <button styleName="btn-expand" onClick={this.handleClickExpand}>
                 {expandText}
 
-                <SvgIcon iconName="icon-expand" styleName="icon-expand" />
+                <SvgIcon iconName="icon-expand2" styleName="icon-expand" />
               </button>
           : null
         }

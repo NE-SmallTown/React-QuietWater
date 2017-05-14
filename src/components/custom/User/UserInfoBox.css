@@ -1,43 +1,46 @@
 .wrap {
     border-radius: 2px;
-    padding: 0 12px 16px;
     width: 360px;
     max-height: 600px;
 
     background: #fff;
-    box-shadow: 0 5px 20px rgba(0,34,77,.1);
 
     z-index: 9999;
 }
 
 .cover-wrap {
-    display: inline-block;
-
-    border-radius: 2px 2px 0 0;
-    margin: 0 -12px;
     height: 100px;
-
-    vertical-align: top;
+    margin: 0 -15px;
     overflow: hidden;
 }
 
 .cover {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
 }
 
 .info-wrap {
-    display: inline-block;
+    position: relative;
 
-    margin-left: 40px;
     border-bottom: 1px solid #f0f2f7;
-    padding: 8px 0;
+    padding-top: 5px;
+    padding-bottom: 15px;
+}
+
+.avatar {
+    position: absolute;
+
+    border: 2px solid #fff;
+    border-radius: 50%;
+    top: -15px;
+    width: 70px;
+    height: 70px;
 }
 
 .title-wrap {
+    margin-left: 86px;
     min-height: 40px;
-    max-height: 60px;
+    max-height: 49px;
 
     overflow: hidden;
 }
@@ -48,7 +51,10 @@
 }
 
 .desc-wrap {
-    margin-top: 5px;
+    margin-top: 7px;
+
+    color: rgba(0, 0, 0, 0.61);
+    font-size: 14px;
     font-weight: 400;
 }
 

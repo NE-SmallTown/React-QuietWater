@@ -30,7 +30,6 @@ export default class ReplyItemHeader extends React.PureComponent {
       <div styleName="wrap">
         <div styleName="authorInfo">
           <Popover
-            trigger='click'
             content={
               <UserInfoBox
                 avatarUrl={avatarUrl}

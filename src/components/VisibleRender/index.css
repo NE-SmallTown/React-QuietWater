@@ -1,0 +1,23 @@
+.showByOpacty {
+    opacity: 1;
+}
+
+.notShowByOpacty {
+    opacity: 0;
+}
+
+.showByVisibility {
+    visibility: visible;
+}
+
+.notShowByVisibility {
+    visibility: hidden;
+}
+
+.showByDisplay {
+    display: initial;
+}
+
+.notShowByDisplay {
+    display: none;
+}

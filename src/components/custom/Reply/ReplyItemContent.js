@@ -16,6 +16,10 @@ export default class ReplyItemContent extends React.PureComponent {
     lastUpdatedTime: PropTypes.string
   }
 
+  static contextTypes = {
+    quietWaterLanguage: PropTypes.object
+  }
+
   render () {
     const {
       content,
@@ -23,13 +27,19 @@ export default class ReplyItemContent extends React.PureComponent {
       lastUpdatedTime
     } = this.props;
 
+    const { lastUpdatedTimeText } = this.context.quietWaterLanguage.Reply;
+
+    // TODO 移动端看看是否需要将回复里的图片进行懒加载,回复本身就是一组一组的加载的,到时候再看看是否有必要吧
     return (
       <div styleName={`wrap ${isContentTooLong ? 'expanded' : ''}`}>
         <div>
           <span styleName="content" dangerouslySetInnerHTML={{ __html: content }} />
         </div>
 
-        <div styleName="lastUpdatedTime">{lastUpdatedTime}</div>
+        <div styleName="lastUpdatedTime">
+          <span styleName="lastUpdatedTimeDesc">{lastUpdatedTimeText}</span>
+          {lastUpdatedTime}
+          </div>
       </div>
     );
   }

@@ -27,6 +27,7 @@ const configParams = {
     userInfoUrl: 'user/userInfo', // 获取网站本身的某个用户的信息
     quietWaterOfHostUrl: 'articles/info', // 获取QuietWater添加到的那个item的基本信息（如某篇文章,某个歌曲等.包括id,reply列表信息等等）
 
+
     responseStatusHandler: {
       'ok': () => {
         console.log(`backend's response's 'status' filed's value is 'ok'`);

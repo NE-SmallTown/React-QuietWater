@@ -8,6 +8,8 @@
 
 export default (content, wrapWidthNumber, languageName) => {
   if (typeof content !== 'undefined' && typeof wrapWidthNumber !== 'undefined') {
+    const brTagCount = content.match(/<br>/g).length / 2; // at least two tags will cause blank line
+    const brTagheight = 44;
     const wrodsCount = content.length;
 
     // TODO 每行的字数由很多因素决定,font-family,font-size,letter-spacing等等,暂时没有考虑那么多
@@ -21,7 +23,7 @@ export default (content, wrapWidthNumber, languageName) => {
     switch (languageName.toLowerCase()) {
       case 'zh-cn':
         perWordWidth = 13;
-        perLineHeight = 20;
+        perLineHeight = 28;
         break;
       case 'en-us':
         perWordWidth = 6;
@@ -30,9 +32,10 @@ export default (content, wrapWidthNumber, languageName) => {
     }
 
     const linesOfContent = wrodsCount / (wrapWidthNumber / perWordWidth);
-    const totalHeight = linesOfContent * perLineHeight;
+    const totalHeight = linesOfContent * perLineHeight + brTagCount * brTagheight;
 
     // because we set the max-height of content to 400px
+    console.log(totalHeight);
     return totalHeight > 400;
   } else {
     throw Error('you must provide the content and wrapWidthNumber arguments!');

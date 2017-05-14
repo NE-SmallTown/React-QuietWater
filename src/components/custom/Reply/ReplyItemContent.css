@@ -1,4 +1,6 @@
 .wrap {
+    position: relative;
+
     margin-top: 10px;
     line-height: 1.9;
 
@@ -19,6 +21,10 @@
     color: #8590a6;
 }
 
+.lastUpdatedTimeDesc {
+    margin-right: 10px;
+}
+
 .expanded {
     max-height: 200px;
 }
@@ -31,7 +37,7 @@
 
     bottom: 0;
     width: 100%;
-    height: 120px;
+    height: 100px;
 
     cursor: pointer;
     background: linear-gradient(180deg,hsla(0,0%,100%,0),#fff);

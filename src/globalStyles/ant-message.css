@@ -1,0 +1,210 @@
+.ant-message {
+    font-size: 12px;
+    position: fixed;
+    z-index: 1010;
+    width: 100%;
+    top: 16px;
+    left: 0;
+    pointer-events: none
+}
+
+.ant-message-notice {
+    padding: 8px;
+    text-align: center
+}
+
+.ant-message-notice:first-child {
+    margin-top: -8px
+}
+
+.ant-message-notice-content {
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    background: #fff;
+    display: inline-block;
+    pointer-events: all
+}
+
+.ant-message-notice-content svg {
+    position: relative;
+
+    margin-right: 6px;
+    top: -1px;
+    width: 20px;
+    height: 20px;
+
+    vertical-align: middle;
+}
+
+.ant-message-notice-content span {
+    letter-spacing: 0.1cm;
+}
+
+.ant-message-success > svg {
+    color: #00a854
+}
+
+.ant-message-error > svg {
+    color: #f04134
+}
+
+.ant-message-warning > svg {
+    color: #ffbf00
+}
+
+.ant-message-info > svg,.ant-message-loading .anticon {
+    color: #108ee9
+}
+
+.ant-message .anticon {
+    margin-right: 8px;
+    font-size: 14px;
+    top: 1px;
+    position: relative
+}
+
+.ant-message-notice.move-up-leave.move-up-leave-active {
+    -webkit-animation-name: MessageMoveOut;
+    animation-name: MessageMoveOut;
+    overflow: hidden;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s
+}
+
+.move-up-appear,.move-up-enter,.move-up-leave {
+    -webkit-animation-duration: .2s;
+    animation-duration: .2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused
+}
+
+.move-up-appear.move-up-appear-active,.move-up-enter.move-up-enter-active {
+    -webkit-animation-name: antMoveUpIn;
+    animation-name: antMoveUpIn;
+    -webkit-animation-play-state: running;
+    animation-play-state: running
+}
+
+.move-up-leave.move-up-leave-active {
+    -webkit-animation-name: antMoveUpOut;
+    animation-name: antMoveUpOut;
+    -webkit-animation-play-state: running;
+    animation-play-state: running
+}
+
+.move-up-appear,.move-up-enter {
+    opacity: 0;
+    -webkit-animation-timing-function: cubic-bezier(.08,.82,.17,1);
+    animation-timing-function: cubic-bezier(.08,.82,.17,1)
+}
+
+.move-up-leave {
+    -webkit-animation-timing-function: cubic-bezier(.6,.04,.98,.34);
+    animation-timing-function: cubic-bezier(.6,.04,.98,.34)
+}
+
+
+@-webkit-keyframes MessageMoveOut {
+    0% {
+        opacity: 1;
+        max-height: 150px;
+        padding: 8px
+    }
+
+    to {
+        opacity: 0;
+        max-height: 0;
+        padding: 0
+    }
+}
+
+@keyframes MessageMoveOut {
+    0% {
+        opacity: 1;
+        max-height: 150px;
+        padding: 8px
+    }
+
+    to {
+        opacity: 0;
+        max-height: 0;
+        padding: 0
+    }
+}
+
+@-webkit-keyframes antMoveUpIn {
+    0% {
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        opacity: 0
+    }
+
+    to {
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+
+@keyframes antMoveUpIn {
+    0% {
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        opacity: 0
+    }
+
+    to {
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+
+.anticon-spin {
+    display: inline-block;
+    -webkit-animation: loadingCircle 1s infinite linear;
+    animation: loadingCircle 1s infinite linear
+}
+
+@-webkit-keyframes loadingCircle {
+    0% {
+        -webkit-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes loadingCircle {
+    0% {
+        -webkit-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}

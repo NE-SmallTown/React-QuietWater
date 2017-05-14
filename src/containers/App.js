@@ -14,6 +14,8 @@ import zh_cn from '../language/zh-cn';
 
 export default class App extends React.PureComponent {
   render () {
+    // TODO 很多地方都需要加上alt属性
+
     return (
       <div style={{ width: '800px', margin: '0 auto' }}>
         <LanguageProvider language={zh_cn}>

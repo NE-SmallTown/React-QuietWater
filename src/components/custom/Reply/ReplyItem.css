@@ -1,3 +1,8 @@
+.wrap:not(:first-child) {
+    border-top: 1px solid #f0f2f7;
+    margin-top: 20px;
+}
+
 .fixed-operationBar {
     position: fixed;
 

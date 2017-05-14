@@ -47,6 +47,7 @@ export default class ReplyItem extends React.PureComponent {
       // we can also make ReplyItemContent show first and get its height,if that,we don't need calculate by
       // the `isContentTooLong` util function ,but that's not friendly to users.
       isContentTooLong,
+      // contentCount: props.content.length,
       isContentExpanded: !isContentTooLong,
       isContentEnterViewport: false
     };
@@ -112,39 +113,42 @@ export default class ReplyItem extends React.PureComponent {
       'fixed-operationBar': isContentTooLong && isContentExpanded && isContentEnterViewport
     });
 
-    return [
-      <ReplyItemHeader key="rih" {...author} replyCreatedTime={createdTime} />,
+    /* eslint-disable */
+    return (
+      <div styleName="wrap">
+        <ReplyItemHeader {...author} replyCreatedTime={createdTime} />
+          {/* 内容比较多,且目前内容处于展开状态的（即内容全部被显示）的才需要绑定滚动事件检测,看是否需要将操作栏fixed,对于内容较少的则不绑定事件,避免浪费性能
+          just when item which has long content and window displays all of them now, we bind scroll event to
+          fixed operation bar,if no many contents don't bind to improve perf */}
+        {
+          isContentTooLong && isContentExpanded
+          ? <SparkScroll.div
+              key="ric1"
+              timeline={{
+                'topTop': { onDown: this.handleScrollIntoLongContetnItem },
+                'bottomBottom': { onDown: this.handleScrollIntoLongContetnItemEnd}
+              }}
+            >
+              <ReplyItemContent
+                {...commonReplyItemContentProps}
+              />
+            </SparkScroll.div>
+          : <ReplyItemContent key="ric2" {...commonReplyItemContentProps} />
+        }
 
-      /* eslint-disable */
-      // 内容比较多,且目前内容处于展开状态的（即内容全部被显示）的才需要绑定滚动事件检测,看是否需要将操作栏fixed,对于内容较少的则不绑定事件,避免浪费性能
-      // just when item which has long content and window displays all of them now, we bind scroll event to
-      // fixed operation bar,if no many contents don't bind to improve perf
-      isContentTooLong
-      ? <ReplyItemContent key="ric2" {...commonReplyItemContentProps} />
-      : <SparkScroll.div
-          key="ric1"
-          timeline={{
-            'topTop': { onDown: this.handleScrollIntoLongContetnItem },
-            'bottomBottom': { onDown: this.handleScrollIntoLongContetnItemEnd}
-          }}
-        >
-          <ReplyItemContent
-            {...commonReplyItemContentProps}
+          <ReplyItemOperation
+            key="rio"
+            styleName={operationBarClassName}
+            replyId={replyId}
+            commentCount={commentCount}
+            praiseCount={praiseCount}
+            isContentTooLong={isContentTooLong}
+            isContentExpanded={isContentExpanded}
+            onClickReadAll={this.handleClickReadAll}
+            onClickFold={this.handleClickFold}
           />
-        </SparkScroll.div>,
-      /* eslint-disable */
-
-      <ReplyItemOperation
-        key="rio"
-        styleName={operationBarClassName}
-        replyId={replyId}
-        commentCount={commentCount}
-        praiseCount={praiseCount}
-        isContentTooLong={isContentTooLong}
-        isContentExpanded={isContentExpanded}
-        onClickReadAll={this.handleClickReadAll}
-        onClickFold={this.handleClickFold}
-      />
-    ];
+        </div>
+    );
+    /* eslint-disable */
   }
 };

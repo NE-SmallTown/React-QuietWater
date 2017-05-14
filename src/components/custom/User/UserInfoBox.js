@@ -20,20 +20,27 @@ export default class UserInfoBox extends React.PureComponent {
     userId: PropTypes.string,
     userName: PropTypes.string,
     userToken: PropTypes.string,
-    desc: PropTypes.string
+    desc: PropTypes.string,
+    coverUrl: PropTypes.string
+  }
+
+  static defaultProps = {
+    desc: '这是我描述自己的内容'
   }
 
   render () {
-    const { avatarUrl, loginName, userId, userName, desc } = this.props;
+    const { avatarUrl, loginName, userId, userName, desc, coverUrl = avatarUrl } = this.props;
 
     return (
       <div styleName="wrap">
         <div>
           <div styleName="cover-wrap">
-            <img styleName="cover" src={avatarUrl} />
+            <img styleName="cover" src={coverUrl} />
           </div>
 
           <div styleName="info-wrap">
+            <img styleName="avatar" src={avatarUrl} />
+
             <div styleName="title-wrap">
               <div styleName="userName">
                 <UserLink userName={userName} userId={userId} loginName={loginName}>{userName}</UserLink>

@@ -20,7 +20,8 @@ export default {
     shareText: '分享',
     commentBtnPostfix: '条评论',
     expandText: '阅读更多',
-    foldText: '收起'
+    foldText: '收起',
+    lastUpdatedTimeText: '更新于'
   },
   Comment: {
 
