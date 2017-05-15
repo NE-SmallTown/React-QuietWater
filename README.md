@@ -98,7 +98,22 @@ The ... are the config paramas below:
   }
 ```
 
-**NOTE**: Please ensure the localstorage of your website have the above info2Storage's all properties.
+**NOTE**: You must ensure the localstorage of your website have the above info2Storage's all properties when the user has login on your website.
+For example:
+```
+    {
+      data: {
+        userInfo: { // this property name must be userInfo
+          userName: 'userNameOfTheHost',
+          loginName: 'loginNameOfTheHost',
+          avatarUrl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3597382613,1842885761&fm=117&gp=0.jpg',
+          userId: '45682021321',
+          roleName: 'normal',
+          userToken: 'Gwsdfdsfsdioiew.asdsadwipouiu34ndf.opuiouio72gfdio8k'
+        }
+      }
+    }
+```
 
 ### Examples
 

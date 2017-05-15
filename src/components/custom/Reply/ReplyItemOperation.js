@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 
 import SvgIcon from '../../SvgIcon';
@@ -38,15 +39,15 @@ class ReplyItemOperation extends React.PureComponent {
     quietWaterLanguage: PropTypes.object
   }
 
-  _handlePraiseOrThumbDown = (type) => {
+  _handlePraiseOrThumbDown = debounce((type) => {
     if (typeof type !== 'number') {
       console.warn(`type must be a number but passed in ${type}`);
 
       return;
     }
 
-    if (this.props.userToken == null) {
-      browerHistory.push(hostUserLoginUrl);
+    if (this.props.userToken === null) {
+      location.replace(globalConfig.api.hostUserLoginUrl);
 
       return;
     }
@@ -69,7 +70,7 @@ class ReplyItemOperation extends React.PureComponent {
         }
       }
     });
-  }
+  }, 1000, { leading: true, 'trailing': false })
 
   handleClickPraiseBtn = () => {
     console.log('点赞');

@@ -24,9 +24,8 @@ const configParams = {
     PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/',
     P_PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/p/', // p represent private
 
-    quietWaterInitUrl: , // 初始化QuietWater时需要获取某些数据存储到localstorage里面
-    hostUserLoginUrl: , // 很多操作都需要用户登录后才能操作,这个url是接入QuietWater的网站的用户的登录界面的url
-    userInfoUrl: 'user/userInfo', // 获取网站本身的某个用户的信息
+    quietWaterInitUrl: 'http://www.easy-mock.com/mock/5919acf69aba4141cf23044d/common/rqw', // 初始化QuietWater时需要获取某些数据存储到localstorage里面
+    hostUserLoginUrl: 'https://github.com/login', // 很多操作都需要用户登录后才能操作,这个url是接入QuietWater的网站的用户的登录界面的url
     quietWaterOfHostUrl: 'articles/info', // 获取QuietWater添加到的那个item的基本信息（如某篇文章,某个歌曲等.包括id,reply列表信息等等）
 
     post: {

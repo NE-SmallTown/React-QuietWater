@@ -109,6 +109,7 @@ export default ({
      responseErrorKeys = _responseErrorKeys,
      responseStatusHandler = _responseStatusHandler,
      responseErrorHandler = _responseErrorHandler,
+     automaticallyAddUrlPrefix = true, // 是否需要加上上面设置的前缀,一般在某条单独的请求中需要覆盖默认值时使用
      fetchOptions = {
        defaultHeaders: _defaultHeaders
      }
@@ -151,7 +152,7 @@ export default ({
       fetchOptions && fetchOptions.body && (options.body = fetchOptions.body);
     }
 
-    const finalUrl = _getUrl(url);
+    const finalUrl = automaticallyAddUrlPrefix ? _getUrl(url) : url;
     return _fetch(method === 'get' ? formatUrl(finalUrl, data) : finalUrl, options);
   }
 
@@ -162,7 +163,7 @@ export default ({
     };
 
     // 最简单的情况，只传入url
-    if (arguments.length === 1) {
+    if (arguments.length === 1 && typeof url === 'string') {
       return unifiedFetch(simpleOptions);
     }
 
@@ -178,23 +179,10 @@ export default ({
     if (!isPlainObject(url)) {
       console.warn(`get method's arguments must be a string which represents an url or a object which represent options`);
     } else {
-      const {
-        _url,
-        data,
-        headers,
-        responseErrorKeys,
-        responseErrorHandler,
-        responseStatusHandler,
-        unwrapResponse
-      } = url; // 这里的url实际是配置对象
+      const { headers } = url; // 这里的url实际是配置对象
 
       return unifiedFetch({
-        _url,
-        data,
-        unwrapResponse,
-        responseErrorKeys,
-        responseErrorHandler,
-        responseStatusHandler,
+        ...url,
         fetchOptions: {
           headers: { ..._defaultHeaders, ...headers }
         }
@@ -207,22 +195,10 @@ export default ({
     if (!isPlainObject(options)) {
       console.warn(`post method must accept an options plain object but passed is ${options}`);
     } else {
-      const {
-        url,
-        data,
-        headers,
-        responseErrorKeys,
-        responseErrorHandler,
-        responseStatusHandler,
-        unwrapResponse
-      } = options;
+      const { data, headers } = options;
 
       return unifiedFetch({
-        url,
-        unwrapResponse,
-        responseErrorKeys,
-        responseErrorHandler,
-        responseStatusHandler,
+        ...options,
         fetchOptions: {
           method: 'post',
           body: formatQuery({ userId: getCurrentUserId(), ...data }),

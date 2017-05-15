@@ -13,7 +13,7 @@ import { wouldClearedStorageItemWhenPageUnload, info2Storage } from './globalPar
 const MOUNT_NODE = document.getElementById('root');
 
 // 清除某些全局配置，在窗口关闭时调用
-// clear some global settings when close brower window/tab
+// clear some global settings when close browser window/tab
 const clearGlobalSettings = () => {
   wouldClearedStorageItemWhenPageUnload.forEach(item => {
     localStorage.removeItem(item);
@@ -25,11 +25,16 @@ window.addEventListener('beforeunload', function (event) {
 
 // 配置用户信息
 export const configUserInfo = () => {
-  const userId = getCurrentUserId();
+  let userId = getCurrentUserId();
 
+  // TODO 发布的时候去掉下面这一行,并把上面改成const,加这一行只是为了测试
+  userId = 'xxxxxxxxxxx';
   if (userId !== null) {
-    return network.get(globalConfig.api.userInfoUrl, { id: userId })
-    .then(res => {
+    return network.get({
+      url: globalConfig.api.quietWaterInitUrl,
+      data: { id: userId },
+      automaticallyAddUrlPrefix: false
+    }).then(res => {
       Object.keys(info2Storage).forEach(infoKey => {
         localStorage.setItem(info2Storage[infoKey], res.userInfo[infoKey]);
       });
