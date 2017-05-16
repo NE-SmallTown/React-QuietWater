@@ -12,6 +12,21 @@ import { Provider } from 'react-redux';
 
 import '../globalStyles/global.scss';
 
+function handleHashChange () {
+  const { hash } = window.location;
+
+  if (hash !== '') {
+    setTimeout(() => {
+      const id = hash.replace('#', '');
+      const element = document.getElementById(`qw_${id}`);
+
+      if (element) {
+        element.scrollIntoView();
+      }
+    }, 0);
+  }
+}
+
 export default class AppContainer extends React.PureComponent {
   static propTypes = {
     routes : PropTypes.object.isRequired,
@@ -23,7 +38,7 @@ export default class AppContainer extends React.PureComponent {
 
     return (
       <Provider store={store}>
-        <Router history={browserHistory} children={routes} />
+        <Router history={browserHistory} children={routes} onUpdate={handleHashChange} />
       </Provider>
     );
   }

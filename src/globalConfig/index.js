@@ -8,16 +8,14 @@
 
 import merge from 'lodash/merge';
 
-import Message from '../components/Message';
-
 const configParams = {
   responseNormalizeSchema: { // 进行范式化的各个api返回的数据的schema,会与QuietWater本身已经设置好的schema进行合并
     quietWaterOfHost: {} // 这里根据自己的业务进行设置,但是后端必须按照QuietWater本身已经设置好的schema的格式返回数据
   },
   router: {
     user: {
-      postfixIsIdOrLoginName: 'id', // 有的网站用户路由的后者是用的id（.../user/123）,有的是用的用户名（.../user/qweksdfs）
-      PREFIXURL: 'http://www.mysite.com/user/'
+      postfixIsIdOrLoginName: 'id' // 有的网站用户路由的后者是用的id（.../user/123）,有的是用的用户名（.../user/qweksdfs）
+      // PREFIXURL: 'http://www.mysite.com/user/'
     }
   },
   api: {
@@ -34,27 +32,52 @@ const configParams = {
       }
     },
 
-    responseStatusHandler: {
-      'ok': () => {
-        if (__DEV__) {
-          console.log(`backend's response's 'status' filed's value is 'ok'`);
-        }
+    share: {
+      twitter: {
+        // TODO 增加twitter和其他分享方式
+      },
+      weibo: {
+        urlPrefix: 'http://service.weibo.com/share/share.php'
+        // sourceWebSiteName: 分享来源于哪个网站,一般填写为接入QuietWater的用户的网站的名称
+        // sourceWebSiteName: Represent the name of the source website,e.g.
+        // if your website or company's name is walmart,then we should write `sourceWebSiteName: 'walmart'`
 
-        Message.success('操作成功');
+        // sourceWebSiteUrl: 分享来源于哪个网站,一般填写为接入QuietWater的用户的网站的url
+        // sourceWebSiteUrl: Represent the url of the source website
+        // if your website or company's url is 'https://www.mysite.com',then we should write `sourceWebSiteUrl: 'https://www.mysite.com'`
+
+        // if you want to use the share feature,here you need to provide a getComponent function
+        // e.g.
+        // TODO 已经在社交平台上提了个问题问如何设计锚点交互,如果找到好的想法那么将会应用进来
+        /* getComponent ({ replyUrl, sharedText }) { // These properties provided by QuietWater
+            // replyUrl: 某个回复的url,带锚点,目前来说我们主要是在PC上使用,且回复列表一般不会太多,所以选择了加锚点的方式,而不是市场上很多其他的交互方式
+            // replyUrl: The corresponding reply's url with the anchor,at now we mainly use this repo in PC
+            // rather than mobile,that's why we decide to use anchor,but there are many things we need to think,please discuss in the issue
+            // sharedText: 一般分享出去都需要填写一段描述性的话,然后这段话会在发布的分享中显示(一般为标题)
+            // sharedText: Usually we need write a text to describe the share(normally this is the title of the share)
+
+            const generatedUrl = ...
+
+            return (
+              <div>
+                <icon iconName="icon-weibo" />
+                <a href={generatedUrl} target="_blank" />
+              </div>
+            );
+        } */
       }
+    },
+    responseStatusHandler: {
+      // template is: statusCode: () => {}
+      // e.g. ok: () => {...}
     },
     httpStatusExcptionHandler: {
-      401: () => {
-        Message.error(`你的权限无法支持你现在的操作，如果你确认自己有权限的话，请联系管理员～`);
-      }
+      // template is: statusCode: () => {}
+      // e.g. 403: () => {...}
     },
     responseErrorHandler: {
-      1504: () => {
-        Message.error(`请不要修改localstorage里的字段，更不要拿本网站做实验，拜托了`, 5);
-      },
-      1505: () => {
-        Message.error(`获取数据时出错，因为你的权限无法支持你现在的操作，如果你确认自己有权限的话，请联系管理员～`, 5);
-      }
+      // template is: errorCode: () => {}
+      // e.g. 100023: () => {...}
     }
   },
   localStorage: {
@@ -71,6 +94,4 @@ const configParams = {
 
 export default configParams;
 
-export const configQuietWater = options => {
-  merge(configParams, options);
-};
+export const configQuietWater = options => merge(configParams, options);

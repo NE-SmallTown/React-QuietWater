@@ -142,8 +142,10 @@ export default ({
       responseErrorKeys,
       responseErrorHandler,
       responseStatusHandler: (...args) => {
-        _responseStatusHandler(...args); // 先调用全局的状态处理函数(因为一般在这里面进行全局的提示)
-        responseStatusHandler(...args); // 然后调用每个请求单独的状态处理函数(不同的调用方处理逻辑不同,比如在不同组件中进行setState)
+        // 先调用全局的状态处理函数(因为一般在这里面进行全局的提示)
+        _responseStatusHandler(...args);
+        // 然后调用每个请求单独的状态处理函数(不同的调用方处理逻辑不同,比如在不同组件中进行setState),进行判断的目的是避免重复执行
+        responseStatusHandler !== _responseErrorHandler && responseStatusHandler(...args);
       }
     };
     const method = options.method.toLowerCase();

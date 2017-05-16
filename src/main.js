@@ -1,3 +1,73 @@
+
+// TODO 发布时去掉import React from 'react';之前的所有代码,因为用户接入的时候是自己先调用configQuietWater配置好了再引入,而这里我们作为测试没办法这样,因为main.js已经是最顶层的文件了
+// TODO 替换所有的console.log为warning
+import globalConfig, { configQuietWater } from './globalConfig';
+import Message from './components/Message';
+import SvgIcon from './components/SvgIcon';
+import { formatUrl } from 'url-lib';
+import './example.css';
+
+// 配置React-QuietWater
+configQuietWater({
+  router: {
+    user: {
+      PREFIXURL: 'http://www.mysite.com/user/'
+    }
+  },
+  api: {
+    share: {
+      weibo: {
+        sourceWebSiteName: '这是我网站的名称',
+        sourceWebSiteUrl: 'https://www.mysite.com',
+        // eslint-disable-next-line
+        getComponent ({ replyUrl, sharedText }) {
+          const { urlPrefix, sourceWebSiteName, sourceWebSiteUrl } = globalConfig.api.share.weibo;
+
+          const generatedUrl = formatUrl(urlPrefix, {
+            appkey: '',
+            title: sharedText,
+            url: replyUrl,
+            source: sourceWebSiteName,
+            sourceUrl: sourceWebSiteUrl,
+            searchPic: false,
+            content: 'utf8',
+            style: 'simple'
+          });
+
+          return (
+            <div key="wb" styleName="share-wrap">
+              <a href={generatedUrl} target="_blank" styleName="share-link">新浪微博</a>
+              <SvgIcon iconName="icon-weibo2" styleName="share-icon-wb" />
+            </div>
+          );
+        }
+      }
+    },
+    responseStatusHandler: {
+      'ok': () => {
+        if (__DEV__) {
+          console.log(`backend's response's 'status' filed's value is 'ok'`);
+        }
+
+        Message.success('操作成功');
+      }
+    },
+    httpStatusExcptionHandler: {
+      401: () => {
+        Message.error(`你的权限无法支持你现在的操作，如果你确认自己有权限的话，请联系管理员～`);
+      }
+    },
+    responseErrorHandler: {
+      1504: () => {
+        Message.error(`请不要修改localstorage里的字段，更不要拿本网站做实验，拜托了`, 5);
+      },
+      1505: () => {
+        Message.error(`获取数据时出错，因为你的权限无法支持你现在的操作，如果你确认自己有权限的话，请联系管理员～`, 5);
+      }
+    }
+  }
+});
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { combineReducers } from 'redux';
@@ -5,8 +75,9 @@ import { combineReducers } from 'redux';
 import AppContainer from './containers/AppContainer';
 
 import createAppStore from './store/createAppStore';
-import globalConfig from './globalConfig';
 import { network } from './utils/network';
+// TODO 发布时加上下面这行
+// import globalConfig from './globalConfig';
 import { getCurrentUserId } from './utils/user';
 import { wouldClearedStorageItemWhenPageUnload, info2Storage } from './globalParam';
 

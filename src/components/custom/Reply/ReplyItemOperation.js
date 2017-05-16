@@ -10,6 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
+import forEach from 'lodash/forEach';
+import warning from 'warning';
 
 import SvgIcon from '../../SvgIcon';
 
@@ -32,11 +34,20 @@ class ReplyItemOperation extends React.PureComponent {
     onClickFold: PropTypes.func,
     className: PropTypes.string,
     userToken: PropTypes.string,
-    updatePraiseCount: PropTypes.func
+    updatePraiseCount: PropTypes.func,
+    excerpt: PropTypes.string
   }
 
   static contextTypes = {
     quietWaterLanguage: PropTypes.object
+  }
+
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      showShareList: false
+    };
   }
 
   _handlePraiseOrThumbDown = debounce((type) => {
@@ -64,7 +75,6 @@ class ReplyItemOperation extends React.PureComponent {
         userToken
       },
       responseStatusHandler: status => {
-        console.log(status);
         if (status === 'ok') {
           this.props.updatePraiseCount(replyId, newPraiseCount);
         }
@@ -90,6 +100,10 @@ class ReplyItemOperation extends React.PureComponent {
 
   handleClickShareBtn = () => {
     console.log('展开分享列表');
+
+    this.setState({
+      showShareList: true
+    });
   }
 
   handleClickExpand = () => {
@@ -105,7 +119,16 @@ class ReplyItemOperation extends React.PureComponent {
   }
 
   render () {
-    const { replyId, commentCount, praiseCount, isContentExpanded, className, isContentTooLong } = this.props;
+    const {
+      replyId,
+      excerpt,
+      commentCount,
+      praiseCount,
+      isContentExpanded,
+      className,
+      isContentTooLong
+    } = this.props;
+
     const {
       Reply: { shareText, commentBtnPostfix, expandText, foldText }
     } = this.context.quietWaterLanguage;
@@ -133,11 +156,28 @@ class ReplyItemOperation extends React.PureComponent {
           {`${commentCount}${commentBtnPostfix}`}
         </button>
 
-        <button styleName="btn-share" onClick={this.handleClickShareBtn}>
-          <SvgIcon iconName="icon-share2" styleName="icon-share" />
+        <div styleName="share-wrap">
+          <button styleName="btn-share" onClick={this.handleClickShareBtn}>
+            <SvgIcon iconName="icon-share2" styleName="icon-share" />
 
-          {shareText}
-        </button>
+            {shareText}
+          </button>
+
+          { this.state.showShareList &&
+            Object.keys(globalConfig.api.share).map(key => {
+              const shareObj = globalConfig.api.share[key];
+
+              if (typeof shareObj.getComponent !== 'undefined') {
+                return shareObj.getComponent({
+                  replyUrl: `${location.href}#qw_${replyId}`,
+                  sharedText: excerpt.substr(0, 20)
+                });
+              } else {
+                warning(false, `each property in the share must provide a getComponent function`);
+              }
+            })
+          }
+        </div>
 
         { isContentTooLong
           ? isContentExpanded

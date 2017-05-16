@@ -115,7 +115,7 @@ export default class ReplyItem extends React.PureComponent {
 
     /* eslint-disable */
     return (
-      <div styleName="wrap">
+      <div styleName="wrap" id={`qw_${replyId}`}>
         <ReplyItemHeader {...author} replyCreatedTime={createdTime} />
           {/* 内容比较多,且目前内容处于展开状态的（即内容全部被显示）的才需要绑定滚动事件检测,看是否需要将操作栏fixed,对于内容较少的则不绑定事件,避免浪费性能
           just when item which has long content and window displays all of them now, we bind scroll event to
@@ -138,6 +138,7 @@ export default class ReplyItem extends React.PureComponent {
 
           <ReplyItemOperation
             key="rio"
+            excerpt={excerpt}
             styleName={operationBarClassName}
             replyId={replyId}
             commentCount={commentCount}

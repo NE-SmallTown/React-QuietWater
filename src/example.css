@@ -1,0 +1,17 @@
+.share-wrap {
+    position: absolute;
+
+    left: 36px;
+    width: 100%;
+}
+
+.share-link {
+    font-size: 14px;
+}
+
+.share-icon-wb {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+    vertical-align: -10%;
+}

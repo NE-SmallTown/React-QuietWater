@@ -73,6 +73,12 @@
     vertical-align: -6%;
 }
 
+.share-wrap {
+    position: relative;
+
+    display: inline-block;
+}
+
 .btn-share {
     composes: otherBtn;
 }
