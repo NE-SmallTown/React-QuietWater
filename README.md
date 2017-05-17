@@ -2,7 +2,8 @@
 
 # <a href='http://redux.js.org'><img src='' height='50'></a>
 
-React-QuietWater is a comment system based on react, css-modules and redux, redux-orm, react-css-themr.
+React-QuietWater is a comment system based on react, css-modules and redux, redux-orm, react-css-themr.It's UI inspired by
+[zhihu](https://www.zhihu.com) and [medium](https://medium.com/)
 
 ### Motivation
 
@@ -29,7 +30,7 @@ Motivation,we won't accpt them,so we recommend you fork or just copy our repo an
 
 ### Config
 
-Before you use this lib,you **must** need to do some configs to make it to correspond your requiredment and backend api.
+1. Before you use this lib,you **must** need to do some configs to make it to correspond your requiredment and backend api.
 If you don't do this,you probably get errors.Let's follow below steps(in any order):
 
 All you need to do is call the method which import from the globalConfig module and then config QuietWater whatever you want.
@@ -65,7 +66,7 @@ The ... are the config paramas below:
       responseStatusHandler: {
         'ok': () => {
           if (__DEV__) {
-            console.log(`backend's response's 'status' filed's value is 'ok'`);
+            console.log(`backend's response's 'status' value is 'ok'`);
           }
   
           Message.success('操作成功');
@@ -98,7 +99,7 @@ The ... are the config paramas below:
   }
 ```
 
-**NOTE**: You must ensure the localstorage of your website have the above info2Storage's all properties when the user has login on your website.
+2. **NOTE**: You must ensure the localstorage of your website have the above info2Storage's all properties when the user has login on your website.
 For example:
 ```
     {
@@ -114,6 +115,8 @@ For example:
       }
     }
 ```
+
+and then you can import the QuietWater component
 
 ### Examples
 

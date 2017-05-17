@@ -25,7 +25,7 @@ configQuietWater({
 
           const generatedUrl = formatUrl(urlPrefix, {
             appkey: '',
-            title: sharedText,
+            title: `${sharedText}       分享自（@${sourceWebSiteName}）`,
             url: replyUrl,
             source: sourceWebSiteName,
             sourceUrl: sourceWebSiteUrl,
@@ -46,7 +46,7 @@ configQuietWater({
     responseStatusHandler: {
       'ok': () => {
         if (__DEV__) {
-          console.log(`backend's response's 'status' filed's value is 'ok'`);
+          console.log(`backend's response's 'status' value is 'ok'`);
         }
 
         Message.success('操作成功');

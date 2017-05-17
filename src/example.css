@@ -1,8 +1,14 @@
 .share-wrap {
-    position: absolute;
+    margin: 0 -16px;
+    line-height: 30px;
+    width: 120px;
 
-    left: 36px;
-    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.share-wrap:hover {
+    background-color: hsla(120, 6%, 81%, 0.22);
 }
 
 .share-link {
@@ -10,8 +16,9 @@
 }
 
 .share-icon-wb {
+    margin-left: 10px;
     height: 20px;
     width: 20px;
-    margin-left: 10px;
-    vertical-align: -10%;
+
+    vertical-align: -5px;
 }

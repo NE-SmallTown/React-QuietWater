@@ -6,8 +6,9 @@
 .fixed-operationBar {
     position: fixed;
 
-    bottom: 0;
-    width: 600px;
+    bottom: -1px;
+    width: 57%;
 
+    background: #fff;
     box-shadow: 0 -1px 3px rgba(0,34,77,.05);
 }

@@ -109,7 +109,8 @@
     "redux-thunk": "^2.0.0",
     "reselect": "^2.5.4",
     "url-lib": "^2.0.2",
-    "viewport-js": "^1.0.0"
+    "viewport-js": "^1.0.0",
+    "warning": "^3.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

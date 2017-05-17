@@ -24,7 +24,13 @@ export default class ReplyList extends React.PureComponent {
     return (
       <div styleName="wrap">
         {replyList.map(
-          reply => <ReplyItem key={reply.id} replyWrapElementWidth={quietWaterWidth} {...reply} />
+          (reply, index) =>
+            <ReplyItem
+              key={reply.id}
+              isFirstReplyItem={index === 0}
+              replyWrapElementWidth={quietWaterWidth}
+              {...reply}
+            />
         )}
       </div>
     );

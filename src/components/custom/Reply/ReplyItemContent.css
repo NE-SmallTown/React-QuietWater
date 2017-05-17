@@ -5,8 +5,6 @@
     line-height: 1.9;
 
     font-size: 15px;
-
-    overflow: hidden;
 }
 
 .content {
@@ -26,10 +24,16 @@
 }
 
 .expanded {
-    max-height: 200px;
+    overflow: visible;
 }
 
-.expanded::after {
+.folded {
+    max-height: 200px;
+
+    overflow: hidden;
+}
+
+.folded::after {
     content: "";
 
     position: absolute;

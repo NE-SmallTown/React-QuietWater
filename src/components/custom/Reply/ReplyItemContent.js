@@ -7,13 +7,14 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import './ReplyItemContent.css';
 
 export default class ReplyItemContent extends React.PureComponent {
   static propTypes = {
     content: PropTypes.string,
-    isContentTooLong: PropTypes.bool,
-    lastUpdatedTime: PropTypes.string
+    lastUpdatedTime: PropTypes.string,
+    isContentExpanded:  PropTypes.bool
   }
 
   static contextTypes = {
@@ -23,7 +24,7 @@ export default class ReplyItemContent extends React.PureComponent {
   render () {
     const {
       content,
-      isContentTooLong,
+      isContentExpanded,
       lastUpdatedTime
     } = this.props;
 
@@ -31,7 +32,7 @@ export default class ReplyItemContent extends React.PureComponent {
 
     // TODO 移动端看看是否需要将回复里的图片进行懒加载,回复本身就是一组一组的加载的,到时候再看看是否有必要吧
     return (
-      <div styleName={`wrap ${isContentTooLong ? 'expanded' : ''}`}>
+      <div styleName={`wrap ${isContentExpanded ? 'expanded' : 'folded'}`}>
         <div>
           <span styleName="content" dangerouslySetInnerHTML={{ __html: content }} />
         </div>

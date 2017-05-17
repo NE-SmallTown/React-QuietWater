@@ -31,7 +31,8 @@ export default class ReplyItem extends React.PureComponent {
     id: PropTypes.string,
     lastUpdatedTime: PropTypes.string,
     praiseCount: PropTypes.number,
-    replyWrapElementWidth: PropTypes.number
+    replyWrapElementWidth: PropTypes.number,
+    isFirstReplyItem: PropTypes.bool
   }
 
   static contextTypes = {
@@ -55,13 +56,13 @@ export default class ReplyItem extends React.PureComponent {
 
   handleClickReadAll = () => {
     this.setState({
-      isContentExpanded: false
+      isContentExpanded: true
     });
   }
 
   handleClickFold = () => {
     this.setState({
-      isContentExpanded: true
+      isContentExpanded: false
     });
   }
 
@@ -69,14 +70,14 @@ export default class ReplyItem extends React.PureComponent {
   // for the item which has much content,when it enter the viewport by scrolling of users,
   // we should set the corresponding operation bar's style to fixed
   handleScrollIntoLongContetnItem = (e) => {
-    console.log('滚动到内容了');
+    console.log('进入内容区域');
     this.setState({
       isContentEnterViewport: true
     });
   }
 
-  handleScrollIntoLongContetnItemEnd = (e) => {
-    console.log('滚动到内容底部了');
+  handleScrollOutOfLongContetnItem = (e) => {
+    console.log('离开内容区域');
     this.setState({
       isContentEnterViewport: false
     });
@@ -91,7 +92,8 @@ export default class ReplyItem extends React.PureComponent {
       lastUpdatedTime,
       praiseCount,
       excerpt: _excerpt,
-      content: _content
+      content: _content,
+      isFirstReplyItem
     } = this.props;
 
     const { isContentTooLong, isContentExpanded, isContentEnterViewport } = this.state;
@@ -104,14 +106,19 @@ export default class ReplyItem extends React.PureComponent {
       content,
       excerpt,
       lastUpdatedTime,
-      isContentTooLong
+      isContentExpanded
     };
 
-    // 判定条件见下方的注释
+    // 为什么这样做条件判断见下方的注释
     // please see below comment if you want to know why judge by this conditions
     const operationBarClassName = classNames({
       'fixed-operationBar': isContentTooLong && isContentExpanded && isContentEnterViewport
     });
+
+    // TODO 如果回复的开头是图片,那么不应该是'topTop-30',而应该大概是'topTop-80'这里的-80根据图片的高度来定,反正基本要让图片显示完
+    // 在react-scroll-spark中,对于top属性,从上往下滑动时,top离window的top的距离是由负到正
+    // 而对于bottom属性,从下往上里滑动时,bottom离window的bottom的距离是由正到负
+    const itemSparkScrollTopTopKey = isFirstReplyItem ? 'topTop-100' : 'topTop-30';
 
     /* eslint-disable */
     return (
@@ -125,8 +132,10 @@ export default class ReplyItem extends React.PureComponent {
           ? <SparkScroll.div
               key="ric1"
               timeline={{
-                'topTop': { onDown: this.handleScrollIntoLongContetnItem },
-                'bottomBottom': { onDown: this.handleScrollIntoLongContetnItemEnd}
+                'topTop+100': { onUp: this.handleScrollOutOfLongContetnItem },
+                [itemSparkScrollTopTopKey]: { onDown: this.handleScrollIntoLongContetnItem },
+                'bottomBottom+60': { onUp: this.handleScrollIntoLongContetnItem },
+                'bottomBottom': { onDown: this.handleScrollOutOfLongContetnItem }
               }}
             >
               <ReplyItemContent

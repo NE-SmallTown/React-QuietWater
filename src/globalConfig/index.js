@@ -35,6 +35,7 @@ const configParams = {
     share: {
       twitter: {
         // TODO 增加twitter和其他分享方式
+        // 可参考https://github.com/overtrue/share.js,https://github.com/nygardk/react-share
       },
       weibo: {
         urlPrefix: 'http://service.weibo.com/share/share.php'

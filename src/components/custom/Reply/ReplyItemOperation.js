@@ -10,9 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
-import forEach from 'lodash/forEach';
 import warning from 'warning';
 
+import Popover from '../../Popover';
 import SvgIcon from '../../SvgIcon';
 
 import { priNetwork } from '../../../utils/network';
@@ -83,14 +83,10 @@ class ReplyItemOperation extends React.PureComponent {
   }, 1000, { leading: true, 'trailing': false })
 
   handleClickPraiseBtn = () => {
-    console.log('点赞');
-
     this._handlePraiseOrThumbDown(1);
   }
 
   handleClickThumbdownBtn = () => {
-    console.log('踩');
-
     this._handlePraiseOrThumbDown(-1);
   }
 
@@ -99,8 +95,6 @@ class ReplyItemOperation extends React.PureComponent {
   }
 
   handleClickShareBtn = () => {
-    console.log('展开分享列表');
-
     this.setState({
       showShareList: true
     });
@@ -156,28 +150,36 @@ class ReplyItemOperation extends React.PureComponent {
           {`${commentCount}${commentBtnPostfix}`}
         </button>
 
-        <div styleName="share-wrap">
-          <button styleName="btn-share" onClick={this.handleClickShareBtn}>
-            <SvgIcon iconName="icon-share2" styleName="icon-share" />
+        <Popover
+          trigger="click"
+          content={
+            this.state.showShareList
+            ? <div>
+                {Object.keys(globalConfig.api.share).map(key => {
+                  const shareObj = globalConfig.api.share[key];
 
-            {shareText}
-          </button>
-
-          { this.state.showShareList &&
-            Object.keys(globalConfig.api.share).map(key => {
-              const shareObj = globalConfig.api.share[key];
-
-              if (typeof shareObj.getComponent !== 'undefined') {
-                return shareObj.getComponent({
-                  replyUrl: `${location.href}#qw_${replyId}`,
-                  sharedText: excerpt.substr(0, 20)
-                });
-              } else {
-                warning(false, `each property in the share must provide a getComponent function`);
-              }
-            })
+                  if (typeof shareObj.getComponent !== 'undefined') {
+                    return shareObj.getComponent({
+                      replyUrl: `${location.href}#qw_${replyId}`,
+                      sharedText: excerpt.substr(0, 20)
+                    });
+                  } else {
+                    warning(false,
+                      `each property in the share must provide a getComponent function, but '${key}' in the config.api.share object doesn't`);
+                  }
+                })}
+              </div>
+            : undefined
           }
-        </div>
+        >
+          <div styleName="share-wrap">
+            <button styleName="btn-share" onClick={this.handleClickShareBtn}>
+              <SvgIcon iconName="icon-share2" styleName="icon-share" />
+
+              {shareText}
+            </button>
+          </div>
+        </Popover>
 
         { isContentTooLong
           ? isContentExpanded
