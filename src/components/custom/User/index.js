@@ -11,3 +11,6 @@ export { default as UserInfoBox } from './UserInfoBox';
 
 export * from './UserLink';
 export { default as UserLink } from './UserLink';
+
+export * from './UserAvatarPopover';
+export { default as UserAvatarPopover } from './UserAvatarPopover';

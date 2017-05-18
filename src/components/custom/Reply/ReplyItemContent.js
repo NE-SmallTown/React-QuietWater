@@ -39,8 +39,9 @@ export default class ReplyItemContent extends React.PureComponent {
 
         <div styleName="lastUpdatedTime">
           <span styleName="lastUpdatedTimeDesc">{lastUpdatedTimeText}</span>
+
           {lastUpdatedTime}
-          </div>
+        </div>
       </div>
     );
   }

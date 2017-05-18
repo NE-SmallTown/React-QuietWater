@@ -1,0 +1,13 @@
+.avatar-wrap {
+    display: inline-block;
+
+    vertical-align: top;
+
+    margin-right: 5px;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}

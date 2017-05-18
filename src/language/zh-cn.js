@@ -24,7 +24,15 @@ export default {
     lastUpdatedTimeText: '更新于'
   },
   Comment: {
-
+    headerTitle: {
+      isAuthorText: '作者',
+      countTextPostfix: '个评论',
+      replyToText: '回复给'
+    },
+    operationBar: {
+      replyText: '回复',
+      conversationText: '查看对话'
+    }
   },
   Editor: {
 

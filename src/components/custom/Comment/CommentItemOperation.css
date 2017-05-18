@@ -1,0 +1,18 @@
+.wrap {
+    margin-top: 15px;
+    line-height: 30px;
+}
+
+.btn {
+    border: none;
+    border-radius: 0;
+    line-height: inherit;
+
+    background-color: transparent;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.btn + .btn {
+    margin-left: 20px;
+}

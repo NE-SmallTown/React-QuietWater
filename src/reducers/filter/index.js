@@ -35,7 +35,7 @@ const mapActionTypeToHandleFunction = type => {
     return notFetchActionFunction;
   }
 
-  // 因为所有的action都会触发ilter.js导出的reducer，所以针对那些不在filter.js中处理的，返回normalActionFunction避免下面的warn
+  // 因为所有的action都会触发filter.js导出的reducer，所以针对那些不在filter.js中处理的，返回normalActionFunction避免下面的warn
   return normalActionFunction;
 };
 

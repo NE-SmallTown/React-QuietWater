@@ -8,8 +8,6 @@
 
 import { createOrmSelector } from './global';
 
-// QS 代表QuerySet的简写
-// QS is short for QuerySet
 export const getReplyList = hostId => createOrmSelector(
   session =>
     session.Host.hasId(hostId)

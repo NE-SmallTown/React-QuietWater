@@ -10,7 +10,8 @@ import merge from 'lodash/merge';
 
 const configParams = {
   responseNormalizeSchema: { // 进行范式化的各个api返回的数据的schema,会与QuietWater本身已经设置好的schema进行合并
-    quietWaterOfHost: {} // 这里根据自己的业务进行设置,但是后端必须按照QuietWater本身已经设置好的schema的格式返回数据
+    quietWaterOfHost: {}, // 这里根据自己的业务进行设置,但是后端必须按照QuietWater本身已经设置好的schema的格式返回数据
+    Comment: {}
   },
   router: {
     user: {
@@ -19,16 +20,16 @@ const configParams = {
     }
   },
   api: {
-    PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/',
-    P_PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/p/', // p represent private
+    // PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/',
+    // P_PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/p/', // p represent private
 
-    quietWaterInitUrl: 'http://www.easy-mock.com/mock/5919acf69aba4141cf23044d/common/rqw', // 初始化QuietWater时需要获取某些数据存储到localstorage里面
-    hostUserLoginUrl: 'https://github.com/login', // 很多操作都需要用户登录后才能操作,这个url是接入QuietWater的网站的用户的登录界面的url
-    quietWaterOfHostUrl: 'articles/info', // 获取QuietWater添加到的那个item的基本信息（如某篇文章,某个歌曲等.包括id,reply列表信息等等）
+    // quietWaterInitUrl: 'http://www.easy-mock.com/mock/5919acf69aba4141cf23044d/common/rqw', // 初始化QuietWater时需要获取某些数据存储到localstorage里面
+    // hostUserLoginUrl: 'https://github.com/login', // 很多操作都需要用户登录后才能操作,这个url是接入QuietWater的网站的用户的登录界面的url
+    // quietWaterOfHostUrl: 'articles/info', // 获取QuietWater添加到的那个item的基本信息（如某篇文章,某个歌曲等.包括id,reply列表信息等等）
 
     post: {
       operationBar: {
-        praiseUrl: 'reply/praise'
+        // praiseUrl: 'reply/praise' // the post praise interface url
       }
     },
 

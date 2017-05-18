@@ -18,7 +18,7 @@ import SvgIcon from '../../SvgIcon';
 import { priNetwork } from '../../../utils/network';
 import globalConfig from '../../../globalConfig';
 import { getToken as getCurHostUserToken } from '../../../security/authService';
-import { updatePraiseCount } from '../../../actions/QuietWater';
+import { updatePraiseCount } from '../../../actions';
 
 import './ReplyItemOperation.css';
 
@@ -32,10 +32,12 @@ class ReplyItemOperation extends React.PureComponent {
     isContentTooLong: PropTypes.bool,
     onClickReadAll: PropTypes.func,
     onClickFold: PropTypes.func,
+    onClickExpandComment: PropTypes.func,
     className: PropTypes.string,
     userToken: PropTypes.string,
     updatePraiseCount: PropTypes.func,
-    excerpt: PropTypes.string
+    excerpt: PropTypes.string,
+    style: PropTypes.object
   }
 
   static contextTypes = {
@@ -91,7 +93,7 @@ class ReplyItemOperation extends React.PureComponent {
   }
 
   handleClickCommentBtn = () => {
-    console.log('展开评论');
+    this.props.onClickExpandComment && this.props.onClickExpandComment();
   }
 
   handleClickShareBtn = () => {
@@ -120,7 +122,8 @@ class ReplyItemOperation extends React.PureComponent {
       praiseCount,
       isContentExpanded,
       className,
-      isContentTooLong
+      isContentTooLong,
+      style
     } = this.props;
 
     const {
@@ -133,7 +136,7 @@ class ReplyItemOperation extends React.PureComponent {
     // TODO 图标的命名是否需要统一(展开图标到底是叫expand还是根据形状划分叫triangle-down)
     // TODO 现在权限还不复杂,暂时没考虑针对权限控制进行抽象
     return (
-      <div styleName="wrap" className={`clearfix ${className}`}>
+      <div style={style} styleName="wrap" className={`clearfix ${className}`}>
         <button styleName="btn-praise" onClick={this.handleClickPraiseBtn}>
           <SvgIcon iconName="icon-praise3" styleName="icon-praise" />
 

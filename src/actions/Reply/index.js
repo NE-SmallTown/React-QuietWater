@@ -8,6 +8,6 @@
 
 export const UPDATE_REPLY = 'UPDATE_REPLY';
 
-export const REMOVE_REPLY = 'UPDATE_REPLY';
+export const REMOVE_REPLY = 'REMOVE_REPLY';
 
 export * from './loadReply';

@@ -5,22 +5,14 @@
  *
  * Date: 2017/5/4 by Administrator
  */
-
-import { schema } from 'normalizr';
 import { formatUrl } from 'url-lib';
 
 import globalConfig from '../../globalConfig';
 import { CALL_API } from '../../middleware/api';
-import { replySchema } from '../Reply/loadReply';
 
 export const QUIETWATEROFHOST_REQUEST = '@@FILTER/QUIETWATEROFHOST_REQUEST';
 export const QUIETWATEROFHOST_SUCCESS = '@@FILTER/QUIETWATEROFHOST_SUCCESS';
 export const QUIETWATEROFHOST_FAILURE = '@@FILTER/QUIETWATEROFHOST_FAILURE';
-
-export const quietWaterOfHostSchema = new schema.Entity('quietWaterOfHost', {
-  ...globalConfig.responseNormalizeSchema.quietWaterOfHost,
-  replies: [replySchema]
-});
 
 const fetchQuietWaterOfHost = (queryCondition) => ({
   quietWaterHostId: queryCondition.hostId,
@@ -29,7 +21,6 @@ const fetchQuietWaterOfHost = (queryCondition) => ({
     requestUrl: formatUrl(globalConfig.api.quietWaterOfHostUrl, {
       ...queryCondition
     }),
-    // schema: quietWaterOfHostSchema,
     normalizedPropName: 'quietWater'
   }
 });

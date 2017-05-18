@@ -34,6 +34,7 @@ export default class User extends Model {
         const { replies: repliesEntities } = action.response;
 
         repliesEntities.forEach(({ author }) => {
+          下面应该要改成update?,因为感觉还有comment也会导致添加用户
           User.create({ ...author });
         });
         break;

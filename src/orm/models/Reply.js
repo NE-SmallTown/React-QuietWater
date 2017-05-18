@@ -8,7 +8,7 @@
 
 import { attr, Model, fk } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS } from '../../actions';
 
 export default class Reply extends Model {
   static modelName = 'Reply'
@@ -36,6 +36,13 @@ export default class Reply extends Model {
           // Reply.create({ ...reply, author: reply.author.userId });
           Reply.create({ ...reply, host: hostId, author: reply.author.userId });
         });
+
+        break;
+      case COMMENT_SUCCESS:
+        const { comments } = action.response;
+
+        看看数组的upate是整体更新还是追加
+        Reply.withId(replyId).update({ comments: comments.map(c => c.id) });
 
         break;
       case UPDATE_PRAISECOUNT:

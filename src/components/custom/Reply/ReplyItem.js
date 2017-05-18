@@ -15,6 +15,7 @@ import { SparkScroll } from '../../ReactSparkScroll';
 import ReplyItemHeader from './ReplyItemHeader';
 import ReplyItemContent from './ReplyItemContent';
 import ReplyItemOperation from './ReplyItemOperation';
+import CommentList from '../../../containers/Comment';
 
 import { isContentTooLongUtil } from '../../../utils/reply';
 
@@ -50,7 +51,8 @@ export default class ReplyItem extends React.PureComponent {
       isContentTooLong,
       // contentCount: props.content.length,
       isContentExpanded: !isContentTooLong,
-      isContentEnterViewport: false
+      isContentEnterViewport: false,
+      showCommentList: false
     };
   }
 
@@ -63,6 +65,14 @@ export default class ReplyItem extends React.PureComponent {
   handleClickFold = () => {
     this.setState({
       isContentExpanded: false
+    });
+  }
+
+  handleClickExpandComment = () => {
+    console.log('加载并展开评论');
+
+    this.setState({
+      showCommentList: true
     });
   }
 
@@ -93,7 +103,8 @@ export default class ReplyItem extends React.PureComponent {
       praiseCount,
       excerpt: _excerpt,
       content: _content,
-      isFirstReplyItem
+      isFirstReplyItem,
+      replyWrapElementWidth
     } = this.props;
 
     const { isContentTooLong, isContentExpanded, isContentEnterViewport } = this.state;
@@ -116,6 +127,7 @@ export default class ReplyItem extends React.PureComponent {
     });
 
     // TODO 如果回复的开头是图片,那么不应该是'topTop-30',而应该大概是'topTop-80'这里的-80根据图片的高度来定,反正基本要让图片显示完
+    // TODO 可以只用css实现（选择到第一个）,但是不确定是否有跟css无关的逻辑需要判断是否为第一个,暂时先这样
     // 在react-scroll-spark中,对于top属性,从上往下滑动时,top离window的top的距离是由负到正
     // 而对于bottom属性,从下往上里滑动时,bottom离window的bottom的距离是由正到负
     const itemSparkScrollTopTopKey = isFirstReplyItem ? 'topTop-100' : 'topTop-30';
@@ -147,8 +159,9 @@ export default class ReplyItem extends React.PureComponent {
 
           <ReplyItemOperation
             key="rio"
-            excerpt={excerpt}
+            style={{ width: `calc(${replyWrapElementWidth}px - 30px)` }}
             styleName={operationBarClassName}
+            excerpt={excerpt}
             replyId={replyId}
             commentCount={commentCount}
             praiseCount={praiseCount}
@@ -156,7 +169,10 @@ export default class ReplyItem extends React.PureComponent {
             isContentExpanded={isContentExpanded}
             onClickReadAll={this.handleClickReadAll}
             onClickFold={this.handleClickFold}
+            onClickExpandComment={this.handleClickExpandComment}
           />
+
+          {this.state.showCommentList && <CommentList key="cl" styleName="commentList-wrap" replyId={replyId} />}
         </div>
     );
     /* eslint-disable */
