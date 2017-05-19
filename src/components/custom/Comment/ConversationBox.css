@@ -1,0 +1,15 @@
+.wrap {
+
+}
+
+.title-wrap {
+    border-bottom: 1px solid #f0f2f7;
+    border-radius: 2px;
+    padding: 0 16px;
+}
+
+.title {
+    line-height: 50px;
+
+    font-size: 15px;
+}

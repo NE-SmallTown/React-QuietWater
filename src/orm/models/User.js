@@ -8,7 +8,7 @@
 
 import { Model, attr } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, COMMENT_SUCCESS } from '../../actions';
 
 export default class User extends Model {
   static modelName = 'User'
@@ -28,15 +28,24 @@ export default class User extends Model {
     userToken: attr()
   }
 
+  // 虽然下面的处理完全一样,但是api可能变动,所以没有提取成公共方法
   static reducer (action, User, session) {
     switch (action.type) {
       case QUIETWATEROFHOST_SUCCESS:
         const { replies: repliesEntities } = action.response;
 
         repliesEntities.forEach(({ author }) => {
-          下面应该要改成update?,因为感觉还有comment也会导致添加用户
           User.create({ ...author });
         });
+
+        break;
+      case COMMENT_SUCCESS:
+        const { comments: commentsEntities } = action.response;
+
+        commentsEntities.forEach(({ author }) => {
+          User.create({ ...author });
+        });
+
         break;
     }
   }

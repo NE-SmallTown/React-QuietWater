@@ -32,6 +32,9 @@ export default {
     operationBar: {
       replyText: '回复',
       conversationText: '查看对话'
+    },
+    ConversationBox: {
+      titleText: '查看对话'
     }
   },
   Editor: {

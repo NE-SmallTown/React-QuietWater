@@ -97,6 +97,7 @@
     "normalizr": "3.2.2",
     "object-assign": "^4.1.1",
     "rc-notification": "^1.4.2",
+    "rc-pagination": "^1.8.9",
     "rc-tooltip": "^3.4.3",
     "react": "^16.0.0-alpha.11",
     "react-css-themr": "^2.0.0",

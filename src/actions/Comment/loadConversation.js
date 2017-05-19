@@ -16,7 +16,7 @@ export const Conversation_SUCCESS = 'Conversation_SUCCESS';
 export const Conversation_FAILURE = 'Conversation_FAILURE';
 
 const fetchConversation = (queryCondition) => ({
-  replyId: queryCondition.replyId,
+  commentId: queryCondition.commentId,
   [CALL_API]: {
     types: [ Conversation_REQUEST, Conversation_SUCCESS, Conversation_FAILURE ],
     requestUrl: formatUrl(globalConfig.api.conversationUrl, {

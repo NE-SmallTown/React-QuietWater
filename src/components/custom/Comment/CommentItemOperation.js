@@ -14,7 +14,9 @@ import './CommentItemOperation.css';
 
 export default class CommentItemOperation extends React.PureComponent {
   static propTypes = {
-    replyTo: PropTypes.object
+    replyTo: PropTypes.object,
+    onClickReply: PropTypes.func,
+    onShowConversation: PropTypes.func
   }
 
   static contextTypes = {
@@ -22,11 +24,11 @@ export default class CommentItemOperation extends React.PureComponent {
   }
 
   handleResponse = () => {
-    console.log('准备回复');
+    this.props.onClickReply && this.props.onClickReply();
   }
 
   handleShowConversation = () => {
-    console.log('准备用modal显示这两个人之间的对话');
+    this.props.onShowConversation && this.props.onShowConversation();
   }
 
   render () {

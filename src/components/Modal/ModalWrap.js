@@ -86,27 +86,6 @@ export default class ModalWrap extends React.PureComponent {
     }
   }
 
-  // 后面在看看需不需要加
-/*  const defaultFooter = [(
-    <Button
-      key="cancel"
-      size="large"
-      onClick={this.handleCancel}
-    >
-      {cancelText || '取消'}
-    </Button>
-  ), (
-    <Button
-      key="confirm"
-      type="primary"
-      size="large"
-      loading={confirmLoading}
-      onClick={this.handleOk}
-    >
-      {okText || '确定'}
-    </Button>
-  )]; */
-
   handleOk = (e) => {
     const onOk = this.props.onOk;
 

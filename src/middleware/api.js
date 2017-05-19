@@ -9,6 +9,7 @@
 import { normalize } from 'normalizr';
 import { camelizeKeys } from 'humps';
 import omit from 'lodash/omit';
+import isPlainObject from 'lodash/isPlainObject';
 
 import { API_PREFIX, API_P_PREFIX } from '../globalParam';
 import { isLoggedAndTokenIsValid } from '../security/authService';
@@ -79,7 +80,7 @@ export default store => next => action => {
   }
 
   let { requestUrl } = callAPI;
-  const { schema, types } = callAPI;
+  const { schema, types, payloads } = callAPI;
 
   if (typeof requestUrl === 'function') {
     requestUrl = requestUrl(store.getState());
@@ -88,12 +89,24 @@ export default store => next => action => {
   if (typeof requestUrl !== 'string') {
     throw new Error('Specify a string requestUrl URL.');
   }
+
   if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error('Expected an array of three action types.');
+    throw new Error(`Expected an array of three action types but passed in ${types}`);
   }
-  if (types.some(type => typeof type !== 'string')) {
-    throw new Error('Expected action types to be strings.');
+  types.some(type => {
+    if (typeof type !== 'string') {
+      throw new Error(`Expectedaction type be string but passed in ${type}`);
+    }
+  });
+
+  if (!Array.isArray(payloads) || payloads.length !== 3) {
+    throw new Error(`Expected an array of three payloads but passed in ${payloads}`);
   }
+  payloads.some(payload => {
+    if (!isPlainObject(payload)) {
+      throw new Error(`Expected payload to be object but passed in ${payload}`);
+    }
+  });
 
   const actionWith = data => {
     const finalAction = Object.assign({}, action, data);
@@ -102,7 +115,8 @@ export default store => next => action => {
   };
 
   const [ requestType, successType, failureType ] = types;
-  next(actionWith({ type: requestType }));
+  const [ requestPayload, successPayload, failurePayload ] = payloads;
+  next(actionWith({ ...requestPayload, type: requestType }));
 
   // 有了下面这步，就不用在actionCreator里面的返回函数里去写fetch了，只要保证action里面有[CALL_API]就行了
   // 中间件会帮我们去fetch.大多数情况下，actionCreator返回的action是一个函数，thunk中间件判断action为函数
@@ -110,6 +124,7 @@ export default store => next => action => {
   return callApi(requestUrl, schema, action[CALL_API].normalizedPropName).then(
     response => next(actionWith({
       response,
+      ...successPayload,
       type: successType
     })),
     error => {
@@ -117,6 +132,7 @@ export default store => next => action => {
 
       return next(actionWith({
         type: failureType,
+        ...failurePayload,
         error: error.message || 'request error!'
       }));
     }

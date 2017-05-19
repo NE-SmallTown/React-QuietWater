@@ -11,6 +11,7 @@ import DOMPurify from 'dompurify';
 import { connect } from 'react-redux';
 
 import { UserAvatarPopover, UserLink } from '../User';
+import Modal from '../../Modal';
 import CommentItemOperation from './CommentItemOperation';
 
 import { getConversationList } from '../../../selectors';
@@ -18,20 +19,36 @@ import { loadConversation } from '../../../actions';
 
 class CommentItem extends React.PureComponent {
   static propTypes = {
-    reply: PropTypes.string,
+    id: PropTypes.string,
     author: PropTypes.object,
     content: PropTypes.string,
     createdTime: PropTypes.string,
     isAuthor: PropTypes.bool,
-    replyTo: PropTypes.object
+    replyTo: PropTypes.object,
+    loadConversation: PropTypes.func,
+    conversationList: PropTypes.array
   }
 
   static contextTypes = {
     quietWaterLanguage: PropTypes.object
   }
 
+  handleClickReply = () => {
+    console.log('准备回复');
+  }
+
+  handleShowConversation = () => {
+    console.log('准备用modal显示这两个人之间的对话');
+
+    // 后台拿到commentId,然后去找这个commentId下的replyTo字段就可以得到是回复给谁的,然后在两个人的所有评论中
+    // 找出replyTo是对方的评论,最后按**时间顺序**返回找到的这些评论,注意返回的结果集中的第一条肯定是没有replyTo字段的
+    this.props.loadConversation({
+      commentId: this.props.id
+    });
+  }
+
   render () {
-    const { reply: replyId, author, content, createdTime, isAuthor, replyTo } = this.props;
+    const { id: commentId, author, content, createdTime, isAuthor, replyTo, conversationList } = this.props;
 
     const { replyToText, isAuthorText } = this.context.quietWaterLanguage.Comment.headerTitle;
 
@@ -62,7 +79,13 @@ class CommentItem extends React.PureComponent {
 
         <div styleName="content" dangerouslySetInnerHTML={{ __html:  DOMPurify.sanitize(content) }} />
 
-        <CommentItemOperation replyTo={replyTo} />
+        <CommentItemOperation
+          replyTo={replyTo}
+          onClickReply={this.handleClickReply}
+          onShowConversation={this.handleShowConversation}
+        />
+
+        { conversationList.length > 0 && <Modal dialogContentElement={} />}
       </div>
     );
   }

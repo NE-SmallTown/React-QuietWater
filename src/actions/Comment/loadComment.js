@@ -19,6 +19,7 @@ const fetchComment = (queryCondition) => ({
   replyId: queryCondition.replyId,
   [CALL_API]: {
     types: [ COMMENT_REQUEST, COMMENT_SUCCESS, COMMENT_FAILURE ],
+    payloads: [ {}, {}, { ...queryCondition } ],
     requestUrl: formatUrl(globalConfig.api.commentUrl, {
       ...queryCondition
     }),
