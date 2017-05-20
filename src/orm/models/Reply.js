@@ -6,7 +6,7 @@
  * Date: 2017/5/1
  */
 
-import { attr, Model, fk } from 'redux-orm';
+import { oneToOne, attr, Model, fk } from 'redux-orm';
 
 import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS } from '../../actions';
 
@@ -24,7 +24,8 @@ export default class Reply extends Model {
     excerpt: attr(),
     lastUpdatedTime: attr(),
     /* needCollapse: attr(), */
-    praiseCount: attr()
+    praiseCount: attr(),
+    pagination: oneToOne('Pagination', 'reply')
   }
 
   static reducer (action, Reply, session) {
@@ -39,16 +40,20 @@ export default class Reply extends Model {
 
         break;
       case COMMENT_SUCCESS:
-        const { comments } = action.response;
+        const { comments: newComments, commentCount } = action.response;
 
-        看看数组的upate是整体更新还是追加
-        Reply.withId(replyId).update({ comments: comments.map(c => c.id) });
+        // TODO 看看数组的upate是整体更新还是追加
+        /* const reply = Reply.withId(replyId);
+        const dataBaseComments = reply.comments;
+        reply.update({ comments: dataBaseComments.toRefArray().concat(newComments.map(c => c.id)) }); */
+
+        Reply.withId(action.replyId).update({ comments: newComments.map(c => c.id), commentCount });
 
         break;
       case UPDATE_PRAISECOUNT:
-        const { replyId, newPraiseCount } = action;
+        const { newPraiseCount } = action;
 
-        Reply.withId(replyId).update({ praiseCount: newPraiseCount });
+        Reply.withId(action.replyId).update({ praiseCount: newPraiseCount });
 
         break;
       /* case REPLY_SUCCESS:

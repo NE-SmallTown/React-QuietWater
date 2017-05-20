@@ -6,7 +6,7 @@
  * Date: 2017/4/30
  */
 
-import { oneToOne, fk, attr, Model } from 'redux-orm';
+import { fk, attr, Model } from 'redux-orm';
 
 import { COMMENT_SUCCESS, Conversation_SUCCESS } from '../../actions';
 
@@ -21,8 +21,7 @@ export default class Comment extends Model {
     content: attr(),
     createdTime: attr(),
     isAuthor: attr(),
-    replyTo: fk('User', 'comments'),
-    pagination: oneToOne('Pagination', '')
+    replyTo: fk('User', 'replyToComments')
   }
 
   // action.response.entities
@@ -32,14 +31,18 @@ export default class Comment extends Model {
         const { comments: commentEntities } = action.response;
 
         commentEntities.forEach(comment => {
-          Comment.create({ ...comment, reply: action.replyId, author: comment.author.userId });
+          const commonCreate = { ...comment, reply: action.replyId, author: comment.author.userId };
+
+          if (comment.replyTo) {
+            commonCreate.replyTo = comment.replyTo.userId;
+          }
+
+          Comment.create(commonCreate);
         });
 
         break;
       case Conversation_SUCCESS:
-        const { conversations: conversationsEntities } = action.response;
-
-        conversationsEntities.forEach(comment => {
+        action.response.forEach(comment => {
           Comment.create({ ...comment, reply: action.replyId, author: comment.author.userId });
         });
 

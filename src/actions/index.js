@@ -13,15 +13,12 @@ import * as reply from './Reply';
 
 import * as comment from './Comment';
 
-import * as user from './User';
-
 import isActionType from '../utils/isActionType';
 
 export let ActionTypes = [
   quietWater,
   reply,
-  comment,
-  user
+  comment
 ].reduce((ActionTypes, importedAction) => {
   for (let key in importedAction) {
     isActionType(importedAction[key]) && (ActionTypes[key] = importedAction[key]);
@@ -35,5 +32,3 @@ export * from './QuietWater';
 export * from './Reply';
 
 export * from './Comment';
-
-export * from './User';

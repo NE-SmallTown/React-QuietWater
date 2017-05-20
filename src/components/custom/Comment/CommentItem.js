@@ -13,9 +13,12 @@ import { connect } from 'react-redux';
 import { UserAvatarPopover, UserLink } from '../User';
 import Modal from '../../Modal';
 import CommentItemOperation from './CommentItemOperation';
+import ConversationBox from './ConversationBox';
 
 import { getConversationList } from '../../../selectors';
 import { loadConversation } from '../../../actions';
+
+import './CommentItem.css';
 
 class CommentItem extends React.PureComponent {
   static propTypes = {
@@ -79,20 +82,23 @@ class CommentItem extends React.PureComponent {
 
         <div styleName="content" dangerouslySetInnerHTML={{ __html:  DOMPurify.sanitize(content) }} />
 
+        把下面的提取出来，在ConversationBox里引入CommentItem造成循环引用了
         <CommentItemOperation
           replyTo={replyTo}
           onClickReply={this.handleClickReply}
           onShowConversation={this.handleShowConversation}
         />
 
-        { conversationList.length > 0 && <Modal dialogContentElement={} />}
+        { conversationList.length > 0 &&
+          <Modal key="clm" dialogContentElement={<ConversationBox conversationList={conversationList} />} />
+        }
       </div>
     );
   }
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  conversationList: getConversationList(ownProps.replyId)(state)
+  conversationList: getConversationList(ownProps.reply, ownProps.author.userId, ownProps.replyTo.userId)(state)
 });
 
 export default connect(mapStateToProps, { loadConversation })(CommentItem);

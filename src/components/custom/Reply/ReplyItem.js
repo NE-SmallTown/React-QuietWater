@@ -15,7 +15,7 @@ import { SparkScroll } from '../../ReactSparkScroll';
 import ReplyItemHeader from './ReplyItemHeader';
 import ReplyItemContent from './ReplyItemContent';
 import ReplyItemOperation from './ReplyItemOperation';
-import CommentList from '../../../containers/Comment';
+import CommentList from '../../../containers/CommentList';
 
 import { isContentTooLongUtil } from '../../../utils/reply';
 

@@ -11,12 +11,14 @@ import { camelizeKeys } from 'humps';
 import omit from 'lodash/omit';
 import isPlainObject from 'lodash/isPlainObject';
 
-import { API_PREFIX, API_P_PREFIX } from '../globalParam';
+import globalConfig from '../globalConfig';
 import { isLoggedAndTokenIsValid } from '../security/authService';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API re  sponse have the same shape, regardless of how nested it was.
 const callApi = (requestUrl, schema, normalizedPropName) => {
+  const { PREFIX: API_PREFIX, P_PREFIX: API_P_PREFIX } = globalConfig.api;
+
   // judge identity when access private api
   if (requestUrl.startsWith(API_P_PREFIX)) {
     // forbidden when not login or token invalid
@@ -45,10 +47,10 @@ const callApi = (requestUrl, schema, normalizedPropName) => {
         if (typeof normalizedProp === 'undefined') {
           return typeof
             schema === 'undefined'
-            ? { ...camelizedJson, ...otherInfo } // 没有提供key和schema，则返回原始数据
+            ? camelizedJson // 没有提供key和schema，则返回原始数据
             : { ...normalize(camelizedJson, schema), ...otherInfo }; // 没有提供key但提供了schema，则对原始数据进行范式化
         } else {
-          // 提供了key但没有提供schema,则返回normalizedProp
+          // 提供了key但没有提供schema,则返回normalizedProp(注意这将导致丢掉otherInfo信息,如果不想这样,则不应指定key)
           if (typeof schema === 'undefined') {
             return normalizedProp;
           }
@@ -80,7 +82,8 @@ export default store => next => action => {
   }
 
   let { requestUrl } = callAPI;
-  const { schema, types, payloads } = callAPI;
+  const { schema, types } = callAPI;
+  let { payloads } = callAPI;
 
   if (typeof requestUrl === 'function') {
     requestUrl = requestUrl(store.getState());
@@ -99,14 +102,19 @@ export default store => next => action => {
     }
   });
 
-  if (!Array.isArray(payloads) || payloads.length !== 3) {
-    throw new Error(`Expected an array of three payloads but passed in ${payloads}`);
-  }
-  payloads.some(payload => {
-    if (!isPlainObject(payload)) {
-      throw new Error(`Expected payload to be object but passed in ${payload}`);
+  if (typeof payloads !== 'undefined') {
+    if (!Array.isArray(payloads) || payloads.length !== 3) {
+      throw new Error(`Expected an array of three payloads but passed in ${payloads}`);
     }
-  });
+
+    payloads.some(payload => {
+      if (!isPlainObject(payload)) {
+        throw new Error(`Expected payload to be object but passed in ${payload}`);
+      }
+    });
+  } else {
+    payloads = [{}, {}, {}];
+  }
 
   const actionWith = data => {
     const finalAction = Object.assign({}, action, data);
@@ -116,6 +124,7 @@ export default store => next => action => {
 
   const [ requestType, successType, failureType ] = types;
   const [ requestPayload, successPayload, failurePayload ] = payloads;
+
   next(actionWith({ ...requestPayload, type: requestType }));
 
   // 有了下面这步，就不用在actionCreator里面的返回函数里去写fetch了，只要保证action里面有[CALL_API]就行了
@@ -123,19 +132,18 @@ export default store => next => action => {
   // 时会调用这个函数并将dispatch传入
   return callApi(requestUrl, schema, action[CALL_API].normalizedPropName).then(
     response => next(actionWith({
+      type: successType,
       response,
-      ...successPayload,
-      type: successType
+      ...successPayload
     })),
     error => {
       console.error(`dispatch ${failureType} cause ${error} error!`);
 
       return next(actionWith({
         type: failureType,
-        ...failurePayload,
-        error: error.message || 'request error!'
+        error: error.message || 'request error!',
+        ...failurePayload
       }));
     }
   );
 };
-

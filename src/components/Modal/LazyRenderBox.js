@@ -8,7 +8,7 @@
 
 import React, { PropTypes } from 'react';
 
-export default class LazyRenderBox extends React.PureComponent {
+export default class LazyRenderBox extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     hiddenClassName: PropTypes.string,

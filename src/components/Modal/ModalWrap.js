@@ -13,7 +13,7 @@ import Modal from './Modal';
 let modalContainers = {};
 let modalGuid = 0;
 
-export default class ModalWrap extends React.PureComponent {
+export default class ModalWrap extends React.Component {
   static propTypes = {
     visible: PropTypes.bool,
     onCancel: PropTypes.func,

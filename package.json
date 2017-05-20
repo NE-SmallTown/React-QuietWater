@@ -100,6 +100,7 @@
     "rc-pagination": "^1.8.9",
     "rc-tooltip": "^3.4.3",
     "react": "^16.0.0-alpha.11",
+    "react-addons-create-fragment": "^15.5.4",
     "react-css-themr": "^2.0.0",
     "react-dom": "^16.0.0-alpha.11",
     "react-redux": "^5.0.1",

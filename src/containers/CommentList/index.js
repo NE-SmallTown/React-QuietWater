@@ -25,7 +25,7 @@ class CommentList extends React.PureComponent {
     replyId: PropTypes.string,
     commentCount: PropTypes.number,
     commentList: PropTypes.array,
-    commentListPagination: PropTypes.array
+    commentListPagination: PropTypes.object
   }
 
   static contextTypes = {
@@ -60,7 +60,7 @@ class CommentList extends React.PureComponent {
   }
 
   render () {
-    const { className, commentList, commentCount, commentListPagination } = this.props;
+    const { className, commentList, commentListPagination } = this.props;
 
     const { countTextPostfix } = this.context.quietWaterLanguage.Comment.headerTitle;
 
@@ -68,10 +68,12 @@ class CommentList extends React.PureComponent {
     return (
       <div styleName="wrap" className={className}>
         <div styleName="header">
-          <span styleName="commentCountText">{`${commentCount}${countTextPostfix}`}</span>
+          <span styleName="commentCountText">
+            {commentListPagination && `${commentListPagination.totalCount}${countTextPostfix}`}
+            </span>
         </div>
 
-        {commentList && commentList.map(comment => <CommentItem key={comment.id} {...comment} />)}
+        {commentList.length > 0 && commentList.map(comment => <CommentItem key={comment.id} {...comment} />)}
 
         {commentListPagination &&
           <Pagination

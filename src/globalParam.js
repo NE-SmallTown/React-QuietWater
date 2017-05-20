@@ -19,9 +19,3 @@ export const storage2Info = { ...reverseKV(info2Storage) };
 
 // 当关闭一个会话/tab的时候将要在localstorage中清除的key（不清除u_id是因为数据库中的id是不会改变的），目的是为了保持数据的准确性
 export const wouldClearedStorageItemWhenPageUnload = Object.keys(omit(storage2Info, 'u_id'));
-
-// 请求的后台接口地址的前缀
-export const API_PREFIX = globalConfig.api.PREFIX;
-
-// 私有接口地址的前缀，请求这个URL下的接口会带上token
-export const API_P_PREFIX = globalConfig.api.P_PREFIX;

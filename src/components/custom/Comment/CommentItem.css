@@ -5,10 +5,9 @@
 }
 
 .header {
-    margin-bottom: 5px;
     padding-right: 3px;
     padding-left: 1px;
-    line-height: 30px;
+    line-height: 40px;
 }
 
 .userName {
@@ -20,11 +19,14 @@
 }
 
 .replyToText {
+    margin-left: 7px;
+
     color: #ff722e;
+    letter-spacing: .02cm;
 }
 
 .userNameOfReplyTo {
-    margin-left: 10px;
+    margin-left: 7px;
 }
 
 .createdTime {
@@ -35,5 +37,6 @@
 }
 
 .content {
+    margin-top: 15px;
     line-height: 1.8;
 }

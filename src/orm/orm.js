@@ -7,9 +7,9 @@
  */
 
 import { ORM } from 'redux-orm';
-import { Comment, Host, Reply, User } from './models';
+import { Comment, Host, Reply, User, Pagination } from './models';
 
 const orm = new ORM();
-orm.register(Comment, Host, Reply, User);
+orm.register(Comment, Host, Reply, User, Pagination);
 
 export default orm;

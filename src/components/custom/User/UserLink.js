@@ -18,14 +18,17 @@ export default class UserLink extends React.PureComponent {
   static propTypes = {
     userName: PropTypes.string,
     userId: PropTypes.string,
-    loginName: PropTypes.string
+    loginName: PropTypes.string,
+    className: PropTypes.string
   }
 
   render () {
-    const { userName, userId, loginName, ...restProps } = this.props;
+    const { userName, userId, loginName, className } = this.props;
 
     return (
-      <Link to={`${hostUserUrlPrefix}${postfixIsId ? userId : loginName}`} {...restProps}>{userName}</Link>
+      <Link to={`${hostUserUrlPrefix}${postfixIsId ? userId : loginName}`} className={className}>
+        {userName}
+      </Link>
     );
   }
 };

@@ -8,7 +8,6 @@
 
 import globalConfig from '../globalConfig';
 import networkHelper from './networkHelper';
-import { API_PREFIX, API_P_PREFIX } from '../globalParam';
 import { getToken } from '../security/authService';
 
 // 处理接口本身返回的status字段
@@ -22,7 +21,7 @@ const responseErrorHandler = globalConfig.api.responseErrorHandler;
 
 // 普通接口
 export const network = networkHelper({
-  urlPrefix: API_PREFIX,
+  urlPrefix: () => globalConfig.api.PREFIX,
   unwrapResponse: 'data',
   responseErrorKeys: ['error'],
   responseErrorHandler: ({ error: { code: errorCode } }) => {
@@ -36,7 +35,7 @@ export const network = networkHelper({
 
 // 私有接口
 export const priNetwork = networkHelper({
-  urlPrefix: API_P_PREFIX,
+  urlPrefix: () => globalConfig.api.P_PREFIX,
   defaultHeaders: {
     Authorization: () => `Bearer ${getToken()}`
   },

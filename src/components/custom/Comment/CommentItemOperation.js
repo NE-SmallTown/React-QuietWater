@@ -40,16 +40,16 @@ export default class CommentItemOperation extends React.PureComponent {
       <div styleName="wrap">
         {replyTo &&
           <button styleName="btn" key="cvs" onClick={this.handleShowConversation}>
-            <SvgIcon iconName="icon-conversation3" />
+            <SvgIcon styleName="icon" iconName="icon-conversation3" />
 
-            {conversationText}
+            <span styleName="btnText">{conversationText}</span>
           </button>
         }
 
         <button styleName="btn" key="rt" onClick={this.handleResponse}>
-          <SvgIcon iconName="icon-response2" />
+          <SvgIcon styleName="icon" iconName="icon-response2" />
 
-          {replyText}
+          <span styleName="btnText">{replyText}</span>
         </button>
       </div>
     );

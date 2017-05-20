@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 
 import CommentItem from './CommentItem';
 
+import './ConversationBox.css';
+
 export default class ConversationBox extends React.PureComponent {
   static propTypes = {
     conversationList: PropTypes.array

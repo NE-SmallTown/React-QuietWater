@@ -8,7 +8,7 @@
 
 import { Model, attr } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS, COMMENT_SUCCESS } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, COMMENT_SUCCESS, Conversation_SUCCESS } from '../../actions';
 
 export default class User extends Model {
   static modelName = 'User'
@@ -42,8 +42,22 @@ export default class User extends Model {
       case COMMENT_SUCCESS:
         const { comments: commentsEntities } = action.response;
 
-        commentsEntities.forEach(({ author }) => {
+        commentsEntities.forEach(({ author, replyTo }) => {
           User.create({ ...author });
+
+          if (replyTo) {
+            User.create({ ...replyTo });
+          }
+        });
+
+        break;
+      case Conversation_SUCCESS:
+        action.response.forEach(({ author, replyTo }) => {
+          User.create({ ...author });
+
+          if (replyTo) {
+            User.create({ ...replyTo });
+          }
         });
 
         break;

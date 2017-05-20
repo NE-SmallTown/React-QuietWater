@@ -87,6 +87,10 @@ export default ({
   // 辅助函数，根据url前后缀获取url
   function _getUrl (url) {
     function _get (urlSuffix, urlPrefix = _urlPrefix) {
+      if (isFunction(urlPrefix)) {
+        urlPrefix = urlPrefix();
+      }
+
       return `${urlPrefix}${urlSuffix}`;
     }
 

@@ -1,5 +1,5 @@
 .wrap {
-    margin-top: 15px;
+    margin-top: -15px;
     line-height: 30px;
 }
 
@@ -13,6 +13,22 @@
     vertical-align: middle;
 }
 
+.btn:hover .btnText {
+    color: rgba(241, 47, 47, 0.86);
+}
+
 .btn + .btn {
     margin-left: 20px;
+}
+
+.icon {
+    margin-right: 5px;
+    width: 25px;
+    height: 25px;
+
+    vertical-align: -6px;
+}
+
+.btnText {
+    letter-spacing: .03cm;
 }

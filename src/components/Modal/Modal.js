@@ -14,7 +14,7 @@ import Mask from '../Mask';
 import LazyRenderBox from './LazyRenderBox';
 import SvgIcon from '../SvgIcon';
 import { getTransitionName, offsetOfNode, setTransformOrigin } from './util';
-import getScrollBarSize from '../../util/getScrollBarSize';
+import getScrollBarSize from '../../utils/getScrollBarSize';
 import pick from 'lodash/pick';
 
 import './Modal.css';
@@ -210,24 +210,42 @@ export default class Modal extends React.PureComponent {
     const props = this.props;
     const prefixCls = props.prefixCls;
 
-    let footer;
-    if (props.footer) {
-      footer = (
-        <div styleName={`${prefixCls}-footer`}>
-          {props.footer}
-        </div>
-      );
-    }
-
-    let header;
-    if (props.title) {
-      header = (
-        <div styleName={`${prefixCls}-header`}>
-          <div styleName={`${prefixCls}-title`}>
-            {props.title}
+    let dialogContentElement = props.dialogContentElement;
+    if (!dialogContentElement) {
+      let footer;
+      if (props.footer) {
+        footer = (
+          <div styleName={`${prefixCls}-footer`}>
+            {props.footer}
           </div>
-        </div>
-      );
+        );
+      }
+
+      let header;
+      if (props.title) {
+        header = (
+          <div styleName={`${prefixCls}-header`}>
+            <div styleName={`${prefixCls}-title`}>
+              {props.title}
+            </div>
+          </div>
+        );
+      }
+
+      /*
+      // 如果是调用者来提供dialogElement的部分，那么因为diglogContentElement具体是什么我们是不知道的，所以不能采用像
+      // React.cloneElement(props.dialogContentElement, { triggerModalClose: this.onClose })这样的方式。因为
+      // 这里的triggerModalClose这样的命名，对于dialogContentElement来讲它根本不知道也不应该知道自己是和modal有关系的
+      // 所以，如果像这样命名，在dialogContentElement内部调用this.props.triggerModalClose()就会显得很奇怪
+      // 所以这里采用onFinish这样的命名，感觉稍微好一点。暂时没有想到解决像这样的不可知论前提下的组件通信问题好的办法。
+      */
+      dialogContentElement = createFragment({
+        dialogHeader: header,
+        dialogBody: <div styleName={`${prefixCls}-body`}>
+          {props.children}
+        </div>,
+        dialogFooter: footer
+      });
     }
 
     let closer;
@@ -238,32 +256,6 @@ export default class Modal extends React.PureComponent {
         </button>
       );
     }
-
-    /*
-    * 也可以用数组的形式
-    * [ header,
-      <div styleName={`${prefixCls}-body`}>
-      {props.children}
-      </div>,
-      footer]
-
-      但是用数组要记得添加key，这里不添加key是因为这些元素是死的，永远不可能有改变顺序或者删除，添加一个的情况发生
-
-      而用[createFragment](https://facebook.github.io/react/docs/create-fragment.html)是官方更加推荐的做法
-      虽然也是返回数组，但是不用手动指定key，而是用对象的key代替，更加方便一点，语法上也方便一点
-    * */
-    // 如果是调用者来提供dialogElement的部分，那么因为diglogContentElement具体是什么我们是不知道的，所以不能采用像
-    // React.cloneElement(props.dialogContentElement, { triggerModalClose: this.onClose })这样的方式。因为
-    // 这里的triggerModalClose这样的命名，对于dialogContentElement来讲它根本不知道也不应该知道自己是和modal有关系的
-    // 所以，如果像这样命名，在dialogContentElement内部调用this.props.triggerModalClose()就会显得很奇怪
-    // 所以这里采用onFinish这样的命名，感觉稍微好一点。暂时没有想到解决像这样的不可知论前提下的组件通信问题好的办法。
-    const dialogContentElement = props.dialogContentElement || createFragment({
-      dialogHeader: header,
-      dialogBody: <div styleName={`${prefixCls}-body`}>
-        {props.children}
-      </div>,
-      dialogFooter: footer
-    });
 
     return (
       <div styleName={`${prefixCls}-content`}>

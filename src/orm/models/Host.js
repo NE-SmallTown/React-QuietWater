@@ -6,7 +6,7 @@
  * Date: 2017/5/4 by Administrator
  */
 
-import { attr, Model } from 'redux-orm';
+import { oneToOne, attr, Model } from 'redux-orm';
 import omit from 'lodash/omit';
 
 import { QUIETWATEROFHOST_SUCCESS } from '../../actions';
@@ -16,7 +16,8 @@ export default class Host extends Model {
 
   static fields = {
     id: attr(),
-    name: attr()
+    name: attr(),
+    pagination: oneToOne('Pagination', 'host')
   }
 
   static reducer (action, Host, session) {
