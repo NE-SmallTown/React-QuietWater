@@ -35,30 +35,21 @@ export default class User extends Model {
         const { replies: repliesEntities } = action.response;
 
         repliesEntities.forEach(({ author }) => {
-          User.create({ ...author });
+          !User.withId(author.userId) && User.create({ ...author });
         });
 
         break;
       case COMMENT_SUCCESS:
-        const { comments: commentsEntities } = action.response;
-
-        commentsEntities.forEach(({ author, replyTo }) => {
-          User.create({ ...author });
-
-          if (replyTo) {
-            User.create({ ...replyTo });
-          }
-        });
-
-        break;
       case Conversation_SUCCESS:
-        action.response.forEach(({ author, replyTo }) => {
-          User.create({ ...author });
+        const commentsEntities = action.type === COMMENT_SUCCESS ? action.response.comments : action.response;
 
-          if (replyTo) {
+        for (let { author, replyTo } of commentsEntities) {
+          if (!User.withId(author.userId)) {
+            User.create({ ...author });
+          } else if (replyTo && !User.withId(replyTo.userId)) {
             User.create({ ...replyTo });
           }
-        });
+        }
 
         break;
     }

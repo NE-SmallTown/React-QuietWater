@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 import './index.css';
 
-export default class index extends React.PureComponent {
+export default class Editor extends React.PureComponent {
   render () {
     return (
       <div></div>

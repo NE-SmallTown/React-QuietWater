@@ -1,0 +1,36 @@
+.header {
+    padding-right: 3px;
+    padding-left: 1px;
+    line-height: 40px;
+}
+
+.userName {
+    margin-left: 10px;
+}
+
+.isAuthorText {
+    letter-spacing: 0.03cm;
+}
+
+.replyToText {
+    margin-left: 7px;
+
+    color: #ff722e;
+    letter-spacing: .02cm;
+}
+
+.userNameOfReplyTo {
+    margin-left: 7px;
+}
+
+.createdTime {
+    float: right;
+
+    font-size: 14px;
+    color: #8590a6;
+}
+
+.content {
+    margin-top: 15px;
+    line-height: 1.8;
+}

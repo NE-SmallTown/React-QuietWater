@@ -34,20 +34,16 @@ export default class Reply extends Model {
         const { id: hostId, replies: repliesEntities } = action.response;
 
         repliesEntities.forEach(reply => {
-          // Reply.create({ ...reply, author: reply.author.userId });
-          Reply.create({ ...reply, host: hostId, author: reply.author.userId });
+          !Reply.withId(reply.id) && Reply.create({ ...reply, host: hostId, author: reply.author.userId });
         });
 
         break;
       case COMMENT_SUCCESS:
         const { comments: newComments, commentCount } = action.response;
 
-        // TODO 看看数组的upate是整体更新还是追加
-        /* const reply = Reply.withId(replyId);
+        const reply = Reply.withId(action.replyId);
         const dataBaseComments = reply.comments;
-        reply.update({ comments: dataBaseComments.toRefArray().concat(newComments.map(c => c.id)) }); */
-
-        Reply.withId(action.replyId).update({ comments: newComments.map(c => c.id), commentCount });
+        reply.update({ commentCount, comments: dataBaseComments.toRefArray().concat(newComments.map(c => c.id)) });
 
         break;
       case UPDATE_PRAISECOUNT:

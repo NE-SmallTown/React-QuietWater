@@ -180,6 +180,7 @@ export default class Modal extends React.PureComponent {
     }
 
     const style = { ...props.style, ...dest };
+
     const dialogElement = (
       <LazyRenderBox
         ref={ele => { this.dialog = ele; }}

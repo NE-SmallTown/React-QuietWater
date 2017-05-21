@@ -28,23 +28,22 @@ export default class Comment extends Model {
   static reducer (action, Comment, session) {
     switch (action.type) {
       case COMMENT_SUCCESS:
-        const { comments: commentEntities } = action.response;
-
-        commentEntities.forEach(comment => {
-          const commonCreate = { ...comment, reply: action.replyId, author: comment.author.userId };
-
-          if (comment.replyTo) {
-            commonCreate.replyTo = comment.replyTo.userId;
-          }
-
-          Comment.create(commonCreate);
-        });
-
-        break;
       case Conversation_SUCCESS:
-        action.response.forEach(comment => {
-          Comment.create({ ...comment, reply: action.replyId, author: comment.author.userId });
-        });
+        const commentEntities = action.type === COMMENT_SUCCESS ? action.response.comments : action.response;
+
+        const replyId = action.type === COMMENT_SUCCESS ? action.replyId : action.response[0].reply;
+
+        for (let comment of commentEntities) {
+          if (!Comment.withId(comment.id)) {
+            const commonCreate = { ...comment, reply: replyId, author: comment.author.userId };
+
+            if (comment.replyTo) {
+              commonCreate.replyTo = comment.replyTo.userId;
+            }
+
+            Comment.create(commonCreate);
+          }
+        }
 
         break;
     }

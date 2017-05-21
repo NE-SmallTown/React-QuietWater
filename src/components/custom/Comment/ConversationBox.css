@@ -1,5 +1,9 @@
 .wrap {
+    padding: 0 16px;
+}
 
+.wrap div:first-child {
+    padding: 0;
 }
 
 .title-wrap {

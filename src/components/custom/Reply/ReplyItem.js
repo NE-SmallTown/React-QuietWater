@@ -69,10 +69,10 @@ export default class ReplyItem extends React.PureComponent {
   }
 
   handleClickExpandComment = () => {
-    console.log('加载并展开评论');
+    !this.state.showCommentList ? console.log('加载并展开评论') : console.log('折叠评论');
 
     this.setState({
-      showCommentList: true
+      showCommentList: !this.state.showCommentList
     });
   }
 
