@@ -21,7 +21,7 @@ export default class Comment extends Model {
     content: attr(),
     createdTime: attr(),
     isAuthor: attr(),
-    replyTo: fk('User', 'replyToComments')
+    replyTo: fk('User', 'replyToMe')
   }
 
   // action.response.entities
@@ -33,6 +33,7 @@ export default class Comment extends Model {
 
         const replyId = action.type === COMMENT_SUCCESS ? action.replyId : action.response[0].reply;
 
+        console.log(commentEntities);
         for (let comment of commentEntities) {
           if (!Comment.withId(comment.id)) {
             const commonCreate = { ...comment, reply: replyId, author: comment.author.userId };

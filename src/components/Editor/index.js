@@ -12,6 +12,7 @@ import './index.css';
 
 export default class Editor extends React.PureComponent {
   render () {
+    // TODO 编辑器要能全屏
     return (
       <div></div>
     );

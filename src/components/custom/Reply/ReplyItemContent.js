@@ -5,8 +5,11 @@
  *
  * Date: 2017/5/9 by Administrator
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import globalConfig from '../../../globalConfig';
 
 import './ReplyItemContent.css';
 
@@ -32,7 +35,7 @@ export default class ReplyItemContent extends React.PureComponent {
 
     // TODO 移动端看看是否需要将回复里的图片进行懒加载,回复本身就是一组一组的加载的,到时候再看看是否有必要吧
     return (
-      <div styleName={`wrap ${isContentExpanded ? 'expanded' : 'folded'}`}>
+      <div styleName={`wrap ${isContentExpanded ? 'expanded' : 'folded'}`} style={globalConfig.styles.reply}>
         <div>
           <span styleName="content" dangerouslySetInnerHTML={{ __html: content }} />
         </div>

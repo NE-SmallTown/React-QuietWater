@@ -1,9 +1,32 @@
 .wrap {
     padding: 12px 16px 10px;
+}
 
-    font-size: 15px;
+.editor-wrap {
+    margin-top: 10px;
+}
+
+.editorOperation {
+    margin-top: 10px;
+
+    text-align: right;
+}
+
+.btn {
+    line-height: 22px;
+}
+
+.cancelBtn {
+    color: #1f1f1f;
+}
+
+.submitBtn {
+    margin-left: 20px;
+
+    color: #fff;
+    background-color: #4e81cc;
 }
 
 .conversationBox {
-    font-size: 15px;
+
 }

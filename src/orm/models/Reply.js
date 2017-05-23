@@ -41,9 +41,15 @@ export default class Reply extends Model {
       case COMMENT_SUCCESS:
         const { comments: newComments, commentCount } = action.response;
 
-        const reply = Reply.withId(action.replyId);
+        const { replyId } = action;
+        const reply = Reply.withId(replyId);
         const dataBaseComments = reply.comments;
-        reply.update({ commentCount, comments: dataBaseComments.toRefArray().concat(newComments.map(c => c.id)) });
+
+        reply.update({
+          commentCount,
+          comments: dataBaseComments.toRefArray().concat(newComments.map(c => c.id)),
+          pagination: replyId
+        });
 
         break;
       case UPDATE_PRAISECOUNT:

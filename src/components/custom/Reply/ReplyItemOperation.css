@@ -28,6 +28,8 @@
 
 .btn-praise {
     composes: btn-vote;
+
+    background: rgba(35, 200, 222, 0.5);
 }
 
 .btn-praise:hover > svg {
@@ -38,6 +40,8 @@
     composes: btn-vote;
 
     margin-left: 5px;
+
+    background: rgba(35, 200, 222, 0.5);
 }
 
 .btn-thumbdown:hover > svg {

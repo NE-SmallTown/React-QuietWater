@@ -5,6 +5,7 @@
  *
  * Date: 2017/5/18 by Administrator
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,7 +14,9 @@ import Modal from '../../Modal';
 import CommentItemOperation from './CommentItemOperation';
 import CommentItemHeaderAndContent from './CommentItemHeaderAndContent';
 import ConversationBox from './ConversationBox';
+import MiniEditor from '../../MiniEditor';
 
+import globalConfig from '../../../globalConfig';
 import { getConversationList } from '../../../selectors';
 import { loadConversation } from '../../../actions';
 
@@ -28,7 +31,8 @@ class CommentItem extends React.PureComponent {
     content: PropTypes.string,
     createdTime: PropTypes.string,
     isAuthor: PropTypes.bool,
-    loadConversation: PropTypes.func
+    loadConversation: PropTypes.func,
+    showConversationBtn: PropTypes.bool
   }
 
   static contextTypes = {
@@ -39,12 +43,18 @@ class CommentItem extends React.PureComponent {
     super(props);
 
     this.state = {
-      showConversation: false
+      showConversation: false,
+      showReplyEditor: false,
+      editorContentObj: {}
     };
   }
 
   handleClickReply = () => {
     console.log('准备回复');
+
+    this.setState({
+      showReplyEditor: true
+    });
   }
 
   handleShowConversation = () => {
@@ -67,8 +77,36 @@ class CommentItem extends React.PureComponent {
     });
   }
 
+  handleEditorContentChange = editorContentObj => {
+    this.setState({
+      editorContentObj
+    });
+  }
+
+  handleEditorSubmit = () => {
+    console.log(`modal框准备提交评论内容:${this.state.editorContentObj.toString('html')}`);
+  }
+
+  hancleCancelEditor = () => {
+    this.setState({
+      showReplyEditor: false
+    });
+  }
+
   render () {
-    const { id: commentId, conversationList, author, isAuthor, replyTo, createdTime, content } = this.props;
+    const {
+      id: commentId,
+      conversationList,
+      author,
+      isAuthor,
+      replyTo,
+      createdTime,
+      content,
+      showConversationBtn
+    } = this.props;
+
+    const { cancelText, submitText } = this.context.quietWaterLanguage.Editor.commentEditor;
+    const { replyText } = this.context.quietWaterLanguage.Comment.operationBar;
 
     // TODO 可以删除评论
     // TODO 限制content的大小,根据换行符和字数,或者根据高度进行限制
@@ -76,7 +114,7 @@ class CommentItem extends React.PureComponent {
     // TODO 知乎目前的查看对话模式是,点击之后会显示所有的对话记录,虽然这样有利于了解上下文,但是后面看看需不需要只显示回复的那条以及那条之后评论
     // TODO 而且目前点击查看对话是从服务端获取数据,之后看看是否提供一个配置项,让从store里直接获取,因为有的网站并不要求这么高的实时性
     return (
-      <div styleName="wrap">
+      <div styleName="wrap" style={globalConfig.styles.comment}>
         <CommentItemHeaderAndContent
           author={author}
           isAuthor={isAuthor}
@@ -85,17 +123,38 @@ class CommentItem extends React.PureComponent {
           content={content}
         />
 
-        <CommentItemOperation
-          replyTo={replyTo}
-          onClickReply={this.handleClickReply}
-          onShowConversation={this.handleShowConversation}
-        />
+        {!this.state.showReplyEditor &&
+          <CommentItemOperation
+            key="cio"
+            replyTo={replyTo}
+            onClickReply={this.handleClickReply}
+            onShowConversation={this.handleShowConversation}
+            showConversationBtn={showConversationBtn}
+          />
+        }
+
+        {this.state.showReplyEditor &&
+          [
+            <MiniEditor
+              key="med"
+              styleName="editor-wrap"
+              widthSubmitBtn={false}
+              onContentChange={this.handleEditorContentChange}
+              placeholder={`${replyText}${author.userName}...`}
+            />,
+            <div key="edo" styleName="editorOperation">
+              <button styleName="cancelBtn" onClick={this.hancleCancelEditor}>{cancelText}</button>
+              <button styleName="submitBtn" onClick={this.handleEditorSubmit}>{submitText}</button>
+            </div>
+          ]
+        }
 
         { this.state.showConversation && conversationList.length > 0 &&
           <Modal
             key="clm"
             width="52%"
             styleName="conversationBox"
+            style={globalConfig.styles.conversationBox}
             visible
             onCancel={this.handleCancelConversationModal}
             dialogContentElement={<ConversationBox conversationList={conversationList} context={this.context} />}

@@ -9,6 +9,29 @@
 import merge from 'lodash/merge';
 
 const configParams = {
+  styles: { // 各个部分的皮肤设置,注意要和JSX中的style属性格式一致
+    quietWater: {
+
+    },
+    replyList: {
+      backgroundColor: 'rgba(255, 255, 255, 0.89)'
+    },
+    reply: {
+      lineHeight: 1.9,
+      fontSize: '15px',
+      color: '#333333'
+    },
+    comment: {
+      fontSize: '15px',
+      color: '#333333'
+    },
+    conversationBox: { // 点击"查看对话"时显示的modal框
+      fontSize: '15px'
+    },
+    commentListBox: { // 在未浏览到回复的内容底部时点击"展开评论"时显示的modal框
+      fontSize: '15px'
+    }
+  },
   responseNormalizeSchema: { // 进行范式化的各个api返回的数据的schema,会与QuietWater本身已经设置好的schema进行合并
     quietWaterOfHost: {}, // 这里根据自己的业务进行设置,但是后端必须按照QuietWater本身已经设置好的schema的格式返回数据
     Comment: {}

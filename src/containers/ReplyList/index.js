@@ -5,10 +5,13 @@
  *
  * Date: 2017/5/3 by Administrator
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import { ReplyItem } from '../../components/custom/Reply';
+
+import globalConfig from '../../globalConfig';
 
 import './index.css';
 
@@ -22,7 +25,7 @@ export default class ReplyList extends React.PureComponent {
     const { replyList, quietWaterWidth } = this.props;
 
     return (
-      <div styleName="wrap">
+      <div styleName="wrap" style={globalConfig.styles.replyList}>
         {replyList.map(
           (reply, index) =>
             <ReplyItem

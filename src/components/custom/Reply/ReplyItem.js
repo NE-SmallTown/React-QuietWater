@@ -12,12 +12,15 @@ import DOMPurify from 'dompurify';
 import classNames from 'classnames';
 
 import { SparkScroll } from '../../ReactSparkScroll';
+import Modal from '../../Modal';
 import ReplyItemHeader from './ReplyItemHeader';
 import ReplyItemContent from './ReplyItemContent';
 import ReplyItemOperation from './ReplyItemOperation';
 import CommentList from '../../../containers/CommentList';
 
-import { isContentTooLongUtil } from '../../../utils/reply';
+import globalConfig from '../../../globalConfig';
+
+// import { isContentTooLongUtil } from '../../../utils/reply';
 
 import './ReplyItem.css';
 
@@ -37,13 +40,19 @@ export default class ReplyItem extends React.PureComponent {
   }
 
   static contextTypes = {
-    quietWaterLanguage: PropTypes.object
+    quietWaterLanguage: PropTypes.object,
+    store: PropTypes.object
   }
 
   constructor (props, context) {
     super(props, context);
 
-    const isContentTooLong = isContentTooLongUtil(props.content, props.replyWrapElementWidth, this.context.quietWaterLanguage.languageName);
+    const isContentTooLong = false;
+    // TODO 用下面这种方式去预估内容的高度,可以提前判断,但是缺点是内容的高度很难去预估,后面再看看有没有更好的办法吧
+    // TODO 如果通过ref的方法,虽然准确,但是会导致滚动条由最初的很长变得很短,这种抖动用户不一定能接受
+    // const isContentTooLong = isContentTooLongUtil(
+    //   props.content, props.replyWrapElementWidth, contentSyle, this.context.quietWaterLanguage.languageName
+    // );
 
     this.state = {
       // we can also make ReplyItemContent show first and get its height,if that,we don't need calculate by
@@ -54,6 +63,17 @@ export default class ReplyItem extends React.PureComponent {
       isContentEnterViewport: false,
       showCommentList: false
     };
+  }
+
+  handleContentDidMount = (ele) => {
+    if (ele) {
+      const height = getComputedStyle(ele).height;
+      const heightNumber = height.substring(0, height.indexOf('p'));
+
+      this.setState({
+        isContentTooLong: heightNumber > 400
+      });
+    }
   }
 
   handleClickReadAll = () => {
@@ -90,6 +110,12 @@ export default class ReplyItem extends React.PureComponent {
     console.log('离开内容区域');
     this.setState({
       isContentEnterViewport: false
+    });
+  }
+
+  handleCancelCommentListModal = () => {
+    this.setState({
+      showCommentList: false
     });
   }
 
@@ -134,9 +160,9 @@ export default class ReplyItem extends React.PureComponent {
 
     /* eslint-disable */
     return (
-      <div styleName="wrap" id={`qw_${replyId}`}>
+      <div styleName="wrap" id={`qw_${replyId}`} ref={this.handleContentDidMount}>
         <ReplyItemHeader {...author} replyCreatedTime={createdTime} />
-          {/* 内容比较多,且目前内容处于展开状态的（即内容全部被显示）的才需要绑定滚动事件检测,看是否需要将操作栏fixed,对于内容较少的则不绑定事件,避免浪费性能
+          {/* 内容较多且目前内容处于展开状态（即内容全部被显示）的才需要绑定滚动事件检测,看是否需要将操作栏fixed,对于内容较少的则不绑定事件,避免浪费性能
           just when item which has long content and window displays all of them now, we bind scroll event to
           fixed operation bar,if no many contents don't bind to improve perf */}
         {
@@ -157,23 +183,36 @@ export default class ReplyItem extends React.PureComponent {
           : <ReplyItemContent key="ric2" {...commonReplyItemContentProps} />
         }
 
-          <ReplyItemOperation
-            key="rio"
-            style={{ width: `calc(${replyWrapElementWidth}px - 30px)` }}
-            styleName={operationBarClassName}
-            excerpt={excerpt}
-            replyId={replyId}
-            commentCount={commentCount}
-            praiseCount={praiseCount}
-            isContentTooLong={isContentTooLong}
-            isContentExpanded={isContentExpanded}
-            onClickReadAll={this.handleClickReadAll}
-            onClickFold={this.handleClickFold}
-            onClickExpandComment={this.handleClickExpandComment}
-          />
+        <ReplyItemOperation
+          key="rio"
+          style={{ width: `calc(${replyWrapElementWidth}px - 30px)` }}
+          styleName={operationBarClassName}
+          excerpt={excerpt}
+          replyId={replyId}
+          commentCount={commentCount}
+          praiseCount={praiseCount}
+          isContentTooLong={isContentTooLong}
+          isContentExpanded={isContentExpanded}
+          onClickReadAll={this.handleClickReadAll}
+          onClickFold={this.handleClickFold}
+          onClickExpandComment={this.handleClickExpandComment}
+        />
 
-          {this.state.showCommentList && <CommentList key="cl" styleName="commentList-wrap" replyId={replyId} />}
-        </div>
+        {
+          this.state.showCommentList &&
+          (this.state.isContentEnterViewport
+          ? <Modal
+              key="m-cl"
+              width="52%"
+              styleName="commentListBox"
+              style={globalConfig.styles.conversationBox}
+              visible
+              onCancel={this.handleCancelCommentListModal}
+              dialogContentElement={<CommentList replyId={replyId} store={this.context.store} showConversationBtn={false} />}
+            />
+          : <CommentList key="cl" styleName="commentList-wrap" replyId={replyId} />)
+        }
+      </div>
     );
     /* eslint-disable */
   }

@@ -38,7 +38,11 @@ export default {
     }
   },
   Editor: {
-
+    commentEditor: {
+      cancelText: '取消',
+      submitText: '评论',
+      placeholderText: '写下你的评论...'
+    }
   },
   languageName: 'zh-cn'
 };

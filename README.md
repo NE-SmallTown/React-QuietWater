@@ -3,7 +3,8 @@
 # <a href='http://redux.js.org'><img src='' height='50'></a>
 
 React-QuietWater is a comment system based on react, css-modules and redux, redux-orm, react-css-themr.It's UI inspired by
-[zhihu](https://www.zhihu.com) and [medium](https://medium.com/)
+[zhihu](https://www.zhihu.com) and [medium](https://medium.com/),and think about something from twitter,facebook,quora and others
+design website.
 
 ### Motivation
 
@@ -119,6 +120,22 @@ For example:
 and then you can import the QuietWater component
 
 ### Examples
+
+### ISSUES
+
+If you are Chinese,please believe that we have looked through 
+- [如何评价知乎主站 2016 年末的设计改版？](https://www.zhihu.com/question/54303734)
+- [如何评价知乎2017年1月的改版？](https://www.zhihu.com/question/54527018)
+- [如何评价 2017 年 2 月 7 日知乎的新版网页界面？](https://www.zhihu.com/question/55523985)
+
+Thanks for everyone who gives good advice in the comments of above question.They inspire me a lot,thanks!
+
+We would like to listen and appreciate all issues/suggestions about whatever aspects.But please don't just complain
+,that's very rude and meaningless.Please don't just think about yourself's thoughts or experience and think them are
+the best design or blue print.If you have any good thought,feel free to file an issue or a pr!If you are friendly,we
+would like to join the discussion,if not,we also accept but you have to prove your thoughts are acceptable by most people
+and provide feasible scheme.So,if you are not friendly and can't prove and provide.We will don't reply the issue and close
+it.
 
 ### License
 

@@ -1,6 +1,10 @@
 .wrap:not(:first-child) {
-    border-top: 1px solid #f0f2f7;
+    border-top: 1px solid #a7b3ff;
     margin-top: 20px;
+}
+
+.wrap:not(:last-of-type) {
+    margin-bottom: 20px;
 }
 
 .fixed-operationBar {
@@ -9,7 +13,11 @@
     bottom: -1px;
 
     background: #fff;
-    box-shadow: 0 -1px 3px rgba(0,34,77,.05);
+    box-shadow: 0 -1px 3px rgb(146, 140, 140);
+}
+
+.commentListBox {
+
 }
 
 .commentList-wrap {

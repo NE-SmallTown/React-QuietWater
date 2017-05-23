@@ -2,9 +2,6 @@
     position: relative;
 
     margin-top: 10px;
-    line-height: 1.9;
-
-    font-size: 15px;
 }
 
 .content {
@@ -28,7 +25,7 @@
 }
 
 .folded {
-    max-height: 200px;
+    max-height: 80px;
 
     overflow: hidden;
 }

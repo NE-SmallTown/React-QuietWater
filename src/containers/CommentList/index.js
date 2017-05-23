@@ -5,13 +5,14 @@
  *
  * Date: 2017/5/18 by Administrator
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { CommentItem } from '../../components/custom/Comment';
-import Editor from '../../components/Editor';
 import Pagination from '../../components/Pagination';
+import MiniEditor from '../../components/MiniEditor';
 
 import { loadComment } from '../../actions';
 import { getCommentList, getPagination } from '../../selectors';
@@ -25,7 +26,12 @@ class CommentList extends React.PureComponent {
     replyId: PropTypes.string,
     commentCount: PropTypes.number,
     commentList: PropTypes.array,
-    commentListPagination: PropTypes.object
+    commentListPagination: PropTypes.object,
+    showConversationBtn: PropTypes.bool
+  }
+
+  static defaultProps = {
+    showConversationBtn: true
   }
 
   static contextTypes = {
@@ -59,12 +65,20 @@ class CommentList extends React.PureComponent {
     });
   }
 
-  render () {
-    const { className, commentList, commentListPagination } = this.props;
+  handleEditorSubmit = editorContent => {
+    console.log(`准备提交评论内容:${editorContent}`);
+  }
 
+  render () {
+    const { className, commentList, commentListPagination, showConversationBtn } = this.props;
+
+    判断是从contect还是props获取
     const { countTextPostfix } = this.context.quietWaterLanguage.Comment.headerTitle;
+    const { placeholderText } = this.context.quietWaterLanguage.Editor.commentEditor;
 
     // TODO 可以按自定义方式排序,比如热度,点赞数等等
+    // TODO 用户可以针对评论中的某一小段（30个字以内?）进行针对性的回复（为什么是一小段呢，因为如果让用户可以选择针
+    // TODO 对一大段内容进行回复，那么评论区可能出现大量的重复内容,这是无法接受的）,对于大段内容,有“查看对话”这个功能
     return (
       <div styleName="wrap" className={className}>
         <div styleName="header">
@@ -73,7 +87,12 @@ class CommentList extends React.PureComponent {
             </span>
         </div>
 
-        {commentList.length > 0 && commentList.map(comment => <CommentItem key={comment.id} {...comment} />)}
+        {
+          commentList.length > 0 &&
+          commentList.map(
+            comment => <CommentItem key={comment.id} showConversationBtn={showConversationBtn} {...comment} />
+          )
+        }
 
         {commentListPagination &&
           <Pagination
@@ -86,7 +105,12 @@ class CommentList extends React.PureComponent {
           />
         }
 
-        <Editor key="ed" styleName="editor-wrap" />
+        <MiniEditor
+          key="med"
+          styleName="editor-wrap"
+          onSubmit={this.handleEditorSubmit}
+          placeholder={placeholderText}
+        />
       </div>
     );
   }

@@ -47,4 +47,3 @@ export default class ConversationBox extends React.PureComponent {
     );
   }
 };
-

@@ -16,7 +16,8 @@ export default class CommentItemOperation extends React.PureComponent {
   static propTypes = {
     replyTo: PropTypes.object,
     onClickReply: PropTypes.func,
-    onShowConversation: PropTypes.func
+    onShowConversation: PropTypes.func,
+    showConversationBtn: PropTypes.bool
   }
 
   static contextTypes = {
@@ -32,13 +33,13 @@ export default class CommentItemOperation extends React.PureComponent {
   }
 
   render () {
-    const { replyTo } = this.props;
+    const { replyTo, showConversationBtn } = this.props;
 
     const { replyText, conversationText } = this.context.quietWaterLanguage.Comment.operationBar;
 
     return (
       <div styleName="wrap">
-        {replyTo &&
+        { showConversationBtn && !!replyTo &&
           <button styleName="btn" key="cvs" onClick={this.handleShowConversation}>
             <SvgIcon styleName="icon" iconName="icon-conversation3" />
 
