@@ -43,11 +43,10 @@ export default class Reply extends Model {
 
         const { replyId } = action;
         const reply = Reply.withId(replyId);
-        const dataBaseComments = reply.comments;
 
         reply.update({
           commentCount,
-          comments: dataBaseComments.toRefArray().concat(newComments.map(c => c.id)),
+          comments: newComments.map(c => c.id),
           pagination: replyId
         });
 

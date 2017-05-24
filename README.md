@@ -24,6 +24,12 @@ So,QuietWater means that talk with others like water which is peaceful,harmoniou
 
 ### Installation
 
+### Demo
+
+You can view the [online example](https://www.NE-SmallTown.github.io/React-QuietWater).And please note that 
+although we create mock data but the data maybe don't have correct logic like the real world.This demo is just
+for showing the UI and the basic logic.
+
 ### Documentation
 
 - *NOTE*: We would like to see any pr/(UI design)/(feature request)/enhancement based on our Name origin,but if they breaches our

@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
 import classNames from 'classnames';
+import { browserHistory } from 'react-router';
 
 import { SparkScroll } from '../../ReactSparkScroll';
 import Modal from '../../Modal';
@@ -19,6 +20,7 @@ import ReplyItemOperation from './ReplyItemOperation';
 import CommentList from '../../../containers/CommentList';
 
 import globalConfig from '../../../globalConfig';
+import getNewLocationHrefWithHash from '../../../utils/getNewLocationHrefWithHash';
 
 // import { isContentTooLongUtil } from '../../../utils/reply';
 
@@ -58,8 +60,8 @@ export default class ReplyItem extends React.PureComponent {
       // we can also make ReplyItemContent show first and get its height,if that,we don't need calculate by
       // the `isContentTooLong` util function ,but that's not friendly to users.
       isContentTooLong,
-      // contentCount: props.content.length,
-      isContentExpanded: !isContentTooLong,
+      // isContentExpanded: !isContentTooLong
+      isContentExpanded: true,
       isContentEnterViewport: false,
       showCommentList: false
     };
@@ -70,8 +72,10 @@ export default class ReplyItem extends React.PureComponent {
       const height = getComputedStyle(ele).height;
       const heightNumber = height.substring(0, height.indexOf('p'));
 
+      const isContentTooLong = heightNumber > 400;
       this.setState({
-        isContentTooLong: heightNumber > 400
+        isContentTooLong,
+        isContentExpanded: !isContentTooLong
       });
     }
   }
@@ -83,6 +87,7 @@ export default class ReplyItem extends React.PureComponent {
   }
 
   handleClickFold = () => {
+    // TODO 折叠后应该滚动条应该在下一个回复的开头
     this.setState({
       isContentExpanded: false
     });
@@ -101,13 +106,22 @@ export default class ReplyItem extends React.PureComponent {
   // we should set the corresponding operation bar's style to fixed
   handleScrollIntoLongContetnItem = (e) => {
     console.log('进入内容区域');
+    const newHash = `#qw_${this.props.id}`;
+
     this.setState({
       isContentEnterViewport: true
     });
+
+    if (location.hash !== newHash) {
+      browserHistory.push(newHash);
+
+      console.log(`替换url为: ${newHash}`);
+    }
   }
 
   handleScrollOutOfLongContetnItem = (e) => {
     console.log('离开内容区域');
+
     this.setState({
       isContentEnterViewport: false
     });
@@ -193,6 +207,7 @@ export default class ReplyItem extends React.PureComponent {
           praiseCount={praiseCount}
           isContentTooLong={isContentTooLong}
           isContentExpanded={isContentExpanded}
+          showCommentList={this.state.showCommentList}
           onClickReadAll={this.handleClickReadAll}
           onClickFold={this.handleClickFold}
           onClickExpandComment={this.handleClickExpandComment}
@@ -200,17 +215,26 @@ export default class ReplyItem extends React.PureComponent {
 
         {
           this.state.showCommentList &&
-          (this.state.isContentEnterViewport
-          ? <Modal
-              key="m-cl"
-              width="52%"
-              styleName="commentListBox"
-              style={globalConfig.styles.conversationBox}
-              visible
-              onCancel={this.handleCancelCommentListModal}
-              dialogContentElement={<CommentList replyId={replyId} store={this.context.store} showConversationBtn={false} />}
-            />
-          : <CommentList key="cl" styleName="commentList-wrap" replyId={replyId} />)
+          (
+            this.state.isContentEnterViewport
+            ? <Modal
+                key="m-cl"
+                width="52%"
+                styleName="commentListBox"
+                style={globalConfig.styles.conversationBox}
+                visible
+                onCancel={this.handleCancelCommentListModal}
+                dialogContentElement={
+                  <CommentList
+                    replyId={replyId}
+                    store={this.context.store}
+                    context={this.context}
+                    showConversationBtn={false}
+                  />
+                }
+              />
+            : <CommentList key="cl" styleName="commentList-wrap" replyId={replyId} />
+          )
         }
       </div>
     );

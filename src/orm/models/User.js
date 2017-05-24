@@ -46,7 +46,9 @@ export default class User extends Model {
         for (let { author, replyTo } of commentsEntities) {
           if (!User.withId(author.userId)) {
             User.create({ ...author });
-          } else if (replyTo && !User.withId(replyTo.userId)) {
+          }
+
+          if (replyTo && !User.withId(replyTo.userId)) {
             User.create({ ...replyTo });
           }
         }

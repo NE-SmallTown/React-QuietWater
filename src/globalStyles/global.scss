@@ -1,8 +1,8 @@
 @import "./normalize.css";
 @import "./antd-compatibility.css";
 @import "./bs-form.css";
-@import "./bs-thumbnail-or-image.css";
 
+@import "./rc-pagination.css";
 @import "./rc-animation.css";
 @import "./ant-tooltip.css";
 @import "./ant-message.css";
@@ -51,5 +51,9 @@ button {
 
 button:focus {
   outline: none;
+}
+
+img {
+  vertical-align: middle
 }
 

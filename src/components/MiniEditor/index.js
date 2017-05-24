@@ -63,7 +63,7 @@ export default class MiniEditor extends React.PureComponent {
     const { submitText } = this.context.quietWaterLanguage.Editor.commentEditor;
 
     return (
-      <div className={className}>
+      <div className={`${className} clearfix`}>
         <RichTextEditor
           toolbarConfig={{ display: [] }}
           value={this.state.editorContentObj}

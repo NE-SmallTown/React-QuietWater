@@ -1,7 +1,16 @@
 .submitBtn {
-    background-color: #4e81cc;
+    float: right;
+
+    margin-top: 5px;
+    border-radius: 3px;
+    border: 1px solid #50adf9;
+    padding: 0 16px;
+    line-height: 30px;
+
+    color: #fff;
+    background-color: #77b1d7;
 }
 
 .submitBtn:hover {
-    background-color: #c4ced7;
+    background-color: #71a1d7;
 }

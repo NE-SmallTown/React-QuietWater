@@ -21,7 +21,8 @@ export default {
     commentBtnPostfix: '条评论',
     expandText: '阅读更多',
     foldText: '收起',
-    lastUpdatedTimeText: '更新于'
+    lastUpdatedTimeText: '更新于',
+    foldCommentText: '收起评论'
   },
   Comment: {
     headerTitle: {

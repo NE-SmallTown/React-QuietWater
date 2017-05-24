@@ -27,8 +27,11 @@
 
 .editor-wrap {
     margin-top: 30px;
-    border-top: 1px solid #379ef5;
     padding: 12px 16px;
 
     background: #fff;
+}
+
+.editor-wrap > div > div:first-child {
+    display: none;
 }

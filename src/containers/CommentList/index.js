@@ -27,7 +27,8 @@ class CommentList extends React.PureComponent {
     commentCount: PropTypes.number,
     commentList: PropTypes.array,
     commentListPagination: PropTypes.object,
-    showConversationBtn: PropTypes.bool
+    showConversationBtn: PropTypes.bool,
+    context: PropTypes.object
   }
 
   static defaultProps = {
@@ -69,12 +70,13 @@ class CommentList extends React.PureComponent {
     console.log(`准备提交评论内容:${editorContent}`);
   }
 
+  对REQUEST的action做出反应,渲染过渡动画
   render () {
     const { className, commentList, commentListPagination, showConversationBtn } = this.props;
 
-    判断是从contect还是props获取
-    const { countTextPostfix } = this.context.quietWaterLanguage.Comment.headerTitle;
-    const { placeholderText } = this.context.quietWaterLanguage.Editor.commentEditor;
+    const quietWaterLanguageContext = this.context.quietWaterLanguage || this.props.context.quietWaterLanguage;
+    const { countTextPostfix } = quietWaterLanguageContext.Comment.headerTitle;
+    const { placeholderText } = quietWaterLanguageContext.Editor.commentEditor;
 
     // TODO 可以按自定义方式排序,比如热度,点赞数等等
     // TODO 用户可以针对评论中的某一小段（30个字以内?）进行针对性的回复（为什么是一小段呢，因为如果让用户可以选择针
@@ -83,7 +85,7 @@ class CommentList extends React.PureComponent {
       <div styleName="wrap" className={className}>
         <div styleName="header">
           <span styleName="commentCountText">
-            {commentListPagination && `${commentListPagination.totalCount}${countTextPostfix}`}
+            {commentListPagination && `${commentListPagination.totalCount || commentList.length}${countTextPostfix}`}
             </span>
         </div>
 

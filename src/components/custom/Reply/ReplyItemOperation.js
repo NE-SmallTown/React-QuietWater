@@ -19,6 +19,8 @@ import { priNetwork } from '../../../utils/network';
 import globalConfig from '../../../globalConfig';
 import { getToken as getCurHostUserToken } from '../../../security/authService';
 import { updatePraiseCount } from '../../../actions';
+import getNewLocationHrefWithHash from '../../../utils/getNewLocationHrefWithHash';
+import { getCommentListCount } from '../../../selectors';
 
 import './ReplyItemOperation.css';
 
@@ -37,7 +39,9 @@ class ReplyItemOperation extends React.PureComponent {
     userToken: PropTypes.string,
     updatePraiseCount: PropTypes.func,
     excerpt: PropTypes.string,
-    style: PropTypes.object
+    style: PropTypes.object,
+    commentListCount: PropTypes.number,
+    showCommentList: PropTypes.bool
   }
 
   static contextTypes = {
@@ -118,16 +122,17 @@ class ReplyItemOperation extends React.PureComponent {
     const {
       replyId,
       excerpt,
-      commentCount,
+      commentCount = this.props.commentListCount,
       praiseCount,
       isContentExpanded,
       className,
       isContentTooLong,
-      style
+      style,
+      showCommentList
     } = this.props;
 
     const {
-      Reply: { shareText, commentBtnPostfix, expandText, foldText }
+      Reply: { shareText, commentBtnPostfix, expandText, foldText, foldCommentText }
     } = this.context.quietWaterLanguage;
 
     // TODO 图标下载到本地
@@ -150,7 +155,7 @@ class ReplyItemOperation extends React.PureComponent {
         <button styleName="btn-comment" onClick={this.handleClickCommentBtn}>
           <SvgIcon iconName="icon-comment1" styleName="icon-comment" />
 
-          {`${commentCount}${commentBtnPostfix}`}
+          {`${showCommentList ? foldCommentText : commentCount + commentBtnPostfix}`}
         </button>
 
         <Popover
@@ -163,7 +168,7 @@ class ReplyItemOperation extends React.PureComponent {
 
                   if (typeof shareObj.getComponent !== 'undefined') {
                     return shareObj.getComponent({
-                      replyUrl: `${location.href}#qw_${replyId}`,
+                      replyUrl: getNewLocationHrefWithHash(`qw_${replyId}`),
                       sharedText: excerpt.substr(0, 20)
                     });
                   } else {
@@ -203,8 +208,9 @@ class ReplyItemOperation extends React.PureComponent {
   }
 };
 
-const mapStateToProps = state => ({
-  userToken: getCurHostUserToken()
+const mapStateToProps = (state, ownProps) => ({
+  userToken: getCurHostUserToken(),
+  commentListCount: getCommentListCount(ownProps.replyId)(state)
 });
 
 export default connect(mapStateToProps, {

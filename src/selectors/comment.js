@@ -8,20 +8,35 @@
 
 import { createOrmSelector } from './global';
 
-export const getCommentList = replyId => createOrmSelector(
-  session => {
-    if (session.Reply.withId(replyId)) {
-      const comments = session.Reply.withId(replyId).comments.toRefArray();
+export const getCommentList = (replyId, currentPage, pageSize) => createOrmSelector(
+  state => state,
+  (session, state) => {
+    const curCommentIds = state.orm.Reply.itemsById[replyId].comments;
 
-      return comments.map(comment => ({
-        ...comment,
-        author: session.User.withId(comment.author).ref,
-        replyTo: session.User.withId(comment.replyTo).ref
-      }));
+    if (curCommentIds) {
+      return curCommentIds.map(id => {
+        const comment = session.Comment.withId(id).ref;
+
+        const ret = {
+          ...comment,
+          author: session.User.withId(comment.author).ref
+        };
+
+        comment.replyTo && (ret['replyTo'] = session.User.withId(comment.replyTo).ref);
+
+        return ret;
+      });
     }
 
     return [];
   }
+);
+
+export const getCommentListCount = replyId => createOrmSelector(
+  session =>
+    session.Reply.withId(replyId)
+    ? session.Reply.withId(replyId).comments.count()
+    : 0
 );
 
 // 因为目前的模式是显示对话的所有记录,所以这里不需要对id进行区分,所有这里叫userId1,userId2
