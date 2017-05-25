@@ -1,3 +1,11 @@
+.wrap {
+
+}
+
+.wrap [class*=EditorToolbar] {
+    display: none;
+}
+
 .submitBtn {
     float: right;
 

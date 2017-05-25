@@ -65,6 +65,12 @@ export default class ReplyItem extends React.PureComponent {
       isContentEnterViewport: false,
       showCommentList: false
     };
+
+    this._isMounted = false;
+  }
+
+  componentDidMount () {
+    this._isMounted = true;
   }
 
   handleContentDidMount = (ele) => {
@@ -106,6 +112,7 @@ export default class ReplyItem extends React.PureComponent {
   // we should set the corresponding operation bar's style to fixed
   handleScrollIntoLongContetnItem = (e) => {
     console.log('进入内容区域');
+
     const newHash = `#qw_${this.props.id}`;
 
     this.setState({
@@ -173,14 +180,16 @@ export default class ReplyItem extends React.PureComponent {
     const itemSparkScrollTopTopKey = isFirstReplyItem ? 'topTop-100' : 'topTop-30';
 
     /* eslint-disable */
+    /* 内容较多且目前内容处于展开状态（即内容全部被显示, isContentExpanded为true就代表内容较多了,因为只有内容较多时
+     才会存在展开）的才需要绑定滚动事件检测,看是否需要将操作栏fixed,对于内容较少的则不绑定事件,避免浪费性能
+     just when item which has long content and window displays all of them now, we bind scroll event to
+     fixed operation bar,if there are no many contents, don't bind to improve perf */
     return (
       <div styleName="wrap" id={`qw_${replyId}`} ref={this.handleContentDidMount}>
         <ReplyItemHeader {...author} replyCreatedTime={createdTime} />
-          {/* 内容较多且目前内容处于展开状态（即内容全部被显示）的才需要绑定滚动事件检测,看是否需要将操作栏fixed,对于内容较少的则不绑定事件,避免浪费性能
-          just when item which has long content and window displays all of them now, we bind scroll event to
-          fixed operation bar,if no many contents don't bind to improve perf */}
+
         {
-          isContentTooLong && isContentExpanded
+          this._isMounted && isContentExpanded
           ? <SparkScroll.div
               key="ric1"
               timeline={{
@@ -190,9 +199,7 @@ export default class ReplyItem extends React.PureComponent {
                 'bottomBottom': { onDown: this.handleScrollOutOfLongContetnItem }
               }}
             >
-              <ReplyItemContent
-                {...commonReplyItemContentProps}
-              />
+              <ReplyItemContent{...commonReplyItemContentProps}/>
             </SparkScroll.div>
           : <ReplyItemContent key="ric2" {...commonReplyItemContentProps} />
         }
@@ -216,7 +223,7 @@ export default class ReplyItem extends React.PureComponent {
         {
           this.state.showCommentList &&
           (
-            this.state.isContentEnterViewport
+            this.state.isContentExpanded && this.state.isContentEnterViewport
             ? <Modal
                 key="m-cl"
                 width="52%"

@@ -30,8 +30,8 @@ export default class CommentItemHeaderAndContent extends React.PureComponent {
   render () {
     const { author, isAuthor, replyTo, createdTime, content } = this.props;
 
-    const quietWaterLanguageContext = this.context.quietWaterLanguage || this.props.context.quietWaterLanguage;
-    const { replyToText, isAuthorText } = quietWaterLanguageContext.Comment.headerTitle;
+    const context = this.context.quietWaterLanguage ? this.context : this.props.context;
+    const { replyToText, isAuthorText } = context.quietWaterLanguage.Comment.headerTitle;
 
     return ([
       <div styleName="header" key="cih">

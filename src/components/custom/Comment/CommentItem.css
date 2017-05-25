@@ -13,18 +13,36 @@
 }
 
 .btn {
-    line-height: 22px;
+    border-radius: 3px;
+    margin-left: 20px;
+    padding: 0 16px;
+    line-height: 30px;
+
+    font-size: 12px;
 }
 
 .cancelBtn {
-    color: #1f1f1f;
+    composes: btn;
+
+    border: 1px solid #9c9c9c;
+
+    color: #000000;
+    background-color: transparent;
+}
+.cancelBtn:hover {
+    background-color: #F5F4F0;
 }
 
 .submitBtn {
-    margin-left: 20px;
+    composes: btn;
+
+    border: 1px solid #50adf9;
 
     color: #fff;
-    background-color: #4e81cc;
+    background-color: #77b1d7;
+}
+.submitBtn:hover {
+    background-color: #5692d7;
 }
 
 .conversationBox {

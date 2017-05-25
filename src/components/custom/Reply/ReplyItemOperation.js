@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import warning from 'warning';
 
 import Popover from '../../Popover';
@@ -52,11 +53,13 @@ class ReplyItemOperation extends React.PureComponent {
     super(props);
 
     this.state = {
-      showShareList: false
+      showShareList: false,
+      hasPraised: false,
+      hasThumbdown: false
     };
   }
 
-  _handlePraiseOrThumbDown = debounce((type) => {
+  _handlePraiseOrThumbDown = (type) => {
     if (typeof type !== 'number') {
       console.warn(`type must be a number but passed in ${type}`);
 
@@ -86,15 +89,33 @@ class ReplyItemOperation extends React.PureComponent {
         }
       }
     });
+  }
+
+  handleClickPraiseBtn = debounce(() => {
+    if (this.state.hasThumbdown) {
+      return;
+    }
+
+    const hasPraised = this.state.hasPraised;
+    this.setState({ hasPraised: !hasPraised });
+
+    const num = hasPraised ? -1 : 1;
+
+    this._handlePraiseOrThumbDown(num);
   }, 1000, { leading: true, 'trailing': false })
 
-  handleClickPraiseBtn = () => {
-    this._handlePraiseOrThumbDown(1);
-  }
+  handleClickThumbdownBtn = debounce(() => {
+    if (this.state.hasPraised) {
+      return;
+    }
 
-  handleClickThumbdownBtn = () => {
-    this._handlePraiseOrThumbDown(-1);
-  }
+    const hasThumbdown = this.state.hasThumbdown;
+    this.setState({ hasThumbdown: !hasThumbdown });
+
+    const num = hasThumbdown ? 1 : -1;
+
+    this._handlePraiseOrThumbDown(num);
+  }, 1000, { leading: true, 'trailing': false })
 
   handleClickCommentBtn = () => {
     this.props.onClickExpandComment && this.props.onClickExpandComment();
@@ -135,20 +156,26 @@ class ReplyItemOperation extends React.PureComponent {
       Reply: { shareText, commentBtnPostfix, expandText, foldText, foldCommentText }
     } = this.context.quietWaterLanguage;
 
-    // TODO 图标下载到本地
-    // TODO 只能点赞一次
+    // TODO 所有的icon图标下载到本地,而不是引用cdn
     // TODO 图标可配置
     // TODO 图标的命名是否需要统一(展开图标到底是叫expand还是根据形状划分叫triangle-down)
     // TODO 现在权限还不复杂,暂时没考虑针对权限控制进行抽象
+    const praiseBtnClassName = classNames('btn-praise', {
+      'btn-praise-active': this.state.hasPraised
+    });
+    const thumbdownBtnClassName = classNames('btn-thumbdown', {
+      'btn-thumbdown-active': this.state.hasThumbdown
+    });
+
     return (
       <div style={style} styleName="wrap" className={`clearfix ${className}`}>
-        <button styleName="btn-praise" onClick={this.handleClickPraiseBtn}>
+        <button styleName={praiseBtnClassName} onClick={this.handleClickPraiseBtn}>
           <SvgIcon iconName="icon-praise3" styleName="icon-praise" />
 
           {praiseCount}
         </button>
 
-        <button styleName="btn-thumbdown" onClick={this.handleClickThumbdownBtn}>
+        <button styleName={thumbdownBtnClassName} onClick={this.handleClickThumbdownBtn}>
           <SvgIcon iconName="icon-thumbdown3" styleName="icon-thumbdown" />
         </button>
 

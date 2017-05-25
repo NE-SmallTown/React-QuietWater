@@ -1,0 +1,15 @@
+.wrap {
+
+}
+
+.wrap > li {
+    float: none;
+
+    display: inline-block;
+}
+
+.wrap > div:last-child {
+    display: inline-block;
+
+    vertical-align: -10px;
+}

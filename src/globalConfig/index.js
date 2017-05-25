@@ -6,6 +6,8 @@
  * Date: 2017/5/3 by Administrator
  */
 
+import React from 'react';
+
 import merge from 'lodash/merge';
 
 const configParams = {
@@ -26,10 +28,16 @@ const configParams = {
       color: '#333333'
     },
     conversationBox: { // 点击"查看对话"时显示的modal框
+      top: '30px',
       fontSize: '15px'
     },
     commentListBox: { // 在未浏览到回复的内容底部时点击"展开评论"时显示的modal框
       fontSize: '15px'
+    }
+  },
+  loading: {
+    commentList: {
+      getComponent: () => <img src="http://ogitl0zvo.bkt.clouddn.com/6756745434543879.gif" />
     }
   },
   responseNormalizeSchema: { // 进行范式化的各个api返回的数据的schema,会与QuietWater本身已经设置好的schema进行合并

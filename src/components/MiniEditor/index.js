@@ -20,8 +20,9 @@ export default class MiniEditor extends React.PureComponent {
     className: PropTypes.string,
     onSubmit: PropTypes.func,
     widthSubmitBtn: PropTypes.bool,
-    onContentChange: PropTypes.bool,
-    placeholder: PropTypes.string
+    onContentChange: PropTypes.func,
+    placeholder: PropTypes.string,
+    context: PropTypes.object
   }
 
   static defaultProps = {
@@ -60,10 +61,11 @@ export default class MiniEditor extends React.PureComponent {
   render () {
     const { className, widthSubmitBtn, placeholder } = this.props;
 
-    const { submitText } = this.context.quietWaterLanguage.Editor.commentEditor;
+    const context = this.context.quietWaterLanguage ? this.context : this.props.context;
+    const { submitText } = context.quietWaterLanguage.Editor.commentEditor;
 
     return (
-      <div className={`${className} clearfix`}>
+      <div styleName="wrap" className={`${className} clearfix`}>
         <RichTextEditor
           toolbarConfig={{ display: [] }}
           value={this.state.editorContentObj}

@@ -15,7 +15,10 @@ export default newHash => {
     warning(!newHash.includes('#'), `newHash doesn't need # in the first,but passed in ${newHash}`);
   }
 
-  const curHrefWithoutSpecialCharacters = location.href.substring(0, /[?|#]/g.exec(location.href).index);
+  const indexOfQueryOrAnchor = /[?|#]/g.exec(location.href).index;
+  const isHrefWithoutQueryOrAnchor = indexOfQueryOrAnchor === null;
+
+  const curHrefWithoutSpecialCharacters = location.href.substring(0, isHrefWithoutQueryOrAnchor ? undefined : indexOfQueryOrAnchor);
 
   return curHrefWithoutSpecialCharacters + '#' + newHash;
 };

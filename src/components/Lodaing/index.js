@@ -7,16 +7,20 @@
  */
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import isArray from 'lodash/isArray';
+
+import globalConfig from '../../globalConfig';
 
 import './index.css';
 
 class Loading extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
-    actionTypeOfStartFetching: PropTypes.string.isRequired,
-    actionTypeOfFinishFetching: PropTypes.string.isRequired,
+    actionTypeOfStartFetching: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.array.isRequired]),
+    actionTypeOfFinishFetching: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.array.isRequired]),
     startFetching: PropTypes.bool,
-    finishFetching: PropTypes.bool
+    finishFetching: PropTypes.bool,
+    className: PropTypes.string
   }
 
   constructor (props) {
@@ -38,14 +42,6 @@ class Loading extends React.PureComponent {
     }
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    if (nextState.startFetching === this.state.startFetching && nextState.finishFetching === this.state.finishFetching) {
-      return false;
-    }
-
-    return true;
-  }
-
   handleStartFetching = () => {
     this.setState({ startFetching: true });
   }
@@ -54,36 +50,51 @@ class Loading extends React.PureComponent {
     this.setState({ finishFetching: true });
   }
 
+  // 因为有的组件并不是采用redux进行fetch，所以针对这种组件这里传过去两个回调
+  _addFlags = ele => React.cloneElement(ele, {
+    onStartFetching: this.handleStartFetching,
+    onFinishFetching: this.handleFinishFetching
+  })
+
   render () {
-    const { children } = this.props;
+    const { children, className, actionTypeOfStartFetching, actionTypeOfFinishFetching } = this.props;
     const { startFetching, finishFetching } = this.state;
 
-    // 因为有的组件并不是采用redux进行fetch，所以针对这种组件这里传过去两个回调
+    let childElement = children;
+    if (typeof actionTypeOfStartFetching === 'undefined' && typeof actionTypeOfFinishFetching === 'undefined') {
+      childElement =
+        isArray(children)
+        ? React.Children.map(childEle => this._addFlags(childEle))
+        : this._addFlags(childElement);
+    }
+
     return (
       startFetching
       ? finishFetching
-        ? React.cloneElement(
-          children,
-          {
-            onStartFetching: this.handleStartFetching,
-            onFinishFetching: this.handleFinishFetching
-          }
-        )
-        : <div>lodaing....</div>
+        ? childElement
+        : <div styleName="wrap" className={className}>{globalConfig.loading.commentList.getComponent()}</div>
       : null
     );
   }
 }
 
+const judgeTypeIsTrue = (type, typeList) => {
+  if (!isArray(typeList)) {
+    return type === typeList;
+  }
+
+  return typeList.some(t => t === type);
+};
+
 const mapStateToProps = (state, { actionTypeOfStartFetching, actionTypeOfFinishFetching }) => {
-  const { globalSettings: curDispatchingActionType } = state;
+  const { filter: { curDispatchingActionType } } = state;
   const ret = {};
 
-  if (curDispatchingActionType === actionTypeOfStartFetching) {
+  if (judgeTypeIsTrue(curDispatchingActionType, actionTypeOfStartFetching)) {
     ret.startFetching = true;
   }
 
-  if (curDispatchingActionType === actionTypeOfStartFetching) {
+  if (judgeTypeIsTrue(curDispatchingActionType, actionTypeOfFinishFetching)) {
     ret.finishFetching = true;
   }
 

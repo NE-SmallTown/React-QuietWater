@@ -17,7 +17,8 @@ export default class CommentItemOperation extends React.PureComponent {
     replyTo: PropTypes.object,
     onClickReply: PropTypes.func,
     onShowConversation: PropTypes.func,
-    showConversationBtn: PropTypes.bool
+    showConversationBtn: PropTypes.bool,
+    context: PropTypes.object
   }
 
   static contextTypes = {
@@ -35,7 +36,8 @@ export default class CommentItemOperation extends React.PureComponent {
   render () {
     const { replyTo, showConversationBtn } = this.props;
 
-    const { replyText, conversationText } = this.context.quietWaterLanguage.Comment.operationBar;
+    const context = this.context.quietWaterLanguage ? this.context : this.props.context;
+    const { replyText, conversationText } = context.quietWaterLanguage.Comment.operationBar;
 
     return (
       <div styleName="wrap">

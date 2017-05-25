@@ -29,11 +29,18 @@
 .btn-praise {
     composes: btn-vote;
 
-    background: rgba(35, 200, 222, 0.5);
+    background-color: #fff;
 }
 
 .btn-praise:hover > svg {
     color: #f3773e;
+}
+
+.btn-praise-active {
+    background-color: #f3773e;
+}
+.btn-praise-active > svg,.btn-praise-active:hover > svg {
+    color: #fff;
 }
 
 .btn-thumbdown {
@@ -41,11 +48,18 @@
 
     margin-left: 5px;
 
-    background: rgba(35, 200, 222, 0.5);
+    background-color: #fff;
 }
 
 .btn-thumbdown:hover > svg {
     color: #080808;
+}
+
+.btn-thumbdown-active {
+    background-color: #5e5e5e;
+}
+.btn-thumbdown-active > svg,.btn-thumbdown-active:hover > svg {
+    color: #fff;
 }
 
 .otherBtn {

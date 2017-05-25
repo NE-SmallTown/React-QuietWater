@@ -39,43 +39,43 @@ const mapActionTypeToHandleFunction = type => {
   return normalActionFunction;
 };
 
-// 存储所有在filter.js中处理action.type的函数
-const allHandles = {};
-
 export default(state = {
-  curQuietWaterHost: {
-
-  }
+  curQuietWaterHost: {},
+  curDispatchingActionType: {}
 }, action) => {
   const type = action.type;
 
   // 找到action.type在filter.js中对应的处理函数
   const handleFunction = mapActionTypeToHandleFunction(type);
+  const commonResultState = { ...state, curDispatchingActionType: type };
+  // because just now they are the same,but in the future probably changed,so we don't merge them to one
   if (typeof handleFunction === 'undefined') {
     console.warn(`There is no corresponding handleFunction for ${type} type`);
 
-    return state;
+    return commonResultState;
   } else if (handleFunction === normalActionFunction) {
-    return state;
+    return commonResultState;
   } else if (handleFunction === notFetchActionFunction) {
     switch (type) {
       default:
-        return state;
+        return commonResultState;
     }
   }
 
-  allHandles[type] = allHandles[type] || handleFunction;
-
   switch (type) {
     /*                          处理所有成功的请求                                 */
-    case ActionTypes.QUIETWATEROFHOST_SUCCESS :  // reply列表
-      return handleFunction(state, action, SUCCESS_TYPE);
+    case ActionTypes.QUIETWATEROFHOST_SUCCESS :
+    case ActionTypes.COMMENT_SUCCESS:
+    case ActionTypes.Conversation_SUCCESS:
+      return { ...handleFunction(state, action, SUCCESS_TYPE), curDispatchingActionType: type };
 
     /*                          处理所有失败的请求                                 */
-    case ActionTypes.QUIETWATEROFHOST_FAILURE :  // reply列表
-      return handleFunction(state, action, ERROR_TYPE);
+    case ActionTypes.QUIETWATEROFHOST_FAILURE :
+    case ActionTypes.COMMENT_FAILURE:
+    case ActionTypes.Conversation_FAILURE:
+      return { ...handleFunction(state, action, ERROR_TYPE), curDispatchingActionType: type };
 
     default:
-      return state;
+      return commonResultState;
   }
 };

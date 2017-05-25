@@ -32,7 +32,9 @@ class CommentItem extends React.PureComponent {
     createdTime: PropTypes.string,
     isAuthor: PropTypes.bool,
     loadConversation: PropTypes.func,
-    showConversationBtn: PropTypes.bool
+    showConversationBtn: PropTypes.bool,
+    context: PropTypes.object,
+    store: PropTypes.object
   }
 
   static contextTypes = {
@@ -45,7 +47,7 @@ class CommentItem extends React.PureComponent {
     this.state = {
       showConversation: false,
       showReplyEditor: false,
-      editorContentObj: {}
+      editorContentObj: []
     };
   }
 
@@ -84,7 +86,7 @@ class CommentItem extends React.PureComponent {
   }
 
   handleEditorSubmit = () => {
-    console.log(`modal框准备提交评论内容:${this.state.editorContentObj.toString('html')}`);
+    console.log(`准备提交评论内容:`, this.state.editorContentObj.toString('html'));
   }
 
   hancleCancelEditor = () => {
@@ -105,8 +107,9 @@ class CommentItem extends React.PureComponent {
       showConversationBtn
     } = this.props;
 
-    const { cancelText, submitText } = this.context.quietWaterLanguage.Editor.commentEditor;
-    const { replyText } = this.context.quietWaterLanguage.Comment.operationBar;
+    const context = this.context.quietWaterLanguage ? this.context : this.props.context;
+    const { cancelText, submitText } = context.quietWaterLanguage.Editor.commentEditor;
+    const { replyText } = context.quietWaterLanguage.Comment.operationBar;
 
     // TODO 可以删除评论
     // TODO 限制content的大小,根据换行符和字数,或者根据高度进行限制
@@ -116,6 +119,7 @@ class CommentItem extends React.PureComponent {
     return (
       <div styleName="wrap" style={globalConfig.styles.comment}>
         <CommentItemHeaderAndContent
+          context={context}
           author={author}
           isAuthor={isAuthor}
           replyTo={replyTo}
@@ -126,6 +130,7 @@ class CommentItem extends React.PureComponent {
         {!this.state.showReplyEditor &&
           <CommentItemOperation
             key="cio"
+            context={context}
             replyTo={replyTo}
             onClickReply={this.handleClickReply}
             onShowConversation={this.handleShowConversation}
@@ -137,13 +142,14 @@ class CommentItem extends React.PureComponent {
           [
             <MiniEditor
               key="med"
+              context={context}
               styleName="editor-wrap"
               widthSubmitBtn={false}
               onContentChange={this.handleEditorContentChange}
               placeholder={`${replyText}${author.userName}...`}
             />,
             <div key="edo" styleName="editorOperation">
-              <button styleName="cancelBtn" onClick={this.hancleCancelEditor}>{cancelText}</button>
+              <button styleName="cancelBtn btn" onClick={this.hancleCancelEditor}>{cancelText}</button>
               <button styleName="submitBtn" onClick={this.handleEditorSubmit}>{submitText}</button>
             </div>
           ]
@@ -157,7 +163,7 @@ class CommentItem extends React.PureComponent {
             style={globalConfig.styles.conversationBox}
             visible
             onCancel={this.handleCancelConversationModal}
-            dialogContentElement={<ConversationBox conversationList={conversationList} context={this.context} />}
+            dialogContentElement={<ConversationBox conversationList={conversationList} context={context} />}
           />
         }
       </div>

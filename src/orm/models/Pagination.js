@@ -25,7 +25,7 @@ export default class Pagination extends Model {
     switch (action.type) {
       case COMMENT_SUCCESS:
         const { replyId, pageSize = 10, currentPage } = action;
-        const { commentCount: totalCount } = action.response;
+        const { commentCount: totalCount = action.response.comments.length } = action.response;
 
         if (Pagination.withId(action.replyId)) {
           Pagination.withId(replyId).update({ currentPage, pageSize, totalCount });

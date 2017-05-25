@@ -33,7 +33,8 @@ export default class Pagination extends React.PureComponent {
     showTotal: PropTypes.func,
     locale: PropTypes.object,
     style: PropTypes.object,
-    className: PropTypes.string
+    className: PropTypes.string,
+    context: PropTypes.object
   }
 
   static defaultProps = {
@@ -48,10 +49,13 @@ export default class Pagination extends React.PureComponent {
   render () {
     const { className, ...restprops } = this.props;
 
+    const context = this.context.quietWaterLanguage ? this.context : this.props.context;
+
     return (
       <RcPagination
+        styleName="wrap"
         className={className}
-        locale={paginationLanguages[this.context.quietWaterLanguage.languageName]}
+        locale={paginationLanguages[context.quietWaterLanguage.languageName]}
         {...restprops}
       />
     );
