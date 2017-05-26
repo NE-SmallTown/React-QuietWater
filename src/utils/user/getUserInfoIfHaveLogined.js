@@ -1,7 +1,7 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
  * Date: 2017/4/9
  */
@@ -14,5 +14,5 @@ export const getUserInfoIfHaveLogined = () =>
     storage2InfoValue !== null && (ret[storage2Info[storage2InfoKey]] = storage2InfoValue);
 
     return ret;
-  }, {});
+  }, {})
 ;

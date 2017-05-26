@@ -1,7 +1,7 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
  * Date: 2017/4/2
  */
@@ -12,6 +12,7 @@ import forEach from 'lodash/forEach';
 import isArray from 'lodash/isArray';
 import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
+import warning from 'warning';
 
 import '../security/security';
 import { getCurrentUserId } from './user';
@@ -99,7 +100,7 @@ export default ({
     } else if (isArray(url)) {
       url = _get(url[1], url[0]);
     } else {
-      console.warn(`url must be a string or an array but passed is ${url}`);
+      warning(false, `url must be a string or an array but passed is ${url}`);
       return;
     }
 
@@ -183,7 +184,7 @@ export default ({
 
     // 否则必须传入一个对象
     if (!isPlainObject(url)) {
-      console.warn(`get method's arguments must be a string which represents an url or a object which represent options`);
+      warning(false, `get method's arguments must be a string which represents an url or a object which represent options`);
     } else {
       const { headers } = url; // 这里的url实际是配置对象
 
@@ -199,7 +200,7 @@ export default ({
   function fetch_post (options) {
     // post只允许传入一个配置对象
     if (!isPlainObject(options)) {
-      console.warn(`post method must accept an options plain object but passed is ${options}`);
+      warning(false, `post method must accept an options plain object but passed is ${options}`);
     } else {
       const { data, headers } = options;
 

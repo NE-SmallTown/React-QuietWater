@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/23 by Administrator
+ * Date: 2017/5/23 by Heaven
  */
 
 import React from 'react';
@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 
 import RichTextEditor from 'react-rte'; // https://github.com/sstur/react-rte
+
+import { OnlyHasLoginedCanClick } from '../custom/Auth';
 
 import './index.css';
 
@@ -74,7 +76,9 @@ export default class MiniEditor extends React.PureComponent {
         />
 
         { widthSubmitBtn &&
-          <button styleName="submitBtn" onClick={this.handleSubmit}>{submitText}</button>
+          <OnlyHasLoginedCanClick>
+            <button styleName="submitBtn" onClick={this.handleSubmit}>{submitText}</button>
+          </OnlyHasLoginedCanClick>
         }
       </div>
     );

@@ -1,12 +1,14 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
  * Date: 2017/4/6
  */
+
 import React from 'react';
 import Notification from 'rc-notification';
+import warning from 'warning';
 
 import SvgIcon from '../SvgIcon';
 
@@ -82,7 +84,7 @@ export default {
   ...messageFuncs,
   config ({ style, className, duration, getContainer }) {
     if (hasConfiged) {
-      return console.warn('you can\'t globalConfig many times.');
+      return warning(false, 'you can\'t globalConfig many times.');
     }
 
     if (typeof style !== 'undefined') {

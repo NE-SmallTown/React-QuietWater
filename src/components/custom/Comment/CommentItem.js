@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/18 by Administrator
+ * Date: 2017/5/18 by Heaven
  */
 
 import React from 'react';
@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Modal from '../../Modal';
+import { OnlyHasLoginedCanClick } from '../Auth';
 import CommentItemOperation from './CommentItemOperation';
 import CommentItemHeaderAndContent from './CommentItemHeaderAndContent';
 import ConversationBox from './ConversationBox';
@@ -150,7 +151,10 @@ class CommentItem extends React.PureComponent {
             />,
             <div key="edo" styleName="editorOperation">
               <button styleName="cancelBtn btn" onClick={this.hancleCancelEditor}>{cancelText}</button>
-              <button styleName="submitBtn" onClick={this.handleEditorSubmit}>{submitText}</button>
+
+              <OnlyHasLoginedCanClick>
+                <button styleName="submitBtn" onClick={this.handleEditorSubmit}>{submitText}</button>
+              </OnlyHasLoginedCanClick>
             </div>
           ]
         }

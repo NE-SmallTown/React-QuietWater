@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/4 by Administrator
+ * Date: 2017/5/4 by Heaven
  */
 
 import { SUCCESS_TYPE, ERROR_TYPE } from './index';

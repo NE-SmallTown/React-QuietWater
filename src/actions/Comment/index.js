@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/17 by Administrator
+ * Date: 2017/5/17 by Heaven
  */
 
 export const UPDATE_COMMENT = 'UPDATE_COMMENT';

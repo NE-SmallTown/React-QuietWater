@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/9 by Administrator
+ * Date: 2017/5/9 by Heaven
  */
 
 import React from 'react';
@@ -61,7 +61,7 @@ class ReplyItemOperation extends React.PureComponent {
 
   _handlePraiseOrThumbDown = (type) => {
     if (typeof type !== 'number') {
-      console.warn(`type must be a number but passed in ${type}`);
+      warning(false, `type must be a number but passed in ${type}`);
 
       return;
     }

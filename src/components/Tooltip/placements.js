@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/10 by Administrator
+ * Date: 2017/5/10 by Heaven
  */
 
 import { placements } from 'rc-tooltip/lib/placements';

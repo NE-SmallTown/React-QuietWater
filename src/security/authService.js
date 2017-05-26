@@ -1,7 +1,7 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
  * Date: 2017/3/16
  */
@@ -11,8 +11,18 @@ import globalConfig from '../globalConfig';
 
 // 检查是否登录且token未过期
 export const isLoggedAndTokenIsValid = () => {
-  const token = this.getToken();
-  return !!token && !isTokenExpired(token);
+  const token = getToken();
+
+  let isExpired;
+  try {
+    isExpired = isTokenExpired(token);
+  } catch (e) {
+    if (e.name === 'InvalidTokenError') {
+      return false;
+    }
+  }
+
+  return !!token && !isExpired;
 };
 
 export const setToken = (token) => {

@@ -131,6 +131,22 @@ and then you can import the QuietWater component
 
 ### Examples
 
+### F & Q
+
+1. Why there is no any test?
+
+A: Yea,I am really sorry about this,that's because at first I don't consider make this to a open src lib,I
+plan add tests in the end.But after I write almost a week,I think it will be helpful if I put this to github.
+On the other hand,I am not familiar with writing tests,so if there is any people who want to help,I will much
+appreciated.
+
+2. Is there any third-party libs in this project?
+
+Yes,IIRC,we use [react-spark-scroll](https://github.com/gilbox/react-spark-scroll) for scroll beacause I look through some libs and find that this is most
+appropriate though it still has some problems.So you if have any better ideas,feel free to send a pr!And on other
+hand,we use [classnames](https://github.com/JedWatson/classnames),[reselect](https://github.com/reactjs/reselect),[lodash](https://github.com/lodash/lodash)(you can find all of them in the package.json file),these are ordinary libs
+like others project.
+
 ### ISSUES
 
 If you are Chinese,please believe that we have looked through 

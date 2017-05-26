@@ -2,7 +2,7 @@
  * v0.0.1
  * 因为网站需要显示头像的主要是用户，所以这里抽象为UserAvatar而不是基础的Avatar
  * 如果需要做活动页用到其他头像，那么肯定直接写html了，也不会用到组件
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
  * Date: 2017/3/9
  */

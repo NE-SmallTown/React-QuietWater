@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/9 by Administrator
+ * Date: 2017/5/9 by Heaven
  */
 
 import React from 'react';
@@ -20,7 +20,6 @@ import ReplyItemOperation from './ReplyItemOperation';
 import CommentList from '../../../containers/CommentList';
 
 import globalConfig from '../../../globalConfig';
-import getNewLocationHrefWithHash from '../../../utils/getNewLocationHrefWithHash';
 
 // import { isContentTooLongUtil } from '../../../utils/reply';
 
@@ -93,7 +92,7 @@ export default class ReplyItem extends React.PureComponent {
   }
 
   handleClickFold = () => {
-    // TODO 折叠后应该滚动条应该在下一个回复的开头
+    // TODO 折叠后滚动条应该在下一个回复的开头
     this.setState({
       isContentExpanded: false
     });

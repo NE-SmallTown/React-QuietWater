@@ -1,10 +1,12 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
  * Date: 2017/2/13
  */
+
+import warning from 'warning';
 
 import { ActionTypes } from '../../actions';
 import * as allFiltersTypes from './typeOfAllFilterHandlers';
@@ -50,7 +52,7 @@ export default(state = {
   const commonResultState = { ...state, curDispatchingActionType: type };
   // because just now they are the same,but in the future probably changed,so we don't merge them to one
   if (typeof handleFunction === 'undefined') {
-    console.warn(`There is no corresponding handleFunction for ${type} type`);
+    warning(false, `There is no corresponding handleFunction for ${type} type`);
 
     return commonResultState;
   } else if (handleFunction === normalActionFunction) {

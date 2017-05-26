@@ -1,7 +1,7 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
  * Date: 2017/4/9
  */
@@ -43,7 +43,7 @@ class Loading extends React.PureComponent {
   }
 
   handleStartFetching = () => {
-    this.setState({ startFetching: true });
+    this.setState({ startFetching: true, finishFetching: false });
   }
 
   handleFinishFetching = () => {
@@ -69,7 +69,7 @@ class Loading extends React.PureComponent {
     }
 
     return (
-      startFetching
+      startFetching 开始后要滚动条要定位到评论列表的头部,用react-scroll,另外也别用锚点了,把回复的item也改成react-scroll
       ? finishFetching
         ? childElement
         : <div styleName="wrap" className={className}>{globalConfig.loading.commentList.getComponent()}</div>

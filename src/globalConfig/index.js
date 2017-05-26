@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/3 by Administrator
+ * Date: 2017/5/3 by Heaven
  */
 
 import React from 'react';
@@ -11,6 +11,7 @@ import React from 'react';
 import merge from 'lodash/merge';
 
 const configParams = {
+  languageName: 'zh-cn', // Note that this property value must match the file name in the /src/language directory
   styles: { // 各个部分的皮肤设置,注意要和JSX中的style属性格式一致
     quietWater: {
 

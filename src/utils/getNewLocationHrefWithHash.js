@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/24 by Administrator
+ * Date: 2017/5/24 by Heaven
  */
 
 import warning from 'warning';
@@ -15,10 +15,13 @@ export default newHash => {
     warning(!newHash.includes('#'), `newHash doesn't need # in the first,but passed in ${newHash}`);
   }
 
-  const indexOfQueryOrAnchor = /[?|#]/g.exec(location.href).index;
-  const isHrefWithoutQueryOrAnchor = indexOfQueryOrAnchor === null;
+  const matchHref = /[?|#]/g.exec(location.href);
+  const isHrefWithoutQueryOrAnchor = matchHref === null;
 
-  const curHrefWithoutSpecialCharacters = location.href.substring(0, isHrefWithoutQueryOrAnchor ? undefined : indexOfQueryOrAnchor);
+  if (isHrefWithoutQueryOrAnchor) {
+    return location.href;
+  }
 
-  return curHrefWithoutSpecialCharacters + '#' + newHash;
+  const indexOfQueryOrAnchor = matchHref.index;
+  return location.href.substring(0, indexOfQueryOrAnchor) + '#' + newHash;
 };

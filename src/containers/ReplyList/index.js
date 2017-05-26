@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/3 by Administrator
+ * Date: 2017/5/3 by Heaven
  */
 
 import React from 'react';
@@ -42,6 +42,7 @@ export default class ReplyList extends React.PureComponent {
       const indexOfCurHashCorrespondingId = this.replyListIds.indexOf(curHashCorrespondingId);
       let newId;
 
+      console.log(`press ${key}`);
       switch (key) {
         case prevReplyPressKey:
           if (indexOfCurHashCorrespondingId === 0) {

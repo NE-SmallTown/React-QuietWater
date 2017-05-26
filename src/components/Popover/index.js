@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/9 by Administrator
+ * Date: 2017/5/9 by Heaven
  */
 
 // copy from https://github.com/ant-design/ant-design/blob/master/components/popover/index.tsx

@@ -1,9 +1,9 @@
 /**
  * v0.0.1
  *
- * Copyright (c) 2016 Heaven
+ * Copyright (c) 2017
  *
- * Date: 2017/5/3 by Administrator
+ * Date: 2017/5/3 by Heaven
  */
 
 // 为了方便扩展,所以虽然action creator有很多相似的地方,但是没有使用工厂模式
