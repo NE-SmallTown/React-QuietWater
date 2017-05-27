@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/5/1
+ * Date: 2017/5/1 by Heaven
  */
 
 const languageObj = {

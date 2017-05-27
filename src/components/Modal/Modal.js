@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/3/18
+ * Date: 2017/3/18 by Heaven
  */
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';

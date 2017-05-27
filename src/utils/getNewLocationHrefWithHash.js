@@ -19,7 +19,7 @@ export default newHash => {
   const isHrefWithoutQueryOrAnchor = matchHref === null;
 
   if (isHrefWithoutQueryOrAnchor) {
-    return location.href;
+    return location.href + '#' + newHash;
   }
 
   const indexOfQueryOrAnchor = matchHref.index;

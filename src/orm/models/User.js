@@ -3,12 +3,12 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/5/1
+ * Date: 2017/5/1 by Heaven
  */
 
 import { Model, attr } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS, COMMENT_SUCCESS, Conversation_SUCCESS } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, COMMENT_SUCCESS, Conversation_SUCCESS, REPLY_SUCCESS } from '../../actions';
 
 export default class User extends Model {
   static modelName = 'User'
@@ -31,11 +31,12 @@ export default class User extends Model {
   // 虽然下面的处理完全一样,但是api可能变动,所以没有提取成公共方法
   static reducer (action, User, session) {
     switch (action.type) {
+      case REPLY_SUCCESS:
       case QUIETWATEROFHOST_SUCCESS:
         const { replies: repliesEntities } = action.response;
 
         repliesEntities.forEach(({ author }) => {
-          !User.withId(author.userId) && User.create({ ...author });
+          !User.hasId(author.userId) && User.create({ ...author });
         });
 
         break;
@@ -44,11 +45,11 @@ export default class User extends Model {
         const commentsEntities = action.type === COMMENT_SUCCESS ? action.response.comments : action.response;
 
         for (let { author, replyTo } of commentsEntities) {
-          if (!User.withId(author.userId)) {
+          if (!User.hasId(author.userId)) {
             User.create({ ...author });
           }
 
-          if (replyTo && !User.withId(replyTo.userId)) {
+          if (replyTo && !User.hasId(replyTo.userId)) {
             User.create({ ...replyTo });
           }
         }

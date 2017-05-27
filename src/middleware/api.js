@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2016/12/21
+ * Date: 2016/12/21 by Heaven
  */
 
 import { normalize } from 'normalizr';

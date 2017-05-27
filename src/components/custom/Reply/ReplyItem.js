@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
 import classNames from 'classnames';
+import ReactScroll from 'react-scroll';
 import { browserHistory } from 'react-router';
 
 import { SparkScroll } from '../../ReactSparkScroll';
@@ -86,13 +87,16 @@ export default class ReplyItem extends React.PureComponent {
   }
 
   handleClickReadAll = () => {
+    ReactScroll.scroller.scrollTo(`qw_${this.props.id}_h`);
+
     this.setState({
       isContentExpanded: true
     });
   }
 
   handleClickFold = () => {
-    // TODO 折叠后滚动条应该在下一个回复的开头
+    ReactScroll.scroller.scrollTo(`qw_${this.props.id}_ob`); // ob means operation-bottom
+
     this.setState({
       isContentExpanded: false
     });
@@ -112,16 +116,17 @@ export default class ReplyItem extends React.PureComponent {
   handleScrollIntoLongContetnItem = (e) => {
     console.log('进入内容区域');
 
-    const newHash = `#qw_${this.props.id}`;
+    const newHash = `#qw_${this.props.id}_h`;
 
     this.setState({
       isContentEnterViewport: true
     });
 
-    if (location.hash !== newHash) {
-      browserHistory.push(newHash);
+    const key = globalConfig.sessionStorage.keyOfCurrentReplyItemHash;
+    if (sessionStorage.getItem(key) !== newHash) {
+      sessionStorage.setItem(key, newHash);
 
-      console.log(`替换url为: ${newHash}`);
+      console.log(`替换sessionStorage中的当前reply为: ${newHash}`);
     }
   }
 
@@ -184,8 +189,10 @@ export default class ReplyItem extends React.PureComponent {
      just when item which has long content and window displays all of them now, we bind scroll event to
      fixed operation bar,if there are no many contents, don't bind to improve perf */
     return (
-      <div styleName="wrap" id={`qw_${replyId}`} ref={this.handleContentDidMount}>
-        <ReplyItemHeader {...author} replyCreatedTime={createdTime} />
+      <div styleName="wrap" ref={this.handleContentDidMount}>
+        <ReactScroll.Element name={`qw_${replyId}_h`}>
+          <ReplyItemHeader {...author} replyCreatedTime={createdTime} />
+        </ReactScroll.Element>
 
         {
           this._isMounted && isContentExpanded
@@ -203,21 +210,23 @@ export default class ReplyItem extends React.PureComponent {
           : <ReplyItemContent key="ric2" {...commonReplyItemContentProps} />
         }
 
-        <ReplyItemOperation
-          key="rio"
-          style={{ width: `calc(${replyWrapElementWidth}px - 30px)` }}
-          styleName={operationBarClassName}
-          excerpt={excerpt}
-          replyId={replyId}
-          commentCount={commentCount}
-          praiseCount={praiseCount}
-          isContentTooLong={isContentTooLong}
-          isContentExpanded={isContentExpanded}
-          showCommentList={this.state.showCommentList}
-          onClickReadAll={this.handleClickReadAll}
-          onClickFold={this.handleClickFold}
-          onClickExpandComment={this.handleClickExpandComment}
-        />
+        <ReactScroll.Element name={`qw_${replyId}_ob`}>
+          <ReplyItemOperation
+            key="rio"
+            style={{ width: `calc(${replyWrapElementWidth}px - 30px)` }}
+            styleName={operationBarClassName}
+            excerpt={excerpt}
+            replyId={replyId}
+            commentCount={commentCount}
+            praiseCount={praiseCount}
+            isContentTooLong={isContentTooLong}
+            isContentExpanded={isContentExpanded}
+            showCommentList={this.state.showCommentList}
+            onClickReadAll={this.handleClickReadAll}
+            onClickFold={this.handleClickFold}
+            onClickExpandComment={this.handleClickExpandComment}
+          />
+        </ReactScroll.Element>
 
         {
           this.state.showCommentList &&

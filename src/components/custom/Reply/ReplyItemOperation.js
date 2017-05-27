@@ -195,7 +195,7 @@ class ReplyItemOperation extends React.PureComponent {
 
                   if (typeof shareObj.getComponent !== 'undefined') {
                     return shareObj.getComponent({
-                      replyUrl: getNewLocationHrefWithHash(`qw_${replyId}`),
+                      replyUrl: getNewLocationHrefWithHash(`qw_${replyId}_h`),
                       sharedText: excerpt.substr(0, 20)
                     });
                   } else {

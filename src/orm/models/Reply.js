@@ -3,12 +3,12 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/5/1
+ * Date: 2017/5/1 by Heaven
  */
 
 import { oneToOne, attr, Model, fk } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS, REPLY_SUCCESS } from '../../actions';
 
 export default class Reply extends Model {
   static modelName = 'Reply'
@@ -34,7 +34,13 @@ export default class Reply extends Model {
         const { id: hostId, replies: repliesEntities } = action.response;
 
         repliesEntities.forEach(reply => {
-          !Reply.withId(reply.id) && Reply.create({ ...reply, host: hostId, author: reply.author.userId });
+          !Reply.hasId(reply.id) &&
+          Reply.create({
+            ...reply,
+            host: hostId,
+            author: reply.author.userId,
+            pagination: reply.id
+          });
         });
 
         break;
@@ -46,8 +52,7 @@ export default class Reply extends Model {
 
         reply.update({
           commentCount,
-          comments: newComments.map(c => c.id),
-          pagination: replyId
+          comments: newComments.map(c => c.id)
         });
 
         break;
@@ -57,14 +62,25 @@ export default class Reply extends Model {
         Reply.withId(action.replyId).update({ praiseCount: newPraiseCount });
 
         break;
-      /* case REPLY_SUCCESS:
-        Reply.create(action.response.entities);
-        break;
+      case REPLY_SUCCESS:
+        {
+          const { hostId } = action;
+
+          const { replies: newReplies } = action.response;
+
+          newReplies.forEach(reply => {
+            Reply.create({ ...reply, host: hostId, author: reply.author.userId });
+          });
+
+          break;
+        }
+
+        /*
       case UPDATE_REPLY:
-        Reply.withId(action.payload.id).update(action.payload);
+        Reply.withId(action.payload.id).update();
         break;
       case REMOVE_REPLY:
-        const reply = Reply.withId(action.payload);
+        const reply = Reply.withId();
         reply.delete();
         break; */
     }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/4/9
+ * Date: 2017/4/9 by Heaven
  */
 
 import { storage2Info } from '../../globalParam';

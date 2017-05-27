@@ -53,8 +53,20 @@ const configParams = {
   },
   events: {
     quietWater: {
+      // we will check the document.activeElement's nodeName and attribute,if it matches one of the below
+      // array's value,we will don't react the key event.
+      responsePrevOrNextReplyExcludeIn: ['input', 'textarea', 'contenteditable'],
+
       prevReplyPressKey: 'j',
       nextReplyPressKey: 'k'
+    }
+  },
+  paginations: { // default pagination options
+    replyList: {
+      pageSize: 6 // what number of items will be loaded when you click the loadMore or page button
+    },
+    commentList: {
+      pageSize: 10
     }
   },
   api: {
@@ -129,6 +141,9 @@ const configParams = {
       roleName: 'u_roleName',
       userToken: 'u_tk'
     }
+  },
+  sessionStorage: {
+    keyOfCurrentReplyItemHash: 'qw_curReply'
   }
 };
 

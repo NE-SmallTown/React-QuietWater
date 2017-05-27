@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/4/28
+ * Date: 2017/4/28 by Heaven
  */
 
 function sum (a: string, b: number) {

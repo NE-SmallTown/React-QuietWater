@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/2/13
+ * Date: 2017/2/13 by Heaven
  */
 
 import warning from 'warning';

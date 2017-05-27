@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2016 Heaven
  *
- * Date: 2017/4/27
+ * Date: 2017/4/27 by Heaven
  */
 
 import Message from '../../Message';

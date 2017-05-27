@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/3/20
+ * Date: 2017/3/20 by Heaven
  */
 
 let cached;

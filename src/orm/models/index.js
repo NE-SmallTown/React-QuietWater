@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/4/30
+ * Date: 2017/4/30 by Heaven
  */
 
 export { default as Comment } from './Comment';

@@ -9,12 +9,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactScroll from 'react-scroll';
 
 import { CommentItem } from '../../components/custom/Comment';
 import Pagination from '../../components/Pagination';
 import MiniEditor from '../../components/MiniEditor';
 import Lodaing from '../../components/Lodaing';
 
+import globalConfig from '../../globalConfig';
 import { loadComment, COMMENT_REQUEST, COMMENT_SUCCESS, Conversation_REQUEST, Conversation_SUCCESS } from '../../actions';
 import { getCommentList, getPagination } from '../../selectors';
 
@@ -55,14 +57,18 @@ class CommentList extends React.PureComponent {
     this.props.loadComment({
       replyId: this.props.replyId,
       currentPage: 1,
-      pageSize: 10,
+      pageSize: globalConfig.paginations.commentList.pageSize,
       order: this.state.order
     });
   }
 
   handlePaginationChange = (currentPage, pageSize) => {
+    const replyId = this.props.replyId;
+
+    ReactScroll.scroller.scrollTo(`qw_${replyId}_clh`); // clh means commentList-header
+
     this.props.loadComment({
-      replyId: this.props.replyId,
+      replyId,
       currentPage,
       pageSize,
       order: this.state.order
@@ -74,7 +80,7 @@ class CommentList extends React.PureComponent {
   }
 
   render () {
-    const { className, commentList, commentListPagination, showConversationBtn } = this.props;
+    const { replyId, className, commentList, commentListPagination, showConversationBtn } = this.props;
 
     const context = this.context.quietWaterLanguage ? this.context : this.props.context;
     const { countTextPostfix } = context.quietWaterLanguage.Comment.headerTitle;
@@ -85,11 +91,13 @@ class CommentList extends React.PureComponent {
     // TODO 对一大段内容进行回复，那么评论区可能出现大量的重复内容,这是无法接受的）,对于大段内容,有“查看对话”这个功能
     return (
       <div styleName="wrap" className={className}>
-        <div styleName="header">
+        <ReactScroll.Element name={`qw_${replyId}_clh`}>
+          <div styleName="header">
           <span styleName="commentCountText">
             {commentListPagination && `${commentListPagination.totalCount || commentList.length}${countTextPostfix}`}
             </span>
-        </div>
+          </div>
+        </ReactScroll.Element>
 
         <Lodaing
           store={context.store || this.props.store}

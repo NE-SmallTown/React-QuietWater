@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2016/12/8
+ * Date: 2016/12/8 by Heaven
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';

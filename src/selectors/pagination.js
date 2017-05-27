@@ -10,7 +10,7 @@ import { createOrmSelector } from './global';
 
 export const getPagination = replyId => createOrmSelector(
   session =>
-    session.Pagination.withId(replyId)
+    session.Pagination.hasId(replyId)
     ? session.Pagination.withId(replyId).ref
     : undefined
 );

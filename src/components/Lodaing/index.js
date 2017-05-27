@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/4/9
+ * Date: 2017/4/9 by Heaven
  */
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -69,7 +69,7 @@ class Loading extends React.PureComponent {
     }
 
     return (
-      startFetching 开始后要滚动条要定位到评论列表的头部,用react-scroll,另外也别用锚点了,把回复的item也改成react-scroll
+      startFetching
       ? finishFetching
         ? childElement
         : <div styleName="wrap" className={className}>{globalConfig.loading.commentList.getComponent()}</div>

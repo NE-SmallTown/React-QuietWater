@@ -4,7 +4,7 @@
  * 如果需要做活动页用到其他头像，那么肯定直接写html了，也不会用到组件
  * Copyright (c) 2017
  *
- * Date: 2017/3/9
+ * Date: 2017/3/9 by Heaven
  */
 import React from 'react';
 import PropTypes from 'prop-types';

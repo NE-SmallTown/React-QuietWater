@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/3/19
+ * Date: 2017/3/19 by Heaven
  */
 
 export function getScrollOfNode (w, top) {

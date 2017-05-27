@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/3/16
+ * Date: 2017/3/16 by Heaven
  */
 
 import { isTokenExpired } from './jwtUtils';

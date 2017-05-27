@@ -13,7 +13,6 @@ import { browserHistory } from 'react-router';
 import { ReplyItem } from '../../components/custom/Reply';
 
 import globalConfig from '../../globalConfig';
-import getNewLocationHrefWithHash from '../../utils/getNewLocationHrefWithHash';
 
 import './index.css';
 
@@ -27,10 +26,15 @@ export default class ReplyList extends React.PureComponent {
     super(props);
 
     this.replyListIds = props.replyList && props.replyList.map(reply => reply.id);
-    this.hasReplyListIdsChanged = false;
 
     this.keyPressListenerFunc = e => {
-      if (document.activeElement.hasAttribute('contenteditable')) { // if now we are in the editor,don't react any key event
+      // debugger;
+
+      // if now we are in the editor,don't react any key event
+      const excludes = globalConfig.events.quietWater.responsePrevOrNextReplyExcludeIn;
+      if (excludes.some(
+        v => document.activeElement.hasAttribute(v) || document.activeElement.nodeName.toLowerCase() === v
+      )) {
         return;
       }
 
@@ -38,30 +42,35 @@ export default class ReplyList extends React.PureComponent {
 
       const { prevReplyPressKey, nextReplyPressKey } = globalConfig.events.quietWater;
 
-      const curHashCorrespondingId = location.hash.substr(4); // Because now the hash format is '#qw_12345678'
-      const indexOfCurHashCorrespondingId = this.replyListIds.indexOf(curHashCorrespondingId);
+      const curHashCorrespondingId = sessionStorage.getItem(globalConfig.sessionStorage.keyOfCurrentReplyItemHash);
+      let indexOfCurHashCorrespondingId = this.replyListIds.indexOf(curHashCorrespondingId);
       let newId;
 
-      console.log(`press ${key}`);
+      if (curHashCorrespondingId === '' || indexOfCurHashCorrespondingId === -1) {
+        return;
+      }
+
       switch (key) {
         case prevReplyPressKey:
-          if (indexOfCurHashCorrespondingId === 0) {
-            break;
+          if (indexOfCurHashCorrespondingId !== 0) {
+            indexOfCurHashCorrespondingId--;
           }
-
-          newId = this.replyListIds[indexOfCurHashCorrespondingId - 1];
-          browserHistory.push(`#qw_${newId}`);
 
           break;
         case nextReplyPressKey:
-          if (indexOfCurHashCorrespondingId === this.replyListIds.length - 1) {
-            break;
+          if (indexOfCurHashCorrespondingId !== this.replyListIds.length - 1) {
+            indexOfCurHashCorrespondingId++;
           }
 
-          newId = this.replyListIds[indexOfCurHashCorrespondingId + 1];
-          browserHistory.push(`#qw_${newId}`);
-
           break;
+      }
+
+      switch (key) {
+        case prevReplyPressKey:
+        case nextReplyPressKey:
+          newId = this.replyListIds[indexOfCurHashCorrespondingId];
+
+          browserHistory.push(`#qw_${newId}_h`);
       }
     };
   }
@@ -72,16 +81,20 @@ export default class ReplyList extends React.PureComponent {
 
       if (this.replyListIds.toString() !== nextReplyListIds.toString()) {
         this.replyListIds = nextReplyListIds;
-
-        this.hasReplyListIdsChanged = true;
-      } else {
-        this.hasReplyListIdsChanged = false;
       }
     }
   }
 
   componentDidMount () {
     window.addEventListener('keypress', this.keyPressListenerFunc);
+  }
+
+  componentDidUpdate () {
+    if (this.replyListIds.length > 0 && !this.hasSetFirstItemToSessionStorage) {
+      sessionStorage.setItem(globalConfig.sessionStorage.keyOfCurrentReplyItemHash, this.replyListIds[0]);
+
+      this.hasSetFirstItemToSessionStorage = true;
+    }
   }
 
   componentWillUnMount () {

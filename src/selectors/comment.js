@@ -34,7 +34,7 @@ export const getCommentList = (replyId, currentPage, pageSize) => createOrmSelec
 
 export const getCommentListCount = replyId => createOrmSelector(
   session =>
-    session.Reply.withId(replyId)
+    session.Reply.hasId(replyId)
     ? session.Reply.withId(replyId).comments.count()
     : 0
 );
@@ -42,7 +42,7 @@ export const getCommentListCount = replyId => createOrmSelector(
 // 因为目前的模式是显示对话的所有记录,所以这里不需要对id进行区分,所有这里叫userId1,userId2
 export const getConversationList = (replyId, userId1, userId2) => createOrmSelector(
   session =>
-    session.Reply.withId(replyId)
+    session.Reply.hasId(replyId)
     ? session.Reply.withId(replyId).comments
       .filter(comment =>
         (comment.author === userId1 && comment.replyTo === userId2) ||

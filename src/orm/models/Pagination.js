@@ -8,7 +8,8 @@
 
 import { attr, Model } from 'redux-orm';
 
-import { COMMENT_SUCCESS } from '../../actions';
+import globalConfig from '../../globalConfig';
+import { COMMENT_SUCCESS, QUIETWATEROFHOST_SUCCESS, REPLY_SUCCESS } from '../../actions';
 
 export default class Pagination extends Model {
   static modelName = 'Pagination'
@@ -24,10 +25,11 @@ export default class Pagination extends Model {
   static reducer (action, Pagination, session) {
     switch (action.type) {
       case COMMENT_SUCCESS:
-        const { replyId, pageSize = 10, currentPage } = action;
+        const { replyId, pageSize, currentPage } = action;
+
         const { commentCount: totalCount = action.response.comments.length } = action.response;
 
-        if (Pagination.withId(action.replyId)) {
+        if (Pagination.hasId(replyId)) {
           Pagination.withId(replyId).update({ currentPage, pageSize, totalCount });
         } else {
           Pagination.create({ id: replyId, currentPage, pageSize, totalCount });
@@ -35,7 +37,31 @@ export default class Pagination extends Model {
 
         break;
 
-      // TODO case QUIETWATEROFHOST_SUCCESS
+      case QUIETWATEROFHOST_SUCCESS:
+        {
+          const { hostId } = action;
+
+          const totalCount = action.response.replies.length;
+
+          Pagination.create({
+            id: hostId,
+            currentPage: 1,
+            pageSize: globalConfig.paginations.replyList.pageSize,
+            totalCount
+          });
+        }
+
+        break;
+      case REPLY_SUCCESS:
+        {
+          const { hostId, pageSize, currentPage } = action;
+
+          const totalCount = action.response.replies.length;
+
+          Pagination.withId(hostId).update({ currentPage, pageSize, totalCount });
+        }
+
+        break;
     }
   }
 };

@@ -18,6 +18,7 @@ const fetchQuietWaterOfHost = (queryCondition) => ({
   quietWaterHostId: queryCondition.hostId,
   [CALL_API]: {
     types: [ QUIETWATEROFHOST_REQUEST, QUIETWATEROFHOST_SUCCESS, QUIETWATEROFHOST_FAILURE ],
+    payloads: [ {}, { ...queryCondition }, { } ],
     requestUrl: formatUrl(globalConfig.api.quietWaterOfHostUrl, {
       ...queryCondition
     }),

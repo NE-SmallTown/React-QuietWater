@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/3/17
+ * Date: 2017/3/17 by Heaven
  */
 
 import decode from 'jwt-decode';

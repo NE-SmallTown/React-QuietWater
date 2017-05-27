@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/4/30
+ * Date: 2017/4/30 by Heaven
  */
 
 import { fk, attr, Model } from 'redux-orm';
@@ -34,7 +34,7 @@ export default class Comment extends Model {
         const replyId = action.type === COMMENT_SUCCESS ? action.replyId : action.response[0].reply;
 
         for (let comment of commentEntities) {
-          if (!Comment.withId(comment.id)) {
+          if (!Comment.hasId(comment.id)) {
             const commonCreate = { ...comment, reply: replyId, author: comment.author.userId };
 
             if (comment.replyTo) {

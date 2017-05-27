@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/4/2
+ * Date: 2017/4/2 by Heaven
  */
 
 import { formatUrl, formatQuery } from 'url-lib';

@@ -1,6 +1,5 @@
 
 // TODO 发布时去掉import React from 'react';之前的所有代码,因为用户接入的时候是自己先调用configQuietWater配置好了再引入,而这里我们作为测试没办法这样,因为main.js已经是最顶层的文件了
-// TODO 替换所有的console.log为warning
 // TODO 清查所没有相应英文注释的中文注释
 import globalConfig, { configQuietWater } from './globalConfig';
 import Message from './components/Message';
@@ -22,6 +21,7 @@ configQuietWater({
     quietWaterInitUrl: 'http://www.easy-mock.com/mock/5919acf69aba4141cf23044d/common/rqw',
     hostUserLoginUrl: 'https://github.com/login',
     quietWaterOfHostUrl: 'articles/info',
+    replyUrl: 'replies/info',
     commentUrl: 'comments/info',
     conversationUrl: 'conversations/info',
 

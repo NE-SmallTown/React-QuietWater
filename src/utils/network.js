@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2017
  *
- * Date: 2017/3/26
+ * Date: 2017/3/26 by Heaven
  */
 
 import globalConfig from '../globalConfig';
