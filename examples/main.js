@@ -25,10 +25,10 @@ configQuietWater({
     }
   },
   api: {
-    PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/',
-    P_PREFIX: 'http://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/p/',
+    PREFIX: 'https://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/',
+    P_PREFIX: 'https://www.easy-mock.com/mock/590c4f0087cce4690fed1f43/qw/api/p/',
 
-    quietWaterInitUrl: 'http://www.easy-mock.com/mock/5919acf69aba4141cf23044d/common/rqw',
+    quietWaterInitUrl: 'https://www.easy-mock.com/mock/5919acf69aba4141cf23044d/common/rqw',
     hostUserLoginUrl: 'https://github.com/login',
     quietWaterOfHostUrl: 'articles/info',
     replyUrl: 'replies/info',
