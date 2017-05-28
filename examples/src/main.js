@@ -8,14 +8,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { combineReducers } from 'redux';
 
-import AppContainer from '../src/containers/AppContainer';
+import AppContainer from './AppContainer';
 
-import createAppStore from '../src/store/createAppStore';
-import { network } from '../src/utils/network';
+import createAppStore from '../../src/store/createAppStore';
+import { network } from '../../src/utils/network';
 // TODO 发布时加上下面这行
 // import globalConfig from './globalConfig';
 import { getCurrentUserId, setCurrentUserId } from '../src/utils/user';
-import { wouldClearedStorageItemWhenPageUnload, info2Storage } from '../src/globalParam';
+import { wouldClearedStorageItemWhenPageUnload, info2Storage } from '../../src/globalParam';
 
 // 配置React-QuietWater
 configQuietWater({
@@ -141,7 +141,7 @@ if (__DEV__) {
 }
 
 const render = () => {
-  const routes = require('./routes/index').default;
+  const routes = require('../routes/index').default;
 
   ReactDOM.render(
     <AppContainer store={store} routes={routes} />,
@@ -152,7 +152,7 @@ const render = () => {
 // Hot Module Replacement API
 if (__DEV__) {
   if (module.hot) {
-    module.hot.accept('./reducers/index', () => {
+    module.hot.accept('../../src/reducers/index', () => {
       const reducers = require('./reducers').default;
       const combinedReducers = combineReducers({ ...reducers });
 
@@ -161,7 +161,7 @@ if (__DEV__) {
   }
 
   if (module.hot) {
-    module.hot.accept('./routes/index', () => {
+    module.hot.accept('../routes/index', () => {
       setImmediate(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE);
         render();

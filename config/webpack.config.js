@@ -24,7 +24,7 @@ const webpackConfig = {
 // ------------------------------------
 // Entry Points
 // ------------------------------------
-const APP_ENTRY = project.paths.base('examples/main.js');
+const APP_ENTRY = project.paths.base('examples/src/main.js');
 
 webpackConfig.entry = {
   app : __DEV__
@@ -56,7 +56,7 @@ webpackConfig.externals['react/addons'] = true;
 webpackConfig.plugins = [
   new webpack.DefinePlugin(project.globals),
   new HtmlWebpackPlugin({
-    template : project.paths.base('examples/index.html'),
+    template : project.paths.base('examples/src/index.html'),
     hash     : false,
     favicon  : project.paths.public('favicon.ico'),
     filename : 'index.html',

@@ -1,6 +1,6 @@
 **NOTE**: Now this repo has not finished,this is just for backup
 
-# <a href='http://redux.js.org'><img src='' height='50'></a>
+# <a href='http://redux.js.org'><img src='https://preview.ibb.co/m5KLCa/quiet_water_logo.png' width='50' height='50'></a>
 
 React-QuietWater is a comment system based on react, css-modules and redux, redux-orm, react-css-themr.It's UI inspired by
 [zhihu](https://www.zhihu.com) and [medium](https://medium.com/),and think about something from twitter,facebook,quora and others
@@ -21,6 +21,11 @@ So,on the network,we wantonly wreak our bad emotion to everyone,even our kinsfol
 That's really,really too heartrending.That's **not** me,**not** us.
 
 So,QuietWater means that talk with others like water which is peaceful,harmonious and loving.
+
+### Logo origin
+
+If you are Chinese,you will know that the Quiet-Water corresponding word is "止水".Yea,that exactly is the name of "宇智波止水"([Shisui Uchiha-うちはシスイ](http://naruto.wikia.com/wiki/Shisui_Uchiha))
+in the anime([NARUTO -ナルト-](https://en.wikipedia.org/wiki/Naruto)).So we use his [eyes](https://matome.naver.jp/odai/2142391458398577101/2142428098462853003) and combine with React logo.
 
 ### Installation
 

@@ -17,6 +17,7 @@ import { QuietWaterHeader } from '../../components/custom/QuietWater';
 import { loadQuietWaterOfHost, loadReply } from '../../actions';
 import { getReplyList, getPagination } from '../../selectors/';
 
+import '../../globalStyles/global.scss';
 import './index.css';
 
 class QuietWater extends React.PureComponent {
