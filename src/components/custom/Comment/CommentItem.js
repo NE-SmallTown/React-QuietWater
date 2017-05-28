@@ -98,7 +98,6 @@ class CommentItem extends React.PureComponent {
 
   render () {
     const {
-      id: commentId,
       conversationList,
       author,
       isAuthor,

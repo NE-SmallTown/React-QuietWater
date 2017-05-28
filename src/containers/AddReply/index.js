@@ -5,6 +5,7 @@
  *
  * Date: 2017/5/3 by Heaven
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,7 +13,9 @@ export default class AddReply extends React.PureComponent {
 
   render () {
     return (
-      <div></div>
+      <div>
+        add reply editor
+      </div>
     );
   }
-}
+};

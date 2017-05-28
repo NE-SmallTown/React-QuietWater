@@ -8,6 +8,8 @@
 
 import globalConfig from '../../globalConfig';
 
+export const setCurrentUserId = userId => localStorage.setItem(globalConfig.localStorage.info2Storage.userId, userId);
+
 export const getCurrentUserId = () => localStorage.getItem(globalConfig.localStorage.info2Storage.userId);
 
 export const getCurrentLoginName = () => localStorage.getItem(globalConfig.localStorage.info2Storage.loginName);

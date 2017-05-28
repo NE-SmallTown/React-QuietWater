@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
 import classNames from 'classnames';
 import ReactScroll from 'react-scroll';
-import { browserHistory } from 'react-router';
 
 import { SparkScroll } from '../../ReactSparkScroll';
 import Modal from '../../Modal';

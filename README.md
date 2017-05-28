@@ -34,6 +34,12 @@ You can view the [online example](https://www.NE-SmallTown.github.io/React-Quiet
 although we create mock data but the data maybe don't have correct logic like the real world.This demo is just
 for showing the UI and the basic logic.
 
+> NOTE: Some functions like praise/thumbdown a reply,submit reply/comment are allowable only when you have logined.
+So for testing React-QuietWater expediently.Default our test api interface return a invalid token of the userInfo.So 
+We provide a [token](https://github.com/NE-SmallTown/React-QuietWater/tree/master/examples/token),you can set it to your `config.localStorage.info2Storage.userToken` (default the value is 'u_tk',
+i.e set `localstorage.u_tk` to the token value).And then you can test these functions otherwise it will redirect to the 
+login page which you set.
+
 ### Documentation
 
 - *NOTE*: We would like to see any pr/(UI design)/(feature request)/enhancement based on our Name origin,but if they breaches our
@@ -41,8 +47,18 @@ Motivation,we won't accpt them,so we recommend you fork or just copy our repo an
 
 ### Config
 
-1. Before you use this lib,you **must** need to do some configs to make it to correspond your requiredment and backend api.
-If you don't do this,you probably get errors.Let's follow below steps(in any order):
+**NOTE**: Before you use this lib,you **must** need to do some configs to make it to correspond your requiredment and backend api.
+If you don't do this,you probably get errors.Let's follow below steps:
+
+1.Make sure you have set the `localStorage[config.localStorage.info2Storage.userId]` value at first,because we will request
+userInfo by `config.api.quietWaterInitUrl` interface and then set the info to localstorage.
+
+2.Make sure you have set the token of the user if the user has logined.Because many functions only can be used after the user
+has logined(e.g. submit a reply),we will validate when you click these button.That's why we need a token.
+
+NOTE: The token format need to fit in [jwt](https://jwt.io/) format and we use [jwt-decode](https://github.com/auth0/jwt-decode) to decode the token.
+
+3.Set the [onUpdate function](/handleHashChange.js) to the Router Component because every reply correspond an anchor,so we need to  monitor the url change.
 
 All you need to do is call the method which import from the globalConfig module and then config QuietWater whatever you want.
 e.g `import { configQuietWater } from 'react-QuietWater/lib/globalConfig configQuietWater({...})'`

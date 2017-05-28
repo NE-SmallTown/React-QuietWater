@@ -1,11 +1,21 @@
-
-// TODO 发布时去掉import React from 'react';之前的所有代码,因为用户接入的时候是自己先调用configQuietWater配置好了再引入,而这里我们作为测试没办法这样,因为main.js已经是最顶层的文件了
-// TODO 清查所没有相应英文注释的中文注释
-import globalConfig, { configQuietWater } from './globalConfig';
-import Message from './components/Message';
-import SvgIcon from './components/SvgIcon';
+import globalConfig, { configQuietWater } from '../src/globalConfig';
+import Message from '../src/components/Message';
+import SvgIcon from '../src/components/SvgIcon';
 import { formatUrl } from 'url-lib';
 import './example.css';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { combineReducers } from 'redux';
+
+import AppContainer from '../src/containers/AppContainer';
+
+import createAppStore from '../src/store/createAppStore';
+import { network } from '../src/utils/network';
+// TODO 发布时加上下面这行
+// import globalConfig from './globalConfig';
+import { getCurrentUserId, setCurrentUserId } from '../src/utils/user';
+import { wouldClearedStorageItemWhenPageUnload, info2Storage } from '../src/globalParam';
 
 // 配置React-QuietWater
 configQuietWater({
@@ -41,7 +51,7 @@ configQuietWater({
 
           const generatedUrl = formatUrl(urlPrefix, {
             appkey: '',
-            title: `${sharedText}       分享自（@${sourceWebSiteName}）`,
+            title: `${sharedText}      分享自（@${sourceWebSiteName}）`,
             url: replyUrl,
             source: sourceWebSiteName,
             sourceUrl: sourceWebSiteUrl,
@@ -84,19 +94,6 @@ configQuietWater({
   }
 });
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { combineReducers } from 'redux';
-
-import AppContainer from './containers/AppContainer';
-
-import createAppStore from './store/createAppStore';
-import { network } from './utils/network';
-// TODO 发布时加上下面这行
-// import globalConfig from './globalConfig';
-import { getCurrentUserId } from './utils/user';
-import { wouldClearedStorageItemWhenPageUnload, info2Storage } from './globalParam';
-
 const MOUNT_NODE = document.getElementById('root');
 
 // 清除某些全局配置，在窗口关闭时调用
@@ -112,10 +109,13 @@ window.addEventListener('beforeunload', function (event) {
 
 // 配置用户信息
 export const configUserInfo = () => {
+  // just for test,because in real environment we has set userId to locastorage
+  setCurrentUserId('xxxxxxxxxx');
+
   let userId = getCurrentUserId();
 
-  // TODO 发布的时候去掉下面这一行,并把上面改成const,加这一行只是为了测试
-  userId = 'xxxxxxxxxxx';
+  // 测试的时候为了方便(即不需要一个登录页和登录相关的逻辑)我们在获取用户信息的时候返回了token,但是实际中肯定是不可能的,因为那样
+  // 每个人都可以获取任意用户的token,token应该是只有登录接口才会提供
   if (userId !== null) {
     return network.get({
       url: globalConfig.api.quietWaterInitUrl,

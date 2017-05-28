@@ -15,6 +15,7 @@ import warning from 'warning';
 
 import Popover from '../../Popover';
 import SvgIcon from '../../SvgIcon';
+import { OnlyHasLoginedCanClick } from '../Auth';
 
 import { priNetwork } from '../../../utils/network';
 import globalConfig from '../../../globalConfig';
@@ -169,15 +170,19 @@ class ReplyItemOperation extends React.PureComponent {
 
     return (
       <div style={style} styleName="wrap" className={`clearfix ${className}`}>
-        <button styleName={praiseBtnClassName} onClick={this.handleClickPraiseBtn}>
-          <SvgIcon iconName="icon-praise3" styleName="icon-praise" />
+        <OnlyHasLoginedCanClick>
+          <button styleName={praiseBtnClassName} onClick={this.handleClickPraiseBtn}>
+            <SvgIcon iconName="icon-praise3" styleName="icon-praise" />
 
-          {praiseCount}
-        </button>
+            {praiseCount}
+          </button>
+        </OnlyHasLoginedCanClick>
 
-        <button styleName={thumbdownBtnClassName} onClick={this.handleClickThumbdownBtn}>
-          <SvgIcon iconName="icon-thumbdown3" styleName="icon-thumbdown" />
-        </button>
+        <OnlyHasLoginedCanClick>
+          <button styleName={thumbdownBtnClassName} onClick={this.handleClickThumbdownBtn}>
+            <SvgIcon iconName="icon-thumbdown3" styleName="icon-thumbdown" />
+          </button>
+        </OnlyHasLoginedCanClick>
 
         <button styleName="btn-comment" onClick={this.handleClickCommentBtn}>
           <SvgIcon iconName="icon-comment1" styleName="icon-comment" />

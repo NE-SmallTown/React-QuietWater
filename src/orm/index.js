@@ -10,6 +10,6 @@ import orm from './orm';
 
 const emptyDBState = orm.getEmptyState();
 
-const session = orm.session(emptyDBState);
+orm.session(emptyDBState);
 
 export default orm;

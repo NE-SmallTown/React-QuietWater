@@ -13,7 +13,5 @@ import App from '../containers/App';
 
 // TODO 发布时删除routes,以及将此移动到examples目录
 export default (
-  <Route path="/" component={App}>
-
-  </Route>
+  <Route path="/" component={App} />
 );
