@@ -1,6 +1,13 @@
 **NOTE**: Now this repo has not finished,this is just for backup
 
-# <a href='http://redux.js.org'><img src='https://preview.ibb.co/hMtfCa/quiet_water_logo.png' width='120' height='120'></a>
+<p align="center">
+    <img width="140" height="140" src="https://preview.ibb.co/hMtfCa/quiet_water_logo.png">
+</p>
+
+[![build status](https://img.shields.io/circleci/project/github/NE-SmallTown/React-QuietWater.svg)](https://circleci.com/gh/NE-SmallTown/React-QuietWater)
+[![npm package](https://img.shields.io/npm/v/React-QuietWater.svg?style=flat-square)](https://www.npmjs.org/package/React-QuietWater)
+[![npm downloads](https://img.shields.io/npm/dm/React-QuietWater.svg?style=flat-square)](https://www.npmjs.org/package/React-QuietWater)
+[![npm license](https://img.shields.io/npm/l/React-QuietWater.svg?style=flat-square)](https://www.npmjs.org/package/React-QuietWater)
 
 React-QuietWater is a comment system based on react, css-modules and redux, redux-orm, react-css-themr.It's UI inspired by
 [zhihu](https://www.zhihu.com) and [medium](https://medium.com/),and think about something from twitter,facebook,quora and others

@@ -1,31 +1,64 @@
 {
-  "name": "react-QuietWater",
-  "version": "0.0.1",
-  "description": "One comment system based on react.",
-  "keywords": [
-    "react-component",
-    "react",
-    "comment"
-  ],
-  "main": "lib/index.js",
+  "name": "react-QuietWater-demo",
   "engines": {
     "node": ">=6.0",
     "npm": "^3.0.0"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "scripts": {
     "flow": "flow",
     "clean": "rimraf dist",
+    "compile": "better-npm-run compile",
     "lint": "eslint bin build config server src tests",
     "lint:fix": "npm run lint -- --fix",
+    "start": "better-npm-run start",
+    "dev": "better-npm-run dev",
     "test": "jest",
     "test:dev": "npm run test -- --watch",
+    "deploy": "better-npm-run deploy",
+    "deploy:dev": "better-npm-run deploy:dev",
+    "deploy:prod": "better-npm-run deploy:prod",
     "codecov": "cat coverage/*/lcov.info | codecov"
   },
   "betterScripts": {
+    "compile": {
+      "command": "node ./bin/compile",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    },
+    "dev": {
+      "command": "nodemon ./bin/dev-server --ignore dist --ignore coverage --ignore tests --ignore src",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      }
+    },
+    "deploy": {
+      "command": "npm run lint && npm run test && npm run clean && npm run compile",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    },
+    "deploy:dev": {
+      "command": "npm run deploy",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      }
+    },
+    "deploy:prod": {
+      "command": "npm run deploy",
+      "env": {
+        "NODE_ENV": "production",
+        "DEBUG": "app:*"
+      }
+    },
+    "start": {
+      "command": "node ./bin/dev-server",
+      "env": {
+        "DEBUG": "app:*"
+      }
+    },
     "test": {
       "command": "node ./node_modules/karma/bin/karma start config/karma.config",
       "env": {
@@ -34,16 +67,6 @@
       }
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NE-SmallTown/react-QuietWater.git"
-  },
-  "author": "NE-SmallTown(https://github.com/NE-SmallTown)",
-  "bugs": {
-    "url": "https://github.com/NE-SmallTown/react-QuietWater/issues"
-  },
-  "homepage": "https://github.com/NE-SmallTown/react-QuietWater",
-  "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.0",
     "dompurify": "^0.8.9",

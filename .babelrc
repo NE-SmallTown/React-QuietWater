@@ -1,1 +1,15 @@
-{}
+{
+  "plugins"        : [
+    "transform-decorators-legacy",
+    "transform-object-rest-spread",
+    "transform-export-extensions",
+    [
+      "react-css-modules",
+      {
+        "generateScopedName": "[name]___[local]___[hash:base64:2]",
+        "webpackHotModuleReloading": true
+      }
+    ]
+  ],
+  "presets"        : ["flow", "es2015", "react", "stage-0"]
+}

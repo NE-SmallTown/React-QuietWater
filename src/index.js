@@ -15,3 +15,16 @@
 import QuietWater from './containers/QuietWater';
 
 export default QuietWater;
+
+export { default as LanguageProvider } from './components/Provider/LanguageProvider';
+
+export { default as handleHashChange } from './utils/route/handleHashChange';
+
+export { default as globalConfig } from './globalConfig';
+export * from './globalConfig';
+
+export { default as createQuietWaterStore } from './store/createAppStore';
+
+export * from './utils/user';
+
+export * from './globalParam';

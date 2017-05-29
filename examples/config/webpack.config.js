@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const cssnano = require('cssnano');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const project = require('./project.config');
+const project = require('./project.config.js');
 const debug = require('debug')('app:globalConfig:webpack');
 
 const __DEV__ = project.globals.__DEV__;
@@ -24,7 +24,7 @@ const webpackConfig = {
 // ------------------------------------
 // Entry Points
 // ------------------------------------
-const APP_ENTRY = project.paths.base('examples/src/main.js');
+const APP_ENTRY = project.paths.client('main.js');
 
 webpackConfig.entry = {
   app : __DEV__
@@ -56,7 +56,7 @@ webpackConfig.externals['react/addons'] = true;
 webpackConfig.plugins = [
   new webpack.DefinePlugin(project.globals),
   new HtmlWebpackPlugin({
-    template : project.paths.base('examples/src/index.html'),
+    template : project.paths.client('index.html'),
     hash     : false,
     favicon  : project.paths.public('favicon.ico'),
     filename : 'index.html',

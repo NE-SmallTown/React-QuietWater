@@ -31,11 +31,12 @@ const config = {
   // Compiler Configuration
   // ----------------------------------
   compiler_babel : {
-    cacheDirectory : true,
+    // cacheDirectory : true,
+
     // 用了'transform-runtime'就不能出现export *,如果非要用,可以采用下面的方式
     // https://github.com/babel/babel/issues/2877
     // https://github.com/babel/babel/issues/5501#issuecomment-287589989
-    plugins        : ['transform-decorators-legacy', 'transform-export-extensions'],
+    plugins        : ['transform-decorators-legacy', 'transform-object-rest-spread', 'transform-export-extensions'],
     presets        : ['flow', 'es2015', 'react', 'stage-0']
   },
   compiler_devtool         : 'cheap-module-eval-source-map',
@@ -126,7 +127,7 @@ config.paths = {
 // Environment Configuration
 // ========================================================
 debug(`Looking for environment overrides for NODE_ENV "${config.env}".`);
-const environments = require('./environments.config');
+const environments = require('./environments.config.js');
 const overrides = environments[config.env];
 if (overrides) {
   debug('Found overrides, applying to default configuration.');

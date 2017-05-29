@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
 import { Provider } from 'react-redux';
 
-import handleHashChange from '../src/utils/route/handleHashChange';
+import { handleHashChange } from '../../lib';
 
 export default class AppContainer extends React.PureComponent {
   static propTypes = {

@@ -2,8 +2,8 @@ const express = require('express');
 const debug = require('debug')('app:server');
 const path = require('path');
 const webpack = require('webpack');
-const webpackConfig = require('../config/webpack.config');
-const project = require('../config/project.config');
+const webpackConfig = require('../config/webpack.config.js');
+const project = require('../config/project.config.js');
 const compress = require('compression');
 
 const app = express();

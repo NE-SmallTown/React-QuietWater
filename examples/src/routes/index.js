@@ -9,9 +9,8 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import App from '../containers/App';
+import App from '../App';
 
-// TODO 发布时删除routes,以及将此移动到examples目录
 export default (
   <Route path="/" component={App} />
 );

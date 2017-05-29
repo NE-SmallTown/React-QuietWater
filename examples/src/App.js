@@ -8,10 +8,9 @@
 
 import React from 'react';
 
-import LanguageProvider from '../../src/components/Provider/LanguageProvider';
-import QuietWater from '../src';
+import QuietWater, { LanguageProvider } from '../../lib';
 
-import zh_cn from '../../src/language/zh-cn';
+import zh_cn from '../../lib/language/zh-cn';
 
 export default class App extends React.PureComponent {
   render () {

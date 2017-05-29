@@ -1,21 +1,25 @@
-import globalConfig, { configQuietWater } from '../src/globalConfig';
-import Message from '../src/components/Message';
-import SvgIcon from '../src/components/SvgIcon';
-import { formatUrl } from 'url-lib';
-import './example.css';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { combineReducers } from 'redux';
 
 import AppContainer from './AppContainer';
+import Message from '../../lib/components/Message';
+import SvgIcon from '../../lib/components/SvgIcon';
 
-import createAppStore from '../../src/store/createAppStore';
-import { network } from '../../src/utils/network';
-// TODO 发布时加上下面这行
-// import globalConfig from './globalConfig';
-import { getCurrentUserId, setCurrentUserId } from '../src/utils/user';
-import { wouldClearedStorageItemWhenPageUnload, info2Storage } from '../../src/globalParam';
+import { formatUrl } from 'url-lib';
+
+import {
+  configQuietWater,
+  globalConfig,
+  createQuietWaterStore,
+  getCurrentUserId,
+  setCurrentUserId,
+  wouldClearedStorageItemWhenPageUnload,
+  info2Storage
+} from '../../lib';
+import { network } from '../../lib/utils/network';
+
+import './example.css';
 
 // 配置React-QuietWater
 configQuietWater({
@@ -135,13 +139,14 @@ const initGlobalSettings = () => {
 };
 initGlobalSettings();
 
-const store = createAppStore();
+// TODO 真实的环境更可能是放到combineReducer里面去
+const store = createQuietWaterStore();
 if (__DEV__) {
   window.reduxStore = store;
 }
 
 const render = () => {
-  const routes = require('../routes/index').default;
+  const routes = require('./routes/index').default;
 
   ReactDOM.render(
     <AppContainer store={store} routes={routes} />,
@@ -152,8 +157,8 @@ const render = () => {
 // Hot Module Replacement API
 if (__DEV__) {
   if (module.hot) {
-    module.hot.accept('../../src/reducers/index', () => {
-      const reducers = require('./reducers').default;
+    module.hot.accept('../../lib/reducers/index', () => {
+      const reducers = require('../../lib/reducers').default;
       const combinedReducers = combineReducers({ ...reducers });
 
       store.replaceReducer(combinedReducers);
@@ -161,7 +166,7 @@ if (__DEV__) {
   }
 
   if (module.hot) {
-    module.hot.accept('../routes/index', () => {
+    module.hot.accept('./routes/index', () => {
       setImmediate(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE);
         render();
