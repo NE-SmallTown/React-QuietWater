@@ -2,9 +2,9 @@ node_modules
 
 .idea
 
-lib
+/lib
 
-.babelrc
+dist
 
 npm-debug.log
 

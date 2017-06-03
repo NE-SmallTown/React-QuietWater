@@ -52,7 +52,7 @@ export default class MiniEditor extends React.PureComponent {
     this.setState({ editorContentObj: valueObj });
 
     // 因为如果在这里就进行.toString('html')太消耗时间了(每次change都要转换一次),而且没有必要,所以我们
-    // 把整个对象传过去,什么时候转为html由调用者决定
+    // 把整个对象传过去,什么时候转为html或者要进行什么其他的处理由调用者决定
     this.props.onContentChange && this.props.onContentChange(valueObj);
   }
 

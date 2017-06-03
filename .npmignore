@@ -1,0 +1,9 @@
+.*rc
+.*.yml
+
+examples
+tests
+
+.flowconfig
+.gitignore
+.npmignore

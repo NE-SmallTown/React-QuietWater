@@ -8,9 +8,9 @@
 
 import { createOrmSelector } from './global';
 
-export const getPagination = replyId => createOrmSelector(
+export const getPagination = id => createOrmSelector(
   session =>
-    session.Pagination.hasId(replyId)
-    ? session.Pagination.withId(replyId).ref
+    session.Pagination.hasId(id)
+    ? session.Pagination.withId(id).ref
     : undefined
 );

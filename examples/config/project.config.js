@@ -30,20 +30,23 @@ const config = {
   // ----------------------------------
   // Compiler Configuration
   // ----------------------------------
-  compiler_babel : {
-    // cacheDirectory : true,
 
-    // 用了'transform-runtime'就不能出现export *,如果非要用,可以采用下面的方式
-    // https://github.com/babel/babel/issues/2877
-    // https://github.com/babel/babel/issues/5501#issuecomment-287589989
+  // 用了'transform-runtime'就不能出现export *,如果非要用,可以采用下面的方式
+  // https://github.com/babel/babel/issues/2877
+  // https://github.com/babel/babel/issues/5501#issuecomment-287589989
+  compiler_babel : {
     plugins        : ['transform-decorators-legacy', 'transform-object-rest-spread', 'transform-export-extensions'],
     presets        : ['flow', 'es2015', 'react', 'stage-0']
   },
-  compiler_devtool         : 'cheap-module-eval-source-map',
+  // cheap-module-source-map works in FF, but doesn't work in Chrome
+  // cheap-module-inline-source-map doesn't work in FF, but does work in Chrome
+  // For development, I set devtool to 'eval-source-map'
+  // For production, I set devtool to 'source-map'
+  compiler_devtool         : 'eval-source-map',
   compiler_hash_type       : 'hash',
   compiler_fail_on_warning : false,
   compiler_quiet           : false,
-  compiler_public_path     : './',
+  compiler_public_path     : '/',
   compiler_stats           : {
     chunks : false,
     chunkModules : false,

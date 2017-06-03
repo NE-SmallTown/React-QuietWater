@@ -6,8 +6,11 @@
     [
       "react-css-modules",
       {
-        "generateScopedName": "[name]___[local]___[hash:base64:2]",
-        "webpackHotModuleReloading": true
+        "extractCss": {
+          "to": "lib/cssDist/React-QuietWater.scss"
+        },
+        "removeImport": true,
+        "generateScopedName": "[name]___[local]___[hash:base64:2]"
       }
     ]
   ],

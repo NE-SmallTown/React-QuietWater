@@ -1,27 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { combineReducers } from 'redux';
 
 import AppContainer from './AppContainer';
-import Message from '../../lib/components/Message';
-import SvgIcon from '../../lib/components/SvgIcon';
+import Message from 'react-quietwater/lib/components/Message';
+import SvgIcon from 'react-quietwater/lib/components/SvgIcon';
 
 import { formatUrl } from 'url-lib';
 
 import {
   configQuietWater,
   globalConfig,
-  createQuietWaterStore,
   getCurrentUserId,
   setCurrentUserId,
-  wouldClearedStorageItemWhenPageUnload,
   info2Storage
-} from '../../lib';
-import { network } from '../../lib/utils/network';
+} from 'react-quietwater';
+import { network } from 'react-quietwater/lib/utils/network';
+
+// NOTE: please import the global css(e.g. normalize.css, rc-pagination.css,rc-message.css) and React-QuietWater's
+// css which it needs, if you don't import them,probably React-QuietWater can't work.And you should note that
+// these 2 css can't be css mouduled,they should be imported as a global module rather than css moudle.So you
+// can notice that in our demo's webpack config,we exclude the import which form node_modules in the
+// **css/scss modules** loader to avoid treat below 2 css as css modules and include the import which from
+// node_modules in the **css/scss loader**(note this is just a normal css loader, i.e. doesn't use css modules)
+// to make we can resolve below 2 css as global css.
+import 'react-quietwater/lib/cssDist/React-QuietWater-Global.scss';
+
+// if you use babel-plugin-react-css-modules,we need to add the '../node_modules' prefix and set exclude
+// option of the plugin to 'node_modules' to avoid the plugin to ignore our css file(i.e. not treat them
+// as a css modules).And notice that if you just set the exclude option of the plugin to 'node_modules'
+// but don't add the '../node_modules' prefix,we will get error "Cannot find module 'react-quietwater/lib/
+// cssDist/React-QuietWater.scss" due to https://github.com/gajus/babel-plugin-react-css-modules/blob/master/src/index.js#L126
+// import '../node_modules/react-quietwater/lib/cssDist/React-QuietWater.css';
+import 'react-quietwater/lib/cssDist/React-QuietWater.scss';
 
 import './example.css';
 
-// 配置React-QuietWater
+// config React-QuietWater
 configQuietWater({
   router: {
     user: {
@@ -42,6 +56,12 @@ configQuietWater({
     post: {
       operationBar: {
         praiseUrl: 'reply/praise' // the post praise interface url
+      },
+      replyEditor: {
+        createUrl: 'reply/add'
+      },
+      commentEditor: {
+        createUrl: 'comment/add'
       }
     },
 
@@ -100,26 +120,16 @@ configQuietWater({
 
 const MOUNT_NODE = document.getElementById('root');
 
-// 清除某些全局配置，在窗口关闭时调用
-// clear some global settings when close browser window/tab
-const clearGlobalSettings = () => {
-  wouldClearedStorageItemWhenPageUnload.forEach(item => {
-    localStorage.removeItem(item);
-  });
-};
-window.addEventListener('beforeunload', function (event) {
-  clearGlobalSettings();
-});
-
-// 配置用户信息
+// config user info
 export const configUserInfo = () => {
-  // just for test,because in real environment we has set userId to locastorage
+  // just for test,because in real environment we must has set userId to localstorage before we call React-QuietWater
   setCurrentUserId('xxxxxxxxxx');
 
   let userId = getCurrentUserId();
 
   // 测试的时候为了方便(即不需要一个登录页和登录相关的逻辑)我们在获取用户信息的时候返回了token,但是实际中肯定是不可能的,因为那样
   // 每个人都可以获取任意用户的token,token应该是只有登录接口才会提供
+  // below just use fetch or 3rd-party lib about fetch is fine
   if (userId !== null) {
     return network.get({
       url: globalConfig.api.quietWaterInitUrl,
@@ -139,40 +149,14 @@ const initGlobalSettings = () => {
 };
 initGlobalSettings();
 
-// TODO 真实的环境更可能是放到combineReducer里面去
-const store = createQuietWaterStore();
-if (__DEV__) {
-  window.reduxStore = store;
-}
-
+// config our app
 const render = () => {
   const routes = require('./routes/index').default;
 
   ReactDOM.render(
-    <AppContainer store={store} routes={routes} />,
+    <AppContainer routes={routes} />,
     MOUNT_NODE
   );
 };
-
-// Hot Module Replacement API
-if (__DEV__) {
-  if (module.hot) {
-    module.hot.accept('../../lib/reducers/index', () => {
-      const reducers = require('../../lib/reducers').default;
-      const combinedReducers = combineReducers({ ...reducers });
-
-      store.replaceReducer(combinedReducers);
-    });
-  }
-
-  if (module.hot) {
-    module.hot.accept('./routes/index', () => {
-      setImmediate(() => {
-        ReactDOM.unmountComponentAtNode(MOUNT_NODE);
-        render();
-      });
-    });
-  }
-}
 
 render();

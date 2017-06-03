@@ -46,6 +46,7 @@ export default class Comment extends Model {
         }
 
         break;
+      case ADD_COMMENT
     }
   }
 }

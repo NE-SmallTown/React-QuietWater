@@ -8,16 +8,19 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 
 import ReplyList from '../ReplyList';
-import AddReply from '../AddReply';
+import Editor from '../../components/Editor';
 import { QuietWaterHeader } from '../../components/custom/QuietWater';
+import { OnlyHasLoginedCanSee } from '../../components/custom/Auth';
 
-import { loadQuietWaterOfHost, loadReply } from '../../actions';
+import { loadQuietWaterOfHost, loadReply, createReply } from '../../actions';
 import { getReplyList, getPagination } from '../../selectors/';
+import createQuietWaterStore from '../../store/createAppStore';
+import { priNetwork } from '../../utils/network';
+import globalConfig from '../../globalConfig';
 
-import '../../globalStyles/global.scss';
 import './index.css';
 
 class QuietWater extends React.PureComponent {
@@ -27,7 +30,8 @@ class QuietWater extends React.PureComponent {
     hostId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     quietWaterWidth: PropTypes.number,
     loadReply: PropTypes.func,
-    replyListPagination: PropTypes.object
+    replyListPagination: PropTypes.object,
+    createReply: PropTypes.func
   }
 
   static contextTypes = {
@@ -62,6 +66,25 @@ class QuietWater extends React.PureComponent {
     });
   }
 
+  handleAddReplyEditorSubmit = editorContent => {
+    console.log(`准备提交回复内容:${editorContent}`);
+
+    const { hostId } = this.props;
+
+    priNetwork.post({
+      url: globalConfig.api.post.replyEditor.createUrl,
+      data: {
+        hostId,
+        content: editorContent
+      }
+    })
+    .then(({ status, reply }) => {
+      if (status === 'ok') {
+        this.props.createReply(reply);
+      }
+    });
+  }
+
   render () {
     const { replyList, quietWaterWidth } = this.props;
     const { loadMoreReplyText } = this.context.quietWaterLanguage.QuietWater;
@@ -75,12 +98,18 @@ class QuietWater extends React.PureComponent {
         <ReplyList replyList={replyList} quietWaterWidth={quietWaterWidth} />
 
         <div styleName="loadMoreReply-wrap">
-          <button styleName="btn-loadMoreReply" onClick={this.handleLoadMoreReply}>
+          <button
+            style={globalConfig.styles.loadMoreReplyBtn}
+            styleName="btn-loadMoreReply"
+            onClick={this.handleLoadMoreReply}
+          >
             {loadMoreReplyText}
           </button>
         </div>
 
-        <AddReply />
+        <OnlyHasLoginedCanSee>
+          <Editor onSubmit={this.handleAddReplyEditorSubmit} />
+        </OnlyHasLoginedCanSee>
       </div>
     );
   }
@@ -92,7 +121,15 @@ const mapStateToProps = (state, ownProps) => ({
   replyListPagination: getPagination(ownProps.hostId)(state)
 });
 
-export default connect(
+const store = createQuietWaterStore();
+const QW = connect(
   mapStateToProps,
-  { loadQuietWaterOfHost, loadReply }
+  { loadQuietWaterOfHost, loadReply, createReply }
 )(QuietWater);
+
+export default (props) => (
+  <Provider store={store}>
+    <QW {...props} />
+  </Provider>
+);
+

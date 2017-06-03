@@ -10,7 +10,3 @@
     z-index: 1000;
     filter: alpha(opacity=50)
 }
-
-.ant-modal-mask-hidden {
-    display: none
-}

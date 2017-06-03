@@ -6,7 +6,7 @@
 @import "./rc-animation.css";
 @import "./ant-tooltip.css";
 @import "./ant-message.css";
-@import "ant-popover.css";
+@import "./ant-popover.css";
 
 /* TODO 在全局样式前加上.quietWater命名空间 */
 * {
@@ -55,5 +55,9 @@ button:focus {
 
 img {
   vertical-align: middle
+}
+
+.ant-modal-mask-hidden {
+  display: none
 }
 

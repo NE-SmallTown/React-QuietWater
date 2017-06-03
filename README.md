@@ -5,9 +5,9 @@
 </p>
 
 [![build status](https://img.shields.io/circleci/project/github/NE-SmallTown/React-QuietWater.svg)](https://circleci.com/gh/NE-SmallTown/React-QuietWater)
-[![npm package](https://img.shields.io/npm/v/React-QuietWater.svg?style=flat-square)](https://www.npmjs.org/package/React-QuietWater)
+[![npm package](https://img.shields.io/npm/v/React-QuietWater.svg?style=flat-square)](https://www.npmjs.com/package/react-quietwater)
 [![npm downloads](https://img.shields.io/npm/dm/React-QuietWater.svg?style=flat-square)](https://www.npmjs.org/package/React-QuietWater)
-[![npm license](https://img.shields.io/npm/l/React-QuietWater.svg?style=flat-square)](https://www.npmjs.org/package/React-QuietWater)
+[![npm license](https://img.shields.io/npm/l/React-QuietWater.svg?style=flat-square)](https://www.npmjs.com/package/react-quietwater)
 
 React-QuietWater is a comment system based on react, css-modules and redux, redux-orm, react-css-themr.It's UI inspired by
 [zhihu](https://www.zhihu.com) and [medium](https://medium.com/),and think about something from twitter,facebook,quora and others
@@ -165,9 +165,25 @@ and then you can import the QuietWater component
 ```
 
 **reply**
+
+- Create reply
+```
+  // request: 
+  {
+    hostId: the corresponding id of the host of your situation(e.g. articleId or musicId)
+    content: the original html string of the editor content
+  }
+  
+  // response:
+  {
+    data: {
+      status: 'ok' | 'error'
+      reply: data of reply entity 
+    }
+  }
 ```
 
-```
+**NOTE**: Host id should be different with reply id.
 
 **comment**
 ```

@@ -1,6 +1,6 @@
 {
-  "name": "react-QuietWater",
-  "version": "0.0.1",
+  "name": "react-quietwater",
+  "version": "0.1.6",
   "description": "One comment system based on react.",
   "keywords": [
     "react-component",
@@ -17,8 +17,10 @@
     "src"
   ],
   "scripts": {
+    "clean": "rimraf ./lib",
+    "prebuild": "npm run clean",
+    "build": "cd ./node_modules/.bin && babel ../../src --out-dir ../../lib",
     "flow": "flow",
-    "clean": "rimraf dist",
     "lint": "eslint bin build config server src tests",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
@@ -43,7 +45,7 @@
     "url": "https://github.com/NE-SmallTown/react-QuietWater/issues"
   },
   "homepage": "https://github.com/NE-SmallTown/react-QuietWater",
-  "license": "MIT",
+  "license": "MIT License",
   "dependencies": {
     "classnames": "^2.2.0",
     "dompurify": "^0.8.9",
@@ -102,6 +104,7 @@
     "cheerio": "^0.22.0",
     "codecov": "^1.0.1",
     "compression": "^1.6.2",
+    "copy": "^0.3.0",
     "css-loader": "^0.26.1",
     "cssnano": "^3.7.4",
     "debug": "^2.2.0",
@@ -129,8 +132,8 @@
     "karma-mocha-reporter": "^2.0.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-webpack-with-fast-source-maps": "^1.9.2",
+    "mkdirp": "^0.5.1",
     "mocha": "^3.0.1",
-    "node-sass": "^4.0.0",
     "nodemon": "^1.10.2",
     "phantomjs-prebuilt": "^2.1.12",
     "postcss-loader": "^1.1.0",
@@ -138,6 +141,7 @@
     "redbox-react": "^1.2.10",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.0",
+    "node-sass": "^4.5.3",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",

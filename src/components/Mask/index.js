@@ -38,7 +38,7 @@ function Mask (props) {
     <LazyRenderBox
       style={getMaskStyle(props)}
       styleName={`${props.prefixCls}-mask`}
-      hiddenClassName={maskStyles[`${props.prefixCls}-mask-hidden`]}
+      hiddenClassName={`${props.prefixCls}-mask-hidden`}
       visible={props.visible}
       {...props.maskProps}
     />

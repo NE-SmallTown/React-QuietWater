@@ -1,0 +1,25 @@
+.wrap {
+
+}
+
+.submitBtn-wrap {
+    position: absolute;
+
+    margin-top: 50px;
+
+    text-align: right;
+}
+
+.submitBtn {
+    border-radius: 3px;
+    border: 1px solid #3188c1;
+    padding: 0 16px;
+    line-height: 30px;
+
+    color: #fff;
+    background-color: #3188c1;
+}
+
+.submitBtn:hover {
+    background-color: #2098d2;
+}

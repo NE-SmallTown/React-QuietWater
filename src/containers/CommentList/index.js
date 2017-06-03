@@ -77,6 +77,8 @@ class CommentList extends React.PureComponent {
 
   handleEditorSubmit = editorContent => {
     console.log(`准备提交评论内容:${editorContent}`);
+
+    this.props.addComment
   }
 
   render () {
@@ -93,16 +95,16 @@ class CommentList extends React.PureComponent {
       <div styleName="wrap" className={className}>
         <ReactScroll.Element name={`qw_${replyId}_clh`}>
           <div styleName="header">
-          <span styleName="commentCountText">
-            {commentListPagination && `${commentListPagination.totalCount || commentList.length}${countTextPostfix}`}
+            <span styleName="commentCountText">
+              {commentListPagination && `${commentListPagination.totalCount || commentList.length}${countTextPostfix}`}
             </span>
           </div>
         </ReactScroll.Element>
 
         <Lodaing
           store={context.store || this.props.store}
-          actionTypeOfStartFetching={[COMMENT_REQUEST, Conversation_REQUEST]}
-          actionTypeOfFinishFetching={[COMMENT_SUCCESS, Conversation_SUCCESS]}
+          actionTypeOfStartFetching={COMMENT_REQUEST}
+          actionTypeOfFinishFetching={COMMENT_SUCCESS}
         >
           {
             commentList.length > 0 &&

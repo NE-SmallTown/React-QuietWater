@@ -28,8 +28,6 @@ export default class ReplyList extends React.PureComponent {
     this.replyListIds = props.replyList && props.replyList.map(reply => reply.id);
 
     this.keyPressListenerFunc = e => {
-      // debugger;
-
       // if now we are in the editor,don't react any key event
       const excludes = globalConfig.events.quietWater.responsePrevOrNextReplyExcludeIn;
       if (excludes.some(

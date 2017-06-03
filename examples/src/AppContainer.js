@@ -9,23 +9,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
-import { Provider } from 'react-redux';
 
-import { handleHashChange } from '../../lib';
+import { handleHashChange } from 'react-quietwater';
 
 export default class AppContainer extends React.PureComponent {
   static propTypes = {
-    routes : PropTypes.object.isRequired,
-    store  : PropTypes.object.isRequired
+    routes : PropTypes.object.isRequired
   }
 
   render () {
-    const { routes, store } = this.props;
+    const { routes } = this.props;
 
+    // because we are testing,so there is no neccerary to use <Provider> of react-redux
     return (
-      <Provider store={store}>
-        <Router history={browserHistory} children={routes} onUpdate={handleHashChange} />
-      </Provider>
+      <Router history={browserHistory} children={routes} onUpdate={handleHashChange} />
     );
   }
 };

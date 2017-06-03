@@ -16,6 +16,12 @@ const configParams = {
     quietWater: {
 
     },
+    replyEditor: {
+
+    },
+    loadMoreReplyBtn: {
+      backgroundColor: 'rgb(247, 255, 248)'
+    },
     replyList: {
       backgroundColor: 'rgba(255, 255, 255, 0.89)'
     },
@@ -84,10 +90,11 @@ const configParams = {
     },
 
     share: {
-      twitter: {
+      // twitter: {
         // TODO 增加twitter和其他分享方式
-        // 可参考https://github.com/overtrue/share.js,https://github.com/nygardk/react-share
-      },
+        // 可参考https://github.com/overtrue/share.js
+        // https://github.com/nygardk/react-share
+      // },
       weibo: {
         urlPrefix: 'http://service.weibo.com/share/share.php'
         // sourceWebSiteName: 分享来源于哪个网站,一般填写为接入QuietWater的用户的网站的名称

@@ -8,7 +8,7 @@
 
 import { oneToOne, attr, Model, fk } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS, REPLY_SUCCESS } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS, REPLY_SUCCESS, CREATE_REPLY } from '../../actions';
 
 export default class Reply extends Model {
   static modelName = 'Reply'
@@ -74,7 +74,11 @@ export default class Reply extends Model {
 
           break;
         }
+      case CREATE_REPLY:
+        Reply.create(action.fields);
 
+        break;
+      case ADD_COMMENT
         /*
       case UPDATE_REPLY:
         Reply.withId(action.payload.id).update();

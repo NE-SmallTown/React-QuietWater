@@ -39,6 +39,10 @@ const languageObj = {
     }
   },
   Editor: {
+    replyEditor: {
+      placeholderText: '写回复...',
+      submitText: '提交'
+    },
     commentEditor: {
       cancelText: '取消',
       submitText: '评论',

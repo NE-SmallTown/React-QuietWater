@@ -10,9 +10,12 @@
 /* eslint-disable */
 
 (function($w) {
+  if (typeof $w.RSAUtils !== 'undefined') {
+    return;
+  }
 
-  if(typeof $w.RSAUtils === 'undefined')
-    var RSAUtils = $w.RSAUtils = {};
+  $w.RSAUtils = {};
+  const RSAUtils = $w.RSAUtils;
 
   var biRadixBase = 2;
   var biRadixBits = 16;

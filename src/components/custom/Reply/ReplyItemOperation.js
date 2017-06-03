@@ -19,14 +19,12 @@ import { OnlyHasLoginedCanClick } from '../Auth';
 
 import { priNetwork } from '../../../utils/network';
 import globalConfig from '../../../globalConfig';
-import { getToken as getCurHostUserToken } from '../../../security/authService';
 import { updatePraiseCount } from '../../../actions';
 import getNewLocationHrefWithHash from '../../../utils/getNewLocationHrefWithHash';
 import { getCommentListCount } from '../../../selectors';
 
 import './ReplyItemOperation.css';
 
-const { praiseUrl } = globalConfig.api.post.operationBar;
 class ReplyItemOperation extends React.PureComponent {
   static propTypes = {
     replyId: PropTypes.string,
@@ -38,7 +36,6 @@ class ReplyItemOperation extends React.PureComponent {
     onClickFold: PropTypes.func,
     onClickExpandComment: PropTypes.func,
     className: PropTypes.string,
-    userToken: PropTypes.string,
     updatePraiseCount: PropTypes.func,
     excerpt: PropTypes.string,
     style: PropTypes.object,
@@ -67,22 +64,17 @@ class ReplyItemOperation extends React.PureComponent {
       return;
     }
 
-    if (this.props.userToken === null) {
-      location.replace(globalConfig.api.hostUserLoginUrl);
-
-      return;
-    }
-
     const oldPraiseCount = this.props.praiseCount;
     const newPraiseCount = oldPraiseCount + type;
 
-    const { replyId, userToken } = this.props;
+    const { praiseUrl } = globalConfig.api.post.operationBar;
+
+    const { replyId } = this.props;
     priNetwork.post({
       url: praiseUrl,
       data: {
         replyId,
-        praiseCount: newPraiseCount,
-        userToken
+        praiseCount: newPraiseCount
       },
       responseStatusHandler: status => {
         if (status === 'ok') {
@@ -241,7 +233,6 @@ class ReplyItemOperation extends React.PureComponent {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  userToken: getCurHostUserToken(),
   commentListCount: getCommentListCount(ownProps.replyId)(state)
 });
 

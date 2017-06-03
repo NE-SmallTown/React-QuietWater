@@ -50,7 +50,7 @@ export default(state = {
   // 找到action.type在filter.js中对应的处理函数
   const handleFunction = mapActionTypeToHandleFunction(type);
   const commonResultState = { ...state, curDispatchingActionType: type };
-  // because just now they are the same,but in the future probably changed,so we don't merge them to one
+  // at now below logic are same,but in the future probably changed,so we don't merge them to one
   if (typeof handleFunction === 'undefined') {
     warning(false, `There is no corresponding handleFunction for ${type} type`);
 

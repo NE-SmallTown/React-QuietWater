@@ -64,6 +64,9 @@ webpackConfig.plugins = [
     minify   : {
       collapseWhitespace : true
     }
+  }),
+  new ExtractTextPlugin('[name].[contenthash].css', {
+    allChunks : true
   })
 ];
 
@@ -118,6 +121,8 @@ if (!__TEST__) {
 // Loaders
 // ------------------------------------
 // JavaScript / JSON
+
+const cssModulesHashRule = '[name]___[local]___[hash:base64:2]';
 webpackConfig.module.loaders = [{
   test    : /\.(js|jsx)$/,
   include : project.paths.client(),
@@ -128,7 +133,8 @@ webpackConfig.module.loaders = [{
       [
         'react-css-modules',
         {
-          generateScopedName: '[name]___[local]___[hash:base64:2]',
+          exclude: 'react-quietwater',
+          generateScopedName: cssModulesHashRule,
           webpackHotModuleReloading: true
         }
       ]
@@ -143,24 +149,20 @@ webpackConfig.module.loaders = [{
 // Style Loaders
 // ------------------------------------
 
-// css-modules
-webpackConfig.module.loaders.push({
-  test    : /\.(css|scss)$/,
-  exclude : project.paths.client('globalStyles'),
-  loader  : 'style!css?importLoaders=1&modules&localIdentName=[name]___[local]___[hash:base64:2]!postcss'
-});
-
 // 配置src/globalStyles下面的为全局样式
 // set src/globalStyles to global css
 webpackConfig.module.loaders.push({
-  test    : /\.(css|scss)/,
-  include : project.paths.client('globalStyles'),
-  loader  : 'style!css!sass!postcss'
+  test    : /\.(css|scss)$/,
+  include : [project.paths.client('globalStyles'), /node_modules/],
+  loader  : 'style!css!postcss!sass'
 });
 
-webpackConfig.sassLoader = {
-  includePaths : project.paths.client('globalStyles')
-};
+// css-modules
+webpackConfig.module.loaders.push({
+  test    : /\.(css|scss)$/,
+  exclude : [project.paths.client('globalStyles'), /node_modules/],
+  loader  : 'style!css?modules&importLoaders=2&localIdentName=[name]___[local]___[hash:base64:2]!postcss!sass'
+});
 
 webpackConfig.postcss = [
   cssnano({
@@ -172,10 +174,12 @@ webpackConfig.postcss = [
     discardComments : {
       removeAll : true
     },
+    discardDuplicates: true,
     discardUnused : false,
     mergeIdents   : false,
+    mergeLonghand : true,
+    mergeRules    : true,
     reduceIdents  : false,
-    safe          : true,
     sourcemap     : true
   })
 ];
@@ -209,12 +213,6 @@ if (!__DEV__) {
     loader.loader = ExtractTextPlugin.extract(first, rest.join('!'));
     delete loader.loaders;
   });
-
-  webpackConfig.plugins.push(
-    new ExtractTextPlugin('[name].[contenthash].css', {
-      allChunks : true
-    })
-  );
 }
 
 module.exports = webpackConfig;

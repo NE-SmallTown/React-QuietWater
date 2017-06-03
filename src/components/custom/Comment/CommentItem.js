@@ -88,6 +88,8 @@ class CommentItem extends React.PureComponent {
 
   handleEditorSubmit = () => {
     console.log(`准备提交评论内容:`, this.state.editorContentObj.toString('html'));
+
+    this.props.addComment
   }
 
   hancleCancelEditor = () => {

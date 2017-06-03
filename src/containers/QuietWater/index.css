@@ -11,19 +11,22 @@
 }
 
 .loadMoreReply-wrap {
+    margin: 0 auto;
     border: 1px solid #e7eaf1;
     border-radius: 2px;
     width: 75%;
 
-    text-align: center;
-    color: #66afe9;
-    background-color: #fff;
+    background: #fff;
     box-shadow: 0 1px 3px rgba(0,37,55,.05);
+    text-align: center;
 }
 
 .btn-loadMoreReply {
+    border: none;
+    background: none;
+    line-height: 38px;
     width: 100%;
-    line-height: 30px;
 
     font-size: 15px;
+    color: rgb(66, 66, 66);
 }
