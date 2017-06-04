@@ -42,7 +42,7 @@ so that's why I use it now.If you don't want to use React 16 in your project,sor
 
 ### Demo
 
-You can view the [online example](https://www.NE-SmallTown.github.io/React-QuietWater/dist).And please note that 
+You can view the [online example](https://ne-smalltown.github.io/React-QuietWater/examples/dist).And please note that 
 although we create mock data but the data maybe don't have correct logic like the real world.This demo is just
 for showing the UI and the basic logic.
 
