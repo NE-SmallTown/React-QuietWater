@@ -16,10 +16,12 @@ import CommentItemOperation from './CommentItemOperation';
 import CommentItemHeaderAndContent from './CommentItemHeaderAndContent';
 import ConversationBox from './ConversationBox';
 import MiniEditor from '../../MiniEditor';
+import Message from '../../Message';
 
 import globalConfig from '../../../globalConfig';
 import { getConversationList } from '../../../selectors';
-import { loadConversation } from '../../../actions';
+import { loadConversation, addComment } from '../../../actions';
+import { priNetwork } from '../../../utils/network';
 
 import './CommentItem.css';
 
@@ -35,7 +37,8 @@ class CommentItem extends React.PureComponent {
     loadConversation: PropTypes.func,
     showConversationBtn: PropTypes.bool,
     context: PropTypes.object,
-    store: PropTypes.object
+    store: PropTypes.object,
+    addComment: PropTypes.func
   }
 
   static contextTypes = {
@@ -87,9 +90,28 @@ class CommentItem extends React.PureComponent {
   }
 
   handleEditorSubmit = () => {
-    console.log(`准备提交评论内容:`, this.state.editorContentObj.toString('html'));
+    const editorHtmlContent = this.state.editorContentObj.toString('html');
+    const { id: replyId } = this.props;
 
-    this.props.addComment
+    console.log(`准备提交评论内容:${editorHtmlContent}`);
+
+    priNetwork.post({
+      url: globalConfig.api.post.commentEditor.createUrl,
+      data: {
+        replyId,
+        content: editorHtmlContent
+      },
+      responseErrorHandler: () => {
+        const context = this.context.quietWaterLanguage ? this.context : this.props.context;
+
+        Message.error(context.quietWaterLanguage.OperationError.whenAddCommentError, 3);
+      }
+    })
+    .then(({ status, comment }) => {
+      if (status === 'ok') {
+        this.props.addComment(comment);
+      }
+    });
   }
 
   hancleCancelEditor = () => {
@@ -109,6 +131,7 @@ class CommentItem extends React.PureComponent {
       showConversationBtn
     } = this.props;
 
+    // TODO 抽象一个组件,用于提供context(如果this.context有,就取this.context,没有就从props.context取,然后把当前组件作为它的子组件,当前组件要使用context统一从props.context取)
     const context = this.context.quietWaterLanguage ? this.context : this.props.context;
     const { cancelText, submitText } = context.quietWaterLanguage.Editor.commentEditor;
     const { replyText } = context.quietWaterLanguage.Comment.operationBar;
@@ -186,4 +209,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, { loadConversation })(CommentItem);
+export default connect(mapStateToProps, { loadConversation, addComment })(CommentItem);

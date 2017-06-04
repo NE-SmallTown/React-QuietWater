@@ -161,7 +161,7 @@ webpackConfig.module.loaders.push({
 webpackConfig.module.loaders.push({
   test    : /\.(css|scss)$/,
   exclude : [project.paths.client('globalStyles'), /node_modules/],
-  loader  : 'style!css?modules&importLoaders=2&localIdentName=[name]___[local]___[hash:base64:2]!postcss!sass'
+  loader  : `style!css?modules&importLoaders=2&localIdentName=${cssModulesHashRule}!postcss!sass`
 });
 
 webpackConfig.postcss = [

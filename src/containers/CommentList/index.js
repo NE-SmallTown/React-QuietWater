@@ -15,10 +15,12 @@ import { CommentItem } from '../../components/custom/Comment';
 import Pagination from '../../components/Pagination';
 import MiniEditor from '../../components/MiniEditor';
 import Lodaing from '../../components/Lodaing';
+import Message from '../../components/Message';
 
 import globalConfig from '../../globalConfig';
-import { loadComment, COMMENT_REQUEST, COMMENT_SUCCESS, Conversation_REQUEST, Conversation_SUCCESS } from '../../actions';
+import { loadComment, COMMENT_REQUEST, COMMENT_SUCCESS, addComment } from '../../actions';
 import { getCommentList, getPagination } from '../../selectors';
+import { priNetwork } from '../../utils/network';
 
 import './index.css';
 
@@ -32,7 +34,8 @@ class CommentList extends React.PureComponent {
     commentListPagination: PropTypes.object,
     showConversationBtn: PropTypes.bool,
     context: PropTypes.object,
-    store: PropTypes.object
+    store: PropTypes.object,
+    addComment: PropTypes.func
   }
 
   static defaultProps = {
@@ -78,7 +81,26 @@ class CommentList extends React.PureComponent {
   handleEditorSubmit = editorContent => {
     console.log(`准备提交评论内容:${editorContent}`);
 
-    this.props.addComment
+    const editorHtmlContent = editorContent.toString('html');
+    const { replyId } = this.props;
+
+    priNetwork.post({
+      url: globalConfig.api.post.commentEditor.createUrl,
+      data: {
+        replyId,
+        content: editorHtmlContent
+      },
+      responseErrorHandler: () => {
+        const context = this.context.quietWaterLanguage ? this.context : this.props.context;
+
+        Message.error(context.quietWaterLanguage.OperationError.whenAddCommentError, 3);
+      }
+    })
+    .then(({ status, comment }) => {
+      if (status === 'ok') {
+        this.props.addComment(comment);
+      }
+    });
   }
 
   render () {
@@ -150,5 +172,6 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default connect(mapStateToProps, {
-  loadComment
+  loadComment,
+  addComment
 })(CommentList);

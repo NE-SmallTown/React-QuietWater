@@ -14,3 +14,7 @@ export const info2Storage = globalConfig.localStorage.info2Storage;
 
 // 将一个localstorage的key映射到业务数据中的key上的对象
 export const storage2Info = { ...reverseKV(info2Storage) };
+
+// 供使用react-quietwater的用户使用
+export const hostUserInfo2StorageStringMap = { ...globalConfig.localStorage.info2Storage };
+delete hostUserInfo2StorageStringMap['userToken'];

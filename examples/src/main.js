@@ -12,7 +12,7 @@ import {
   globalConfig,
   getCurrentUserId,
   setCurrentUserId,
-  info2Storage
+  hostUserInfo2StorageStringMap
 } from 'react-quietwater';
 import { network } from 'react-quietwater/lib/utils/network';
 
@@ -108,11 +108,8 @@ configQuietWater({
       }
     },
     responseErrorHandler: {
-      1504: () => {
-        Message.error(`请不要修改localstorage里的字段，更不要拿本网站做实验，拜托了`, 5);
-      },
-      1505: () => {
-        Message.error(`获取数据时出错，因为你的权限无法支持你现在的操作，如果你确认自己有权限的话，请联系管理员～`, 5);
+      10036: () => {
+        Message.error(`获取数据时出错`, 5);
       }
     }
   }
@@ -129,21 +126,21 @@ export const configUserInfo = () => {
 
   // 测试的时候为了方便(即不需要一个登录页和登录相关的逻辑)我们在获取用户信息的时候返回了token,但是实际中肯定是不可能的,因为那样
   // 每个人都可以获取任意用户的token,token应该是只有登录接口才会提供
-  // below just use fetch or 3rd-party lib about fetch is fine
+  // just use fetch below or 3rd-party fetch lib(e.g axios) is also fine
   if (userId !== null) {
     return network.get({
       url: globalConfig.api.quietWaterInitUrl,
       data: { id: userId },
       automaticallyAddUrlPrefix: false
     }).then(res => {
-      Object.keys(info2Storage).forEach(infoKey => {
-        localStorage.setItem(info2Storage[infoKey], res.userInfo[infoKey]);
+      Object.keys(hostUserInfo2StorageStringMap).forEach(infoKey => {
+        localStorage.setItem(hostUserInfo2StorageStringMap[infoKey], res.userInfo[infoKey]);
       });
     });
   }
 };
 
-// 初始化某些全局配置
+// init global config
 const initGlobalSettings = () => {
   configUserInfo();
 };

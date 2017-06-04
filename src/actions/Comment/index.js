@@ -13,3 +13,5 @@ export const REMOVE_COMMENT = 'REMOVE_COMMENT';
 export * from './loadComment';
 
 export * from './loadConversation';
+
+export * from './addComment';

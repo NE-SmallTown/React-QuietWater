@@ -8,7 +8,7 @@
 
 import { oneToOne, attr, Model, fk } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS, REPLY_SUCCESS, CREATE_REPLY } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS, REPLY_SUCCESS, CREATE_REPLY, ADD_COMMENT } from '../../actions';
 
 export default class Reply extends Model {
   static modelName = 'Reply'
@@ -75,10 +75,26 @@ export default class Reply extends Model {
           break;
         }
       case CREATE_REPLY:
-        Reply.create(action.fields);
+        {
+          const replyEntityData = action.fields;
+          const { hostId } = replyEntityData;
+          Reply.create({ ...replyEntityData, host: hostId });
+        }
 
         break;
-      case ADD_COMMENT
+      case ADD_COMMENT:
+        {
+          const additiveComment = action.fields;
+          const { replyId } = additiveComment;
+
+          const replyInstance = Reply.withId(replyId);
+
+          replyInstance.update({
+            replies: replyInstance.comments.toRefArray().map(reply => reply.id).concat(additiveComment.id)
+          });
+        }
+
+        break;
         /*
       case UPDATE_REPLY:
         Reply.withId(action.payload.id).update();

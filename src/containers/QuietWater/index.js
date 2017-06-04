@@ -14,6 +14,7 @@ import ReplyList from '../ReplyList';
 import Editor from '../../components/Editor';
 import { QuietWaterHeader } from '../../components/custom/QuietWater';
 import { OnlyHasLoginedCanSee } from '../../components/custom/Auth';
+import Message from '../../components/Message';
 
 import { loadQuietWaterOfHost, loadReply, createReply } from '../../actions';
 import { getReplyList, getPagination } from '../../selectors/';
@@ -23,6 +24,7 @@ import globalConfig from '../../globalConfig';
 
 import './index.css';
 
+// TODO 看看是不是把globalConfig放到context里好一点
 class QuietWater extends React.PureComponent {
   static propTypes = {
     replyList: PropTypes.array,
@@ -76,7 +78,11 @@ class QuietWater extends React.PureComponent {
       data: {
         hostId,
         content: editorContent
-      }
+      },
+      responseErrorHandler: () => Message.error(
+        this.context.quietWaterLanguage.QuietWater.OperationError.whenAddReplyError,
+        3
+      )
     })
     .then(({ status, reply }) => {
       if (status === 'ok') {
@@ -108,7 +114,7 @@ class QuietWater extends React.PureComponent {
         </div>
 
         <OnlyHasLoginedCanSee>
-          <Editor onSubmit={this.handleAddReplyEditorSubmit} />
+          <Editor styleName="addReplyEditor" onSubmit={this.handleAddReplyEditorSubmit} />
         </OnlyHasLoginedCanSee>
       </div>
     );

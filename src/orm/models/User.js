@@ -10,6 +10,7 @@ import { Model, attr } from 'redux-orm';
 
 import { QUIETWATEROFHOST_SUCCESS, COMMENT_SUCCESS, Conversation_SUCCESS, REPLY_SUCCESS } from '../../actions';
 
+// TODO 提供一个action给用户去dispatch,action的内容为初始化宿主环境的登录用户(即当前用户)的信息,这样可以让User.orm响应这个action,创建当前用户的信息的实例
 export default class User extends Model {
   static modelName = 'User'
 

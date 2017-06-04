@@ -73,14 +73,14 @@ export default class Editor extends React.PureComponent {
   render () {
     const { className } = this.props;
 
-    const { placeholderText } = this.context.quietWaterLanguage.QuietWater.Error.replyEditor;
+    const { placeholderText } = this.context.quietWaterLanguage.Editor.replyEditor;
     const { submitText } = this.context.quietWaterLanguage.Editor.commentEditor;
 
     return (
       <div styleName="wrap" className={className}>
         <RichTextEditor
           style={globalConfig.styles.replyEditor}
-          toolbarConfig={{ display: this.toolbarConfig }}
+          toolbarConfig={this.toolbarConfig}
           value={this.state.editorContentObj}
           onChange={this.handleEditorChange}
           placeholder={placeholderText}

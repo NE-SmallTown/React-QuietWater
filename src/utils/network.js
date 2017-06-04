@@ -27,7 +27,11 @@ export const network = networkHelper({
   responseErrorHandler: ({ error: { code: errorCode } }) => {
     console.log(`fetch normal api return a object which includes some error information: ${errorCode}`);
 
-    responseErrorHandler[errorCode] && responseErrorHandler[errorCode]();
+    if (responseErrorHandler[errorCode]) {
+      responseErrorHandler[errorCode]();
+    } else {
+      console.warn(`but don't find the corresponding error code handler function`);
+    }
   },
   responseStatusHandler: status => responseStatusHandler[status] && responseStatusHandler[status](),
   httpStatusExcptionHandler: status => httpStatusExcptionHandler[status] && httpStatusExcptionHandler[status]()
@@ -44,7 +48,11 @@ export const priNetwork = networkHelper({
   responseErrorHandler: ({ error: { code: errorCode } }) => {
     console.log(`fetch private api return a object which includes some error information: ${errorCode}`);
 
-    responseErrorHandler[errorCode] && responseErrorHandler[errorCode]();
+    if (responseErrorHandler[errorCode]) {
+      responseErrorHandler[errorCode]();
+    } else {
+      console.warn(`but don't find the corresponding error code handler function`);
+    }
   },
   responseStatusHandler: dataStatus => responseStatusHandler[dataStatus] && responseStatusHandler[dataStatus](),
   httpStatusExcptionHandler: status => httpStatusExcptionHandler[status] && httpStatusExcptionHandler[status]()

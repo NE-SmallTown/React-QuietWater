@@ -69,7 +69,7 @@ const configParams = {
   },
   paginations: { // default pagination options
     replyList: {
-      pageSize: 6 // what number of items will be loaded when you click the loadMore or page button
+      pageSize: 6
     },
     commentList: {
       pageSize: 10

@@ -8,7 +8,7 @@
 
 import { fk, attr, Model } from 'redux-orm';
 
-import { COMMENT_SUCCESS, Conversation_SUCCESS } from '../../actions';
+import { COMMENT_SUCCESS, Conversation_SUCCESS, ADD_COMMENT } from '../../actions';
 
 export default class Comment extends Model {
   static modelName = 'Comment'
@@ -46,7 +46,10 @@ export default class Comment extends Model {
         }
 
         break;
-      case ADD_COMMENT
+      case ADD_COMMENT:
+        Comment.create(action.fields);
+
+        break;
     }
   }
 }

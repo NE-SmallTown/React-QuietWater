@@ -1,4 +1,6 @@
 .wrap {
+    position: relative;
+
     border: 1px solid #e7eaf1;
     border-radius: 2px;
     box-shadow: 0 1px 3px rgba(0,37,55,.05);
@@ -29,4 +31,14 @@
 
     font-size: 15px;
     color: rgb(66, 66, 66);
+}
+
+.addReplyEditor {
+    position: absolute;
+
+    left: 0;
+    bottom: -50px;
+    width: 100%;
+
+    transform: translateY(100%);
 }
