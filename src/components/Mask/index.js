@@ -10,7 +10,7 @@ import Animate from 'rc-animate';
 
 import LazyRenderBox from '../Modal/LazyRenderBox';
 
-import maskStyles from './maskStyles.css';
+import './maskStyles.css';
 
 function getMaskTransitionName (props) {
   let transitionName = props.maskTransitionName;

@@ -131,7 +131,7 @@ webpackConfig.module.loaders = [{
     project.compiler_babel,
     { plugins: project.compiler_babel.plugins.concat([
       [
-        'react-css-modules',
+        'react-css-modules-ne-smalltown',
         {
           exclude: 'react-quietwater',
           generateScopedName: cssModulesHashRule,

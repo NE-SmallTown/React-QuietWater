@@ -4,7 +4,7 @@
     "transform-object-rest-spread",
     "transform-export-extensions",
     [
-      "react-css-modules",
+      "react-css-modules-ne-smalltown",
       {
         "extractCss": {
           "to": "lib/cssDist/React-QuietWater.scss"

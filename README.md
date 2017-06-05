@@ -9,23 +9,22 @@
 [![npm downloads](https://img.shields.io/npm/dm/react-quietwater.svg?style=flat-square)](https://www.npmjs.org/package/React-QuietWater)
 [![npm license](https://img.shields.io/npm/l/react-quietwater.svg?style=flat-square)](https://www.npmjs.com/package/react-quietwater)
 
-React-QuietWater is a comment system based on react, css-modules and redux, redux-orm, react-css-themr.It's UI inspired by
-[zhihu](https://www.zhihu.com) and [medium](https://medium.com/),and think about something from twitter,facebook,quora and others
-design website.
+React-QuietWater is a comment system based on react, css-modules and redux-orm.Its UI inspired by[zhihu](https://www.zhihu.com) and [medium](https://medium.com/),
+and think about something from twitter,facebook,quora and others design website.
 
 ### Motivation
 
-Not only personal blog,websites,But also any websites around the world.Developers often want to add a comment module/area
+Not only personal blog,websites,but also any websites around the world,many developers often want to add a comment module/area
 in their apps to make it lively and active.So that's why React-QuietWater is here.
 
 ### Name origin
  
-Today,a lot of people,of course including me,are **fickle and painful**.We treate others rigorously due to the blame
-of our superior,the stress in our life,the atmosphere around our walk,dining and living.
+Today,a lot of people,of course including me,are **fickle and painful**.We treate others rigorously due to the blame of our superior,
+the stress in our life,the atmosphere around our walk,dining and living.
 
-So,on the network,we wantonly wreak our bad emotion to everyone,even our kinsfolk.
+So,on the web,we wantonly wreak our bad emotion to everyone,even our kinsfolk.
 
-That's really,really too heartrending.That's **not** me,**not** us.
+That's really,really too heartrending.This is **not** real me,**not** real us.
 
 So,QuietWater means that talk with others like water which is peaceful,harmonious and loving.
 
@@ -43,11 +42,11 @@ so that's why I use it now.If you don't want to use React 16 in your project,sor
 ### Demo
 
 You can view the [online example](https://ne-smalltown.github.io/React-QuietWater/examples/dist).And please note that 
-although we create mock data but the data maybe don't have correct logic like the real world.This demo is just
+although we use mock data for the example but maybe the data don't have correct logic like the real world.This demo is just
 for showing the UI and the basic logic.
 
 > NOTE: Some functions like praise/thumbdown a reply,submit reply/comment are allowable only when you have logined.
-So for testing React-QuietWater expediently.Default our test api interface return a invalid token of the userInfo.So 
+So for testing React-QuietWater expediently.Default our test api interface doesn't return a token of the user.So 
 We provide a [token](https://github.com/NE-SmallTown/React-QuietWater/tree/master/examples/token),you can set it to your `config.localStorage.info2Storage.userToken` (default the value is 'u_tk',
 i.e set `localstorage.u_tk` to the token value).And then you can test these functions otherwise it will redirect to the 
 login page which you set.
@@ -70,7 +69,7 @@ has logined(e.g. submit a reply),we will validate when you click these button.Th
 
 NOTE: The token format need to fit in [jwt](https://jwt.io/) format and we use [jwt-decode](https://github.com/auth0/jwt-decode) to decode the token.
 
-3.Set the [onUpdate function](/handleHashChange.js) to the Router Component because every reply correspond an anchor,so we need to  monitor the url change.
+3.Set the [onUpdate function](https://github.com/NE-SmallTown/React-QuietWater/blob/master/src/utils/route/handleHashChange.js) to the Router Component because every reply correspond an anchor,so we need to  monitor the url change.
 
 All you need to do is call the method which import from the globalConfig module and then config QuietWater whatever you want.
 e.g `import { configQuietWater } from 'react-QuietWater/lib/globalConfig configQuietWater({...})'`
@@ -274,7 +273,7 @@ The ... are the config paramas below:
 }
 ```
 
-2. **NOTE**: You must ensure the localstorage of your website have the above info2Storage's all properties when the user has login on your website.
+2. **NOTE**: You must ensure the localstorage of your website have the above info2Storage's all properties when the user has logined on your website.
 For example:
 ```
     {
@@ -291,7 +290,7 @@ For example:
     }
 ```
 
-and then you can import the QuietWater component
+after that you can import the QuietWater component
 
 ### Backend data interface format
 
