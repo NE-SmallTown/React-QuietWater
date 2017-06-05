@@ -9,7 +9,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/react-quietwater.svg?style=flat-square)](https://www.npmjs.org/package/React-QuietWater)
 [![npm license](https://img.shields.io/npm/l/react-quietwater.svg?style=flat-square)](https://www.npmjs.com/package/react-quietwater)
 
-React-QuietWater is a comment system based on react, css-modules and redux-orm.Its UI inspired by[zhihu](https://www.zhihu.com) and [medium](https://medium.com/),
+**React-QuietWater** is a comment system based on react, css-modules and redux-orm.Its UI inspired by [zhihu](https://www.zhihu.com) and [medium](https://medium.com/),
 and think about something from twitter,facebook,quora and others design website.
 
 ### Motivation
@@ -50,6 +50,8 @@ So for testing React-QuietWater expediently.Default our test api interface doesn
 We provide a [token](https://github.com/NE-SmallTown/React-QuietWater/tree/master/examples/token),you can set it to your `config.localStorage.info2Storage.userToken` (default the value is 'u_tk',
 i.e set `localstorage.u_tk` to the token value).And then you can test these functions otherwise it will redirect to the 
 login page which you set.
+
+> NOTE: For now we just support browserHistory.If you use hashHistory,some modules maybe can't work.
 
 ### Documentation
 

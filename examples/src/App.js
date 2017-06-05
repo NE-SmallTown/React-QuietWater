@@ -16,7 +16,7 @@ export default class App extends React.PureComponent {
   render () {
     return (
       <div>
-        <div style={{ marginBottom: '200px' }}>
+        <div style={{ marginBottom: '200px', fontSize: '16px' }}>
           这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
           <br />
           这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
@@ -32,6 +32,47 @@ export default class App extends React.PureComponent {
           <br />
           这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
           <br />
+
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
+          <p>this is my website content </p>
         </div>
 
         <div style={{ width: '800px', margin: '0 auto' }}>

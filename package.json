@@ -1,6 +1,6 @@
 {
   "name": "react-quietwater",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "One comment system based on react.",
   "keywords": [
     "react-component",
@@ -19,7 +19,7 @@
   "scripts": {
     "clean": "rimraf ./lib",
     "prebuild": "npm run clean",
-    "build": "cd ./node_modules/.bin && babel ../../src --out-dir ../../lib",
+    "build": "cd ./node_modules/.bin && babel ../../src --out-dir ../../lib && cd ../../ && node ./bin/build",
     "flow": "flow",
     "lint": "eslint examples server src tests",
     "lint:fix": "npm run lint -- --fix",

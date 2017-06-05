@@ -6,6 +6,8 @@
  * Date: 2017/3/26 by Heaven
  */
 
+import Message from '../components/Message';
+
 import globalConfig from '../globalConfig';
 import networkHelper from './networkHelper';
 import { getToken } from '../security/authService';
@@ -18,6 +20,11 @@ const httpStatusExcptionHandler = globalConfig.api.httpStatusExcptionHandler;
 
 // 处理接口返回的数据中含有error字段的情况
 const responseErrorHandler = globalConfig.api.responseErrorHandler;
+
+let backendInterfaceIncludesErrorText;
+require([`../language/${globalConfig.languageName}`], languageObj => {
+  backendInterfaceIncludesErrorText = languageObj.default.OperationError.backendInterfaceIncludesError;
+});
 
 // 普通接口
 export const network = networkHelper({
@@ -32,6 +39,8 @@ export const network = networkHelper({
     } else {
       console.warn(`but don't find the corresponding error code handler function`);
     }
+
+    Message.error(backendInterfaceIncludesErrorText, 2);
   },
   responseStatusHandler: status => responseStatusHandler[status] && responseStatusHandler[status](),
   httpStatusExcptionHandler: status => httpStatusExcptionHandler[status] && httpStatusExcptionHandler[status]()
@@ -53,6 +62,8 @@ export const priNetwork = networkHelper({
     } else {
       console.warn(`but don't find the corresponding error code handler function`);
     }
+
+    Message.error(backendInterfaceIncludesErrorText, 2);
   },
   responseStatusHandler: dataStatus => responseStatusHandler[dataStatus] && responseStatusHandler[dataStatus](),
   httpStatusExcptionHandler: status => httpStatusExcptionHandler[status] && httpStatusExcptionHandler[status]()

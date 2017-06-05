@@ -33,6 +33,10 @@
     color: rgb(66, 66, 66);
 }
 
+.btn-loadMoreReply:hover {
+    background-color: rgba(176, 216, 199, 0.48)
+}
+
 .addReplyEditor {
     position: absolute;
 

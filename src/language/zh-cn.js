@@ -50,6 +50,7 @@ const languageObj = {
     }
   },
   OperationError: {
+    backendInterfaceIncludesError: '操作失败,请联系管理员',
     whenNotLogin: '未登录情况下不能进行此操作哦~',
     whenAddReplyError: '创建回复失败,请检查网络,如若仍不能解决,请联系管理员',
     whenAddCommentError: '创建评论失败,请检查网络,如若仍不能解决,请联系管理员'

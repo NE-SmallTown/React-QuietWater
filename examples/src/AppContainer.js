@@ -17,6 +17,10 @@ export default class AppContainer extends React.PureComponent {
     routes : PropTypes.object.isRequired
   }
 
+  componentDidMount () {
+    browserHistory.push('/');
+  }
+
   render () {
     const { routes } = this.props;
 

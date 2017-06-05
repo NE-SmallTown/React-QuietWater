@@ -28,6 +28,8 @@ export default class ReplyList extends React.PureComponent {
     this.replyListIds = props.replyList && props.replyList.map(reply => reply.id);
 
     this.keyPressListenerFunc = e => {
+      console.log(`press:${e.key}`);
+
       // if now we are in the editor,don't react any key event
       const excludes = globalConfig.events.quietWater.responsePrevOrNextReplyExcludeIn;
       if (excludes.some(
@@ -67,6 +69,8 @@ export default class ReplyList extends React.PureComponent {
         case prevReplyPressKey:
         case nextReplyPressKey:
           newId = this.replyListIds[indexOfCurHashCorrespondingId];
+
+          console.log(`will go to ${newId}`);
 
           browserHistory.push(`#qw_${newId}_h`);
       }
