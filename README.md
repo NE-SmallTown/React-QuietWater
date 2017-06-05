@@ -1,5 +1,3 @@
-**NOTE**: **Now this repo has not finished yet,this is just for backup**
-
 <p align="center">
     <img width="140" height="140" src="https://preview.ibb.co/hMtfCa/quiet_water_logo.png">
 </p>
