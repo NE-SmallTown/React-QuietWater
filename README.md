@@ -33,6 +33,8 @@ in the anime([NARUTO -ナルト-](https://en.wikipedia.org/wiki/Naruto)).So we u
 
 ### Installation
 
+`npm install react-quietwater --save`
+
 React-QuiertWater is based on React 16,though now it's in alpha,but this summer(2017) it will be released.Although now we
 don't use much features in this repo(e.g. `<ErrorBoundary>`),but for future,we need to be familiar with next version of React,
 so that's why I use it now.If you don't want to use React 16 in your project,sorry for that this repo can't work.
