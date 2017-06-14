@@ -81,13 +81,13 @@ like others project.
 It means that you can press the `prevReplyPressKey` corresponding key of the keyboard to jump to previous reply
 or next reply(by using `config.events.quietWater.nextReplyPressKey`).
 
-### 4.Why the file create time from 2017/1 to now?
+#### 4.Why the file create time from 2017/1 to now?
 
 Yea,many files are from my previous project and are applicable for many projects,so I just copy them to this
 repo,I don't modify the create time because it's unnecessary.So this is why the file create time in this repo have 
 a little span.
 
-### ISSUES
+### Design thinking
 
 If you are Chinese,please believe that we have looked through 
 - [如何评价知乎主站 2016 年末的设计改版？](https://www.zhihu.com/question/54303734)
@@ -98,7 +98,9 @@ Thanks for everyone who gives good advice in the comments of above question.They
 
 We would like to listen and appreciate all issues/suggestions about whatever aspects.But please don't just complain
 ,that's very rude and meaningless.Please don't just think about yourself's thoughts or experience and think them are
-the best design or blue print.If you have any good thought,feel free to file an issue or a pr!If you are friendly,we
+the best design or blue print.
+
+If you have any good thought,feel free to file an issue or a pr!If you are friendly,we
 would like to join the discussion,if not,we also accept but you have to prove your thoughts are acceptable by most people
 and provide feasible scheme.So,if you are not friendly and can't prove and provide.We will don't reply the issue and close
 it.
