@@ -25,5 +25,6 @@ a little span.
 
 #### 5.What's the plan in the future?
 
-We have thought about many great ideas,you can search the **TODO** keyword in the src code to get a list which we
-would probably be added to React-QuietWater.And if you have any other requirement,feel free to file a issue.
+We have thought about many great ideas,you can view the [todo list](https://github.com/NE-SmallTown/React-QuietWater/issues/1) to get a list which we
+would probably be added to React-QuietWater in the future.And if you have any other requirement,feel free to file a issue
+and refer to this issue.

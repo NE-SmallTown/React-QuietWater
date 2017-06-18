@@ -30,7 +30,6 @@ export default function handleHashChange () {
           // NOTE: Because we don't create a single route to dispaly one reply item,so we can't locate it accurately
           // and this means that the reply item we can only locate by using a url with replyItemId anchor is in
           // the **first** page.
-          // TODO make reply even comment item have their single route and exhibition page
           setTimeout(() => ReactScroll.scroller.scrollTo(hashName), 1000);
         }
 

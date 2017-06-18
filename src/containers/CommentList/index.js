@@ -14,7 +14,7 @@ import ReactScroll from 'react-scroll';
 import { CommentItem } from '../../components/custom/Comment';
 import Pagination from '../../components/Pagination';
 import MiniEditor from '../../components/MiniEditor';
-import Lodaing from '../../components/Lodaing';
+import Loading from '../../components/Loading';
 import Message from '../../components/Message';
 
 import globalConfig from '../../globalConfig';
@@ -123,7 +123,7 @@ class CommentList extends React.PureComponent {
           </div>
         </ReactScroll.Element>
 
-        <Lodaing
+        <Loading
           store={context.store || this.props.store}
           actionTypeOfStartFetching={COMMENT_REQUEST}
           actionTypeOfFinishFetching={COMMENT_SUCCESS}
@@ -160,7 +160,7 @@ class CommentList extends React.PureComponent {
             onSubmit={this.handleEditorSubmit}
             placeholder={placeholderText}
           />
-        </Lodaing>
+        </Loading>
       </div>
     );
   }

@@ -149,10 +149,8 @@ class ReplyItemOperation extends React.PureComponent {
       Reply: { shareText, commentBtnPostfix, expandText, foldText, foldCommentText }
     } = this.context.quietWaterLanguage;
 
-    // TODO 所有的icon图标下载到本地,而不是引用cdn
     // TODO 图标可配置
     // TODO 图标的命名是否需要统一(展开图标到底是叫expand还是根据形状划分叫triangle-down)
-    // TODO 现在权限还不复杂,暂时没考虑针对权限控制进行抽象
     const praiseBtnClassName = classNames('btn-praise', {
       'btn-praise-active': this.state.hasPraised
     });

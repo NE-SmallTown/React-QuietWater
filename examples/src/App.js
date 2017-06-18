@@ -14,40 +14,12 @@ import zh_cn from 'react-quietwater/lib/language/zh-cn';
 
 export default class App extends React.PureComponent {
   render () {
+    // TODO 写添加回复和评论的接口
+    // TODO 下面改成一个文章页面
+    // TODO <Link>的to可以设置hash参数
     return (
       <div>
-        <div style={{ marginBottom: '200px', fontSize: '16px' }}>
-          这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />
-          这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />
-          这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />
-          这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />
-          这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />
-          这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容这是用户自己网站的内容
-          <br />
-
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
-          <p>this is my website content </p>
+        <div style={{ marginBottom: '100px', fontSize: '16px' }}>
           <p>this is my website content </p>
           <p>this is my website content </p>
           <p>this is my website content </p>

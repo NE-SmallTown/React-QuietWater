@@ -56,6 +56,7 @@ class Loading extends React.PureComponent {
     onFinishFetching: this.handleFinishFetching
   })
 
+  // TODO loading的Component不要写死,通过props控制
   render () {
     const { children, className, actionTypeOfStartFetching, actionTypeOfFinishFetching } = this.props;
     const { startFetching, finishFetching } = this.state;
