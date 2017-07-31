@@ -25,7 +25,7 @@ export class QuietWaterHeader extends React.PureComponent {
 
     return (
       <div styleName="wrap">
-        {replyCount !== 0 && <span styleName="replyCountText">{`${replyCount}${countTextPostfix}`}</span>}
+        {replyCount !== 0 && <span styleName="replyCountText">{`${replyCount} ${countTextPostfix}`}</span>}
       </div>
     );
   }

@@ -132,6 +132,10 @@
     margin-left: auto;
 }
 
+:global(.en-us) .btn-expand {
+    letter-spacing: 0;
+}
+
 .btn-fold {
     composes: riseOrFallBtn;
 
