@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class LanguageProvider extends React.PureComponent {
+export default class LanguageProvider extends React.Component {
   static propTypes = {
     language: PropTypes.object,
     children: PropTypes.node

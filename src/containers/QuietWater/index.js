@@ -96,7 +96,7 @@ class QuietWater extends React.PureComponent {
     const { loadMoreReplyText } = this.context.quietWaterLanguage.QuietWater;
 
     return (
-      <div styleName="wrap">
+      <div styleName="wrap" className={this.context.quietWaterLanguage.languageName}>
         {/* 头部的东西,暂时只展示一个总标题,后面可以会增加诸如按照不同方案进行排序的选择按钮 */}
         {/* at least just show QuietWater's header title,but future maybe will add a select button to order the replies */}
         <QuietWaterHeader replyCount={replyList.length} />
@@ -133,9 +133,11 @@ const QW = connect(
   { loadQuietWaterOfHost, loadReply, createReply }
 )(QuietWater);
 
-export default (props) => (
-  <Provider store={store}>
-    <QW {...props} />
-  </Provider>
-);
+export default function QuietWaterContainer (props) {
+  return (
+    <Provider store={store}>
+      <QW {...props} />
+    </Provider>
+  );
+};
 

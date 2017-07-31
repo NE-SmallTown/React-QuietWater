@@ -170,7 +170,7 @@ class CommentItem extends React.PureComponent {
               styleName="editor-wrap"
               widthSubmitBtn={false}
               onContentChange={this.handleEditorContentChange}
-              placeholder={`${replyText}${author.userName}...`}
+              placeholder={`${replyText} ${author.userName}...`}
             />,
             <div key="edo" styleName="editorOperation">
               <button styleName="cancelBtn btn" onClick={this.hancleCancelEditor}>{cancelText}</button>
