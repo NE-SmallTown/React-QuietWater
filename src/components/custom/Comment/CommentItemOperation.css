@@ -32,3 +32,8 @@
 .btnText {
     letter-spacing: .03cm;
 }
+
+:global(.en-us) .btnText {
+    letter-spacing: 0;
+    vertical-align: text-bottom;
+}
