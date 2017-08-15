@@ -17,9 +17,9 @@ import {
 import { network } from 'react-quietwater/lib/utils/network';
 
 // NOTE: please import the global css(e.g. normalize.css, rc-pagination.css,rc-message.css) and React-QuietWater's
-// css which it needs, if you don't import them,probably React-QuietWater can't work.And you should note that
+// css which it needs, if you don't import them,probably React-QuietWater can't work well.And you should note that
 // these 2 css can't be css mouduled,they should be imported as a global module rather than css moudle.So you
-// can notice that in our demo's webpack config,we exclude the import which form node_modules in the
+// can notice that in our demo's webpack config,we exclude the import which from 'node_modules' in the
 // **css/scss modules** loader to avoid treat below 2 css as css modules and include the import which from
 // node_modules in the **css/scss loader**(note this is just a normal css loader, i.e. doesn't use css modules)
 // to make we can resolve below 2 css as global css.
@@ -119,7 +119,7 @@ const MOUNT_NODE = document.getElementById('root');
 
 // config user info
 export const configUserInfo = () => {
-  // just for test,because in real environment we must has set userId to localstorage before we call React-QuietWater
+  // just for test, because in real environment we must has set userId to localstorage before we call React-QuietWater
   setCurrentUserId('xxxxxxxxxx');
 
   let userId = getCurrentUserId();

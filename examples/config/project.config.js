@@ -42,7 +42,7 @@ const config = {
   // cheap-module-inline-source-map doesn't work in FF, but does work in Chrome
   // For development, I set devtool to 'eval-source-map'
   // For production, I set devtool to 'source-map'
-  compiler_devtool         : 'eval-source-map',
+  compiler_devtool         : 'source-map',
   compiler_hash_type       : 'hash',
   compiler_fail_on_warning : false,
   compiler_quiet           : false,

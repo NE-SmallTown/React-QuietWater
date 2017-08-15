@@ -13,7 +13,7 @@
  */
 export default function isActionType (str) {
   if (typeof str === 'string') {
-    return [].every.call(str, (ch) => ch.toUpperCase() === ch);
+    return [].every.call(str, ch => ch.toUpperCase() === ch);
   }
 
   return false;

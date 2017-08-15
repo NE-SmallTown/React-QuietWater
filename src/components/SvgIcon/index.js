@@ -6,7 +6,8 @@
  * Date: 2017/1/15 by Heaven
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import './index.css';
 

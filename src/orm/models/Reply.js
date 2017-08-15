@@ -72,13 +72,15 @@ export default class Reply extends Model {
             Reply.create({ ...reply, host: hostId, author: reply.author.userId });
           });
 
+          // 看看是否需要重新排序
+
           break;
         }
       case CREATE_REPLY:
         {
           const replyEntityData = action.fields;
           const { hostId } = replyEntityData;
-          Reply.create({ ...replyEntityData, host: hostId });
+          Reply.create({ ...replyEntityData, host: hostId, author: replyEntityData.author.userId });
         }
 
         break;

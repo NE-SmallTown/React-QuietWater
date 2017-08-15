@@ -8,7 +8,13 @@
 
 import { Model, attr } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS, COMMENT_SUCCESS, Conversation_SUCCESS, REPLY_SUCCESS } from '../../actions';
+import {
+  HOSTUSERINFO,
+  QUIETWATEROFHOST_SUCCESS,
+  COMMENT_SUCCESS,
+  Conversation_SUCCESS,
+  REPLY_SUCCESS
+} from '../../actions';
 
 // TODO 提供一个action给用户去dispatch,action的内容为初始化宿主环境的登录用户(即当前用户)的信息,这样可以让User.orm响应这个action,创建当前用户的信息的实例
 export default class User extends Model {
@@ -32,6 +38,10 @@ export default class User extends Model {
   // 虽然下面的处理完全一样,但是api可能变动,所以没有提取成公共方法
   static reducer (action, User, session) {
     switch (action.type) {
+      case HOSTUSERINFO:
+        User.create(action.fields);
+
+        break;
       case REPLY_SUCCESS:
       case QUIETWATEROFHOST_SUCCESS:
         const { replies: repliesEntities } = action.response;
