@@ -9,3 +9,5 @@
 export * from './loadQuietWaterOfHost';
 
 export * from './updatePraiseCount';
+
+export * from './loadHostUserInfo';

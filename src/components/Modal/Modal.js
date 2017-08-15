@@ -5,7 +5,8 @@
  *
  * Date: 2017/3/18 by Heaven
  */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import Animate from 'rc-animate';
 import createFragment from 'react-addons-create-fragment';

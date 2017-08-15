@@ -16,7 +16,7 @@ import { QuietWaterHeader } from '../../components/custom/QuietWater';
 import { OnlyHasLoginedCanSee } from '../../components/custom/Auth';
 import Message from '../../components/Message';
 
-import { loadQuietWaterOfHost, loadReply, createReply } from '../../actions';
+import { loadHostUserInfo, loadQuietWaterOfHost, loadReply, createReply, ActionTypes } from '../../actions';
 import { getReplyList, getPagination } from '../../selectors/';
 import createQuietWaterStore from '../../store/createAppStore';
 import { priNetwork } from '../../utils/network';
@@ -33,7 +33,8 @@ class QuietWater extends React.PureComponent {
     quietWaterWidth: PropTypes.number,
     loadReply: PropTypes.func,
     replyListPagination: PropTypes.object,
-    createReply: PropTypes.func
+    createReply: PropTypes.func,
+    loadHostUserInfo: PropTypes.func
   }
 
   static contextTypes = {
@@ -54,6 +55,8 @@ class QuietWater extends React.PureComponent {
   }
 
   componentDidMount () {
+    this.props.loadHostUserInfo();
+
     this.props.loadQuietWaterOfHost({ hostId: this.props.hostId });
   }
 
@@ -130,7 +133,7 @@ const mapStateToProps = (state, ownProps) => ({
 const store = createQuietWaterStore();
 const QW = connect(
   mapStateToProps,
-  { loadQuietWaterOfHost, loadReply, createReply }
+  { loadHostUserInfo, loadQuietWaterOfHost, loadReply, createReply }
 )(QuietWater);
 
 export default function QuietWaterContainer (props) {

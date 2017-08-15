@@ -6,7 +6,8 @@
  * Date: 2017/4/10 by Heaven
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import warning from 'warning';
 
 import VisibleRender from '../VisibleRender';

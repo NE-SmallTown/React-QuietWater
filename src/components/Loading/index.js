@@ -5,7 +5,8 @@
  *
  * Date: 2017/4/9 by Heaven
  */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import isArray from 'lodash/isArray';
 

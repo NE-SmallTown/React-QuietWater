@@ -94,7 +94,8 @@ export default class ReplyItem extends React.PureComponent {
   }
 
   handleClickFold = () => {
-    ReactScroll.scroller.scrollTo(`qw_${this.props.id}_ob`); // ob means operation-bottom
+    // ReactScroll.scroller.scrollTo(`qw_${this.props.id}_ob`); // ob means operation-bottom
+    ReactScroll.scroller.scrollTo(`qw_${this.props.id}_h`);
 
     this.setState({
       isContentExpanded: false
