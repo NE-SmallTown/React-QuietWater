@@ -15,11 +15,12 @@ import warning from 'warning';
 
 import Popover from '../../Popover';
 import SvgIcon from '../../SvgIcon';
-import { OnlyHasLoginedCanClick } from '../Auth';
+import Button from '../Button';
+import { OnlyHasLoginedCanClick, OnlyCurrentUserCanSee } from '../Auth';
 
 import { priNetwork } from '../../../utils/network';
 import globalConfig from '../../../globalConfig';
-import { updatePraiseCount } from '../../../actions';
+import { updatePraiseCount, deleteReply } from '../../../actions';
 import getNewLocationHrefWithHash from '../../../utils/getNewLocationHrefWithHash';
 import { getCommentListCount } from '../../../selectors';
 
@@ -27,6 +28,7 @@ import './ReplyItemOperation.css';
 
 class ReplyItemOperation extends React.PureComponent {
   static propTypes = {
+    authorId: PropTypes.string,
     replyId: PropTypes.string,
     commentCount: PropTypes.number,
     praiseCount: PropTypes.number,
@@ -37,6 +39,7 @@ class ReplyItemOperation extends React.PureComponent {
     onClickExpandComment: PropTypes.func,
     className: PropTypes.string,
     updatePraiseCount: PropTypes.func,
+    deleteReply: PropTypes.func,
     excerpt: PropTypes.string,
     style: PropTypes.object,
     commentListCount: PropTypes.number,
@@ -52,6 +55,7 @@ class ReplyItemOperation extends React.PureComponent {
 
     this.state = {
       showShareList: false,
+      showSettings: false,
       hasPraised: false,
       hasThumbdown: false
     };
@@ -132,8 +136,65 @@ class ReplyItemOperation extends React.PureComponent {
     this.props.onClickFold && this.props.onClickFold();
   }
 
+  handleClickSettings_CloseComment = () => {
+    this.setState({
+      showSettings: false
+    });
+
+    console.log('已关闭此回复的评论');
+  }
+
+  handleClickSettings_DeleteReply = () => {
+    console.log('准备删除此回复');
+
+    const { deleteUrl } = globalConfig.api.post.operationBar;
+
+    const { replyId } = this.props;
+    priNetwork.post({
+      url: deleteUrl,
+      data: {
+        replyId
+      },
+      responseStatusHandler: status => {
+        if (status === 'ok') {
+          this.props.deleteReply(this.props.replyId);
+        }
+      }
+    });
+  }
+
+  getSettingsElement = () => {
+    const { closeComment, deleteText } = this.context.quietWaterLanguage.Reply.settings;
+
+    return [
+      <Button
+        key="cc"
+        styleName="settings-item btn-closeComment"
+        theme="clickWithLeftIcon"
+        onClick={this.handleClickSettings_CloseComment}
+      >
+        {closeComment}
+      </Button>,
+      <Button
+        key="dr"
+        styleName="settings-item"
+        theme="text"
+        onClick={this.handleClickSettings_DeleteReply}
+      >
+        {deleteText}
+      </Button>
+    ];
+  }
+
+  handleSettingsVisibleChange = visible => {
+    this.setState({
+      showSettings: visible
+    });
+  }
+
   render () {
     const {
+      authorId,
       replyId,
       excerpt,
       commentCount = this.props.commentListCount,
@@ -145,21 +206,33 @@ class ReplyItemOperation extends React.PureComponent {
       showCommentList
     } = this.props;
 
+    const { hasPraised, hasThumbdown, showSettings, showShareList } = this.state;
+
     const {
-      Reply: { shareText, commentBtnPostfix, expandText, foldText, foldCommentText }
+      Reply: {
+        settings: { settingsText },
+        shareText,
+        commentBtnPostfix,
+        expandText,
+        foldText,
+        foldCommentText
+      }
     } = this.context.quietWaterLanguage;
+
+    const settingsElement = this.getSettingsElement();
 
     // TODO 图标可配置
     // TODO 图标的命名是否需要统一(展开图标到底是叫expand还是根据形状划分叫triangle-down)
     const praiseBtnClassName = classNames('btn-praise', {
-      'btn-praise-active': this.state.hasPraised
+      'btn-praise-active': hasPraised
     });
     const thumbdownBtnClassName = classNames('btn-thumbdown', {
-      'btn-thumbdown-active': this.state.hasThumbdown
+      'btn-thumbdown-active': hasThumbdown
     });
 
     return (
       <div style={style} styleName="wrap" className={`clearfix ${className}`}>
+        {/* 投赞同票 */}
         <OnlyHasLoginedCanClick>
           <button styleName={praiseBtnClassName} onClick={this.handleClickPraiseBtn}>
             <SvgIcon iconName="icon-praise3" styleName="icon-praise" />
@@ -168,22 +241,25 @@ class ReplyItemOperation extends React.PureComponent {
           </button>
         </OnlyHasLoginedCanClick>
 
+        {/* 投反对票 */}
         <OnlyHasLoginedCanClick>
           <button styleName={thumbdownBtnClassName} onClick={this.handleClickThumbdownBtn}>
             <SvgIcon iconName="icon-thumbdown3" styleName="icon-thumbdown" />
           </button>
         </OnlyHasLoginedCanClick>
 
+        {/* 展示评论 */}
         <button styleName="btn-comment" onClick={this.handleClickCommentBtn}>
           <SvgIcon iconName="icon-comment1" styleName="icon-comment" />
 
           {`${showCommentList ? foldCommentText : commentCount + commentBtnPostfix}`}
         </button>
 
+        {/* 分享 */}
         <Popover
           trigger="click"
           content={
-            this.state.showShareList
+            showShareList
             ? <div>
                 {Object.keys(globalConfig.api.share).map(key => {
                   const shareObj = globalConfig.api.share[key];
@@ -211,6 +287,25 @@ class ReplyItemOperation extends React.PureComponent {
           </div>
         </Popover>
 
+        {/* 设置 */}
+        <OnlyCurrentUserCanSee userId={authorId}>
+          <Popover
+            trigger="click"
+            visible={showSettings}
+            onVisibleChange={this.handleSettingsVisibleChange}
+            content={settingsElement}
+          >
+            <div styleName="settings-wrap">
+              <button styleName="btn-settings">
+                <SvgIcon iconName="icon-settings1" styleName="icon-settings" />
+
+                {settingsText}
+              </button>
+            </div>
+          </Popover>
+        </OnlyCurrentUserCanSee>
+
+        {/* 阅读更多/收起 */}
         { isContentTooLong
           ? isContentExpanded
             ? <button styleName="btn-fold" onClick={this.handleClickFold}>
@@ -235,5 +330,6 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default connect(mapStateToProps, {
-  updatePraiseCount
+  updatePraiseCount,
+  deleteReply
 })(ReplyItemOperation);

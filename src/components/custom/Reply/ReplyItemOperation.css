@@ -105,6 +105,44 @@
     vertical-align: -9%;
 }
 
+.settings-wrap {
+    position: relative;
+
+    display: inline-block;
+}
+
+.btn-settings {
+    composes: otherBtn;
+}
+
+.btn-settings > svg {
+    vertical-align: -8%;
+}
+
+.settings-item {
+    display: block;
+
+    padding-left: 30px;
+    padding-right: 20px;
+    width: 100%;
+    line-height: 40px;
+
+    text-align: left;
+    background-color: #fff;
+}
+
+.settings-item:hover {
+    background-color: #f3f8fb;
+}
+
+.btn-closeComment > svg {
+    margin-left: -30px;
+    width: 30px;
+
+    color: #5eaafa;
+    vertical-align: middle;
+}
+
 .riseOrFallBtn {
     composes: btn;
 
@@ -167,6 +205,11 @@
 }
 
 .icon-share {
+    width: 16px;
+    height: 16px;
+}
+
+.icon-settings {
     width: 16px;
     height: 16px;
 }

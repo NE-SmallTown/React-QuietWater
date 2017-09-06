@@ -8,7 +8,15 @@
 
 import { oneToOne, attr, Model, fk } from 'redux-orm';
 
-import { QUIETWATEROFHOST_SUCCESS, UPDATE_PRAISECOUNT, COMMENT_SUCCESS, REPLY_SUCCESS, CREATE_REPLY, ADD_COMMENT } from '../../actions';
+import {
+  QUIETWATEROFHOST_SUCCESS,
+  UPDATE_PRAISECOUNT,
+  COMMENT_SUCCESS,
+  REPLY_SUCCESS,
+  CREATE_REPLY,
+  ADD_COMMENT,
+  DELETE_REPLY
+} from '../../actions';
 
 export default class Reply extends Model {
   static modelName = 'Reply'
@@ -97,14 +105,19 @@ export default class Reply extends Model {
         }
 
         break;
+      case DELETE_REPLY:
+        {
+          const reply = Reply.withId(action.id);
+
+          reply.delete();
+        }
+
+        break;
         /*
       case UPDATE_REPLY:
         Reply.withId(action.payload.id).update();
         break;
-      case REMOVE_REPLY:
-        const reply = Reply.withId();
-        reply.delete();
-        break; */
+         */
     }
   }
 };

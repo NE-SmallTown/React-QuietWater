@@ -216,6 +216,7 @@ export default class ReplyItem extends React.PureComponent {
             style={{ width: `calc(${replyWrapElementWidth}px - 30px)` }}
             styleName={operationBarClassName}
             excerpt={excerpt}
+            authorId={author.userId}
             replyId={replyId}
             commentCount={commentCount}
             praiseCount={praiseCount}

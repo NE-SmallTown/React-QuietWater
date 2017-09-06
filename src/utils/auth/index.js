@@ -8,6 +8,7 @@
 
 import globalConfig from '../../globalConfig';
 import { isLoggedAndTokenIsValid } from '../../security/authService';
+import { getCurrentUserId, getCurrentLoginName } from '../user';
 
 export const checkUserIdAndRedirect = () => {
   if (!isLoggedAndTokenIsValid()) {
@@ -18,3 +19,7 @@ export const checkUserIdAndRedirect = () => {
 
   return true;
 };
+
+export const isCurUserIdEquals = (id) => getCurrentUserId() === id;
+
+export const isCurUserLoginNameEquals = (loginName) => getCurrentLoginName() === loginName;

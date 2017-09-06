@@ -7,12 +7,13 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Message from '../../Message';
 import configAuth from '../../Auth';
 
 import globalConfig from '../../../globalConfig';
-import { checkUserIdAndRedirect } from '../../../utils/auth';
+import { checkUserIdAndRedirect, isCurUserIdEquals, isCurUserLoginNameEquals } from '../../../utils/auth';
 import { isLoggedAndTokenIsValid } from '../../../security/authService';
 
 export let OnlyHasLoginedCanClick;
@@ -32,4 +33,23 @@ export const OnlyHasLoginedCanSee = props => {
   const Auth = configAuth({ vertifyFunc: isLoggedAndTokenIsValid });
 
   return <Auth {...props} />;
+};
+
+export const OnlyCurrentUserCanSee = props => {
+  const { userId, loginName, ...restProps } = props;
+
+  // 虽然用户可以把自己的localstorage的loginName改成要访问的那个用户的loginName就可以访问那个用户的主页了
+  // 但是他无法进行实际有效的操作,最多只是让一些按钮显示出来(比如添加按钮,修改按钮),这就和绕过前端验证直接发包一样
+  // 所以这里获取loginName,userId等等不需要对token进行decode,没那个必要,只要保证它通不过后端的验证,他也得不到数据或者改不了数据.
+  const Auth = configAuth({
+    vertifyFunc: typeof userId === 'undefined'
+      ? () => isCurUserLoginNameEquals(loginName)
+      : () => isCurUserIdEquals(userId)
+  });
+
+  return <Auth {...restProps} />;
+};
+OnlyCurrentUserCanSee.propTypes = {
+  userId: PropTypes.string,
+  loginName: PropTypes.string
 };

@@ -17,6 +17,12 @@ const languageObj = {
 
   },
   Reply: {
+    settings: {
+      settingsText: '设置',
+      // allowAllUsersComment: '允许所有用户评论'
+      closeComment: '关闭评论',
+      deleteText: '删除'
+    },
     shareText: '分享',
     commentBtnPostfix: '条评论',
     expandText: '阅读更多',
