@@ -138,6 +138,7 @@ class ReplyItemOperation extends React.PureComponent {
 
   handleClickSettings_CloseComment = () => {
     this.setState({
+      forbidCommentThisReply: true,
       showSettings: false
     });
 
@@ -164,13 +165,16 @@ class ReplyItemOperation extends React.PureComponent {
   }
 
   getSettingsElement = () => {
+    const { forbidCommentThisReply } = this.state;
+
     const { closeComment, deleteText } = this.context.quietWaterLanguage.Reply.settings;
 
+    /* eslint-disable react/jsx-indent-props */
     return [
       <Button
         key="cc"
         styleName="settings-item btn-closeComment"
-        theme="clickWithLeftIcon"
+        theme={forbidCommentThisReply ? 'clickWithLeftIcon' : 'text'}
         onClick={this.handleClickSettings_CloseComment}
       >
         {closeComment}
@@ -184,6 +188,7 @@ class ReplyItemOperation extends React.PureComponent {
         {deleteText}
       </Button>
     ];
+    /* eslint-enable */
   }
 
   handleSettingsVisibleChange = visible => {
@@ -275,7 +280,7 @@ class ReplyItemOperation extends React.PureComponent {
                   }
                 })}
               </div>
-            : undefined
+            : null
           }
         >
           <div styleName="share-wrap">

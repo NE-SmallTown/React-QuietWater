@@ -48,6 +48,16 @@ export default class Button extends React.PureComponent {
     };
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props !== nextProps) {
+      if (this.props.theme !== 'clickWithLeftIcon' && nextProps.theme === 'clickWithLeftIcon') {
+        this.setState({
+          showLeftIcon: true
+        });
+      }
+    }
+  }
+
   handleClick = e => {
     const { onClick, theme } = this.props;
 
