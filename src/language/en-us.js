@@ -17,6 +17,12 @@ const languageObj = {
 
   },
   Reply: {
+    settings: {
+      settingsText: 'settings',
+      // allowAllUsersComment: 'allow all users comment'
+      closeComment: 'close comment',
+      deleteText: 'delete'
+    },
     shareText: 'share',
     commentBtnPostfix: 'comments',
     expandText: 'read more',

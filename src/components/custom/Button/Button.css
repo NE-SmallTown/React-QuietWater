@@ -1,0 +1,26 @@
+.btn {
+
+}
+
+.btn-classic {
+
+}
+
+.btn-text {
+    border: none;
+}
+
+.btn-icon {
+    border: none;
+}
+
+.btn-clickWithLeftIcon {
+    display: inline-block;
+
+    border: none;
+}
+
+.icon-tick {
+    width: 16px;
+    height: 16px;
+}

@@ -55,7 +55,8 @@ configQuietWater({
 
     post: {
       operationBar: {
-        praiseUrl: 'reply/praise' // the post praise interface url
+        praiseUrl: 'reply/praise', // the post praise interface url
+        deleteUrl: 'reply/delete'
       },
       replyEditor: {
         createUrl: 'reply/add'

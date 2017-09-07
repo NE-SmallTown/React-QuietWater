@@ -9,7 +9,7 @@
 import { oneToOne, attr, Model } from 'redux-orm';
 import omit from 'lodash/omit';
 
-import { QUIETWATEROFHOST_SUCCESS, REPLY_SUCCESS, CREATE_REPLY } from '../../actions';
+import { QUIETWATEROFHOST_SUCCESS, REPLY_SUCCESS, CREATE_REPLY, DELETE_REPLY } from '../../actions';
 
 export default class Host extends Model {
   static modelName = 'Host'
@@ -60,6 +60,17 @@ export default class Host extends Model {
 
           hostInstance.update({
             replies: hostInstance.replies.toRefArray().map(reply => reply.id).concat(additiveReply.id)
+          });
+        }
+
+        break;
+      case DELETE_REPLY:
+        {
+          const deletedReplyId = action.id;
+          const hostInstance = Host.withId(session.Reply.withId(deletedReplyId).host.id);
+
+          hostInstance.update({
+            replies: hostInstance.replies.toRefArray().map(reply => reply.id).filter(id => id !== deletedReplyId)
           });
         }
 
