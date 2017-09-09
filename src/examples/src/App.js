@@ -9,11 +9,11 @@
 import React from 'react';
 import Select, { Option } from 'rc-select';
 
-import QuietWater, { LanguageProvider, globalConfig } from 'react-quietwater';
+import QuietWater, { LanguageProvider, globalConfig } from '../../index';
 
 import './globalStyles/global.scss';
 
-let languageObj = require(`react-quietwater/lib/language/${globalConfig.languageName}`).default;
+let languageObj = require(`../../language/${globalConfig.languageName}`).default;
 
 export default class App extends React.PureComponent {
   constructor (props) {

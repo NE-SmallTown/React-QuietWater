@@ -1,6 +1,5 @@
 const argv = require('yargs').argv;
 const webpack = require('webpack');
-const cssnano = require('cssnano');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const project = require('./project.config.js');
@@ -10,21 +9,27 @@ const __DEV__ = project.globals.__DEV__;
 const __PROD__ = project.globals.__PROD__;
 const __TEST__ = project.globals.__TEST__;
 
+// https://github.com/webpack/loader-utils/issues/56#issuecomment-287336809
+process.traceDeprecation = true;
+
 debug('Creating configuration.');
 const webpackConfig = {
   name    : 'client',
   target  : 'web',
   devtool : project.compiler_devtool,
   resolve : {
-    root       : project.paths.client(),
-    extensions : ['', '.js', '.jsx', '.json']
+    modules: [
+      project.paths.client(),
+      'node_modules'
+    ],
+    extensions: ['.js', '.jsx', '.json']
   },
-  module : {}
+  module: {}
 };
 // ------------------------------------
 // Entry Points
 // ------------------------------------
-const APP_ENTRY = project.paths.client('main.js');
+const APP_ENTRY = project.paths.examples('src/main.js');
 
 webpackConfig.entry = {
   app : __DEV__
@@ -53,21 +58,26 @@ webpackConfig.externals['react/addons'] = true;
 // ------------------------------------
 // Plugins
 // ------------------------------------
+
+const extractCss = new ExtractTextPlugin({
+  filename: '[name].[contenthash].css',
+  allChunks: true,
+  disable: __DEV__
+});
+
 webpackConfig.plugins = [
   new webpack.DefinePlugin(project.globals),
   new HtmlWebpackPlugin({
-    template : project.paths.client('index.html'),
+    template : project.paths.examples('src/index.html'),
     hash     : false,
-    favicon  : project.paths.public('favicon.ico'),
+    favicon  : project.paths.examples('public/favicon.ico'),
     filename : 'index.html',
     inject   : 'body',
     minify   : {
       collapseWhitespace : true
     }
   }),
-  new ExtractTextPlugin('[name].[contenthash].css', {
-    allChunks : true
-  })
+  extractCss
 ];
 
 // Ensure that the compiler exits on errors during testing so that
@@ -90,13 +100,13 @@ if (__DEV__) {
   debug('Enabling plugins for live development (HMR, NoErrors).');
   webpackConfig.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NamedModulesPlugin()
+    // new webpack.NoEmitOnErrorsPlugin()
   );
 } else if (__PROD__) {
   debug('Enabling plugins for production (OccurenceOrder, Dedupe & UglifyJS).');
   webpackConfig.plugins.push(
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.DedupePlugin(),
+
     new webpack.optimize.UglifyJsPlugin({
       compress : {
         unused    : true,
@@ -118,101 +128,153 @@ if (!__TEST__) {
 }
 
 // ------------------------------------
-// Loaders
+// Rules
 // ------------------------------------
 // JavaScript / JSON
 
 const cssModulesHashRule = '[name]___[local]___[hash:base64:2]';
-webpackConfig.module.loaders = [{
+webpackConfig.module.rules = [{
   test    : /\.(js|jsx)$/,
+  exclude : /node_modules/,
   include : project.paths.client(),
-  loader  : 'babel',
-  query   : Object.assign(
-    project.compiler_babel,
-    { plugins: project.compiler_babel.plugins.concat([
-      [
-        'react-css-modules-ne-smalltown',
-        {
-          exclude: 'react-quietwater',
-          generateScopedName: cssModulesHashRule,
-          webpackHotModuleReloading: true
-        }
-      ]
-    ]) }
-  )
-}, {
-  test   : /\.json$/,
-  loader : 'json'
+  use  : [
+    {
+      loader: 'babel-loader',
+      options: Object.assign(
+        project.compiler_babel,
+        { plugins: project.compiler_babel.plugins.concat([
+          [
+            'babel-plugin-react-css-modules-ne-smalltown',
+            {
+              exclude: 'globalStyles',
+              generateScopedName: cssModulesHashRule,
+              webpackHotModuleReloading: true
+            }
+          ]
+        ]) }
+      )
+    }
+  ]
 }];
 
 // ------------------------------------
-// Style Loaders
+// Style Rules
 // ------------------------------------
+
+const cssnanoOptions = {
+  autoprefixer : {
+    add      : true,
+    remove   : true,
+    browsers : ['last 2 versions']
+  },
+  discardComments : {
+    removeAll : true
+  },
+  discardDuplicates: true,
+  discardUnused : false,
+  mergeIdents   : false,
+  mergeLonghand : true,
+  mergeRules    : true,
+  reduceIdents  : false,
+  sourcemap     : __DEV__
+};
+
+const postCssLoaderConfig = {
+  loader: 'postcss-loader',
+  options: {
+    config: {
+      path: project.paths.examples('config/postcss.config.js'),
+      ctx: {
+        cssnano: __DEV__ ? {} : cssnanoOptions
+      }
+    }
+  }
+};
+
+// https://webpack.js.org/configuration/module/#rule-loader
+// Rule.loader is a shortcut to Rule.use: [ { loader } ]. See Rule.use and UseEntry.loader for details.
 
 // 配置src/globalStyles下面的为全局样式
-// set src/globalStyles to global css
-webpackConfig.module.loaders.push({
-  test    : /\.(css|scss)$/,
-  include : [project.paths.client('globalStyles'), /node_modules/],
-  loader  : 'style!css!postcss!sass'
-});
+// Global Css: set src/globalStyles to global css
+// ------------------------------------
 
-// css-modules
-webpackConfig.module.loaders.push({
+webpackConfig.module.rules.push({
   test    : /\.(css|scss)$/,
-  exclude : [project.paths.client('globalStyles'), /node_modules/],
-  loader  : `style!css?modules&importLoaders=2&localIdentName=${cssModulesHashRule}!postcss!sass`
-});
-
-webpackConfig.postcss = [
-  cssnano({
-    autoprefixer : {
-      add      : true,
-      remove   : true,
-      browsers : ['last 2 versions']
-    },
-    discardComments : {
-      removeAll : true
-    },
-    discardDuplicates: true,
-    discardUnused : false,
-    mergeIdents   : false,
-    mergeLonghand : true,
-    mergeRules    : true,
-    reduceIdents  : false,
-    sourcemap     : true
+  include : [
+    project.paths.client('globalStyles'),
+    project.paths.examples('globalStyles'),
+    /node_modules/
+  ],
+  loader  : extractCss.extract({
+    fallback: 'style-loader',
+    use: [
+      'css-loader',
+      postCssLoaderConfig,
+      'sass-loader'
+    ]
   })
-];
+});
 
-// File loaders
+// CSS Modules
+// ------------------------------------
+
+webpackConfig.module.rules.push({
+  test    : /\.(css|scss)$/,
+  exclude : [
+    project.paths.client('globalStyles'),
+    project.paths.examples('globalStyles'),
+    /node_modules/
+  ],
+  use  : [
+    'style-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        modules: true,
+        importLoaders: 2,
+        localIdentName: cssModulesHashRule
+      }
+    },
+    postCssLoaderConfig,
+    'sass-loader'
+  ]
+});
+
+// Images
+// ------------------------------------
+
+webpackConfig.module.rules.push({
+  test    : /\.(png|jpg|gif)$/,
+  loader  : 'url-loader',
+  options : {
+    limit : 8192
+  }
+});
+
+// File Rules
 /* eslint-disable */
-webpackConfig.module.loaders.push(
-  { test: /\.woff(\?.*)?$/,  loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff' },
-  { test: /\.woff2(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2' },
-  { test: /\.otf(\?.*)?$/,   loader: 'file?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=font/opentype' },
-  { test: /\.ttf(\?.*)?$/,   loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/octet-stream' },
-  { test: /\.eot(\?.*)?$/,   loader: 'file?prefix=fonts/&name=[path][name].[ext]' },
-  { test: /\.svg(\?.*)?$/,   loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=image/svg+xml' },
-  { test: /\.(png|jpg)$/,    loader: 'url?limit=8192' }
-)
-/* eslint-enable */
 
-// ------------------------------------
-// Finalize Configuration
-// ------------------------------------
-// when we don't know the public path (we know it only when HMR is enabled [in development]) we
-// need to use the extractTextPlugin to fix this issue:
-// http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
-if (!__DEV__) {
-  debug('Applying ExtractTextPlugin to CSS loaders.');
-  webpackConfig.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
-  ).forEach((loader) => {
-    const first = loader.loaders[0];
-    const rest = loader.loaders.slice(1);
-    loader.loader = ExtractTextPlugin.extract(first, rest.join('!'));
-    delete loader.loaders;
-  });
-}
+[
+  ['woff', 'application/font-woff'],
+  ['woff2', 'application/font-woff2'],
+  ['otf', 'font/opentype'],
+  ['ttf', 'application/octet-stream'],
+  ['eot', 'application/vnd.ms-fontobject'],
+  ['svg', 'image/svg+xml']
+].forEach((font) => {
+  const extension = font[0]
+  const mimetype = font[1]
+
+  webpackConfig.module.rules.push({
+    test    : new RegExp(`\\.${extension}$`),
+    loader  : 'url-loader',
+    options : {
+      name  : 'fonts/[name].[ext]',
+      limit : 10000,
+      mimetype
+    },
+  })
+});
+/* eslint-enable */
 
 module.exports = webpackConfig;

@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
 
-import { handleHashChange } from 'react-quietwater';
+import { handleHashChange } from '../../index';
 
 export default class AppContainer extends React.PureComponent {
   static propTypes = {
