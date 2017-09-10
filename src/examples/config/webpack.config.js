@@ -18,8 +18,11 @@ const webpackConfig = {
   target  : 'web',
   devtool : project.compiler_devtool,
   resolve : {
+    alias: {
+      react: project.paths.base('node_modules/react'),
+      'react-dom': project.paths.base('node_modules/react-dom')
+    },
     modules: [
-      project.paths.client(),
       'node_modules'
     ],
     extensions: ['.js', '.jsx', '.json']
@@ -48,21 +51,18 @@ webpackConfig.output = {
 };
 
 // ------------------------------------
-// Externals
-// ------------------------------------
-webpackConfig.externals = {};
-webpackConfig.externals['react/lib/ExecutionEnvironment'] = true;
-webpackConfig.externals['react/lib/ReactContext'] = true;
-webpackConfig.externals['react/addons'] = true;
-
-// ------------------------------------
 // Plugins
 // ------------------------------------
 
-const extractCss = new ExtractTextPlugin({
+const extractCssPlugin = new ExtractTextPlugin({
   filename: '[name].[contenthash].css',
   allChunks: true,
-  disable: __DEV__
+  /*
+  * https://github.com/webpack-contrib/extract-text-webpack-plugin/blob/
+  * 7ae32d9c560ef0a7dd584e3bf5991bacd5753093/test/cases/order-undefined-error/webpack.config.js
+  * */
+  ignoreOrder: true,
+  disable: !!__DEV__
 });
 
 webpackConfig.plugins = [
@@ -77,7 +77,7 @@ webpackConfig.plugins = [
       collapseWhitespace : true
     }
   }),
-  extractCss
+  extractCssPlugin
 ];
 
 // Ensure that the compiler exits on errors during testing so that
@@ -106,7 +106,6 @@ if (__DEV__) {
 } else if (__PROD__) {
   debug('Enabling plugins for production (OccurenceOrder, Dedupe & UglifyJS).');
   webpackConfig.plugins.push(
-
     new webpack.optimize.UglifyJsPlugin({
       compress : {
         unused    : true,
@@ -194,37 +193,12 @@ const postCssLoaderConfig = {
 // https://webpack.js.org/configuration/module/#rule-loader
 // Rule.loader is a shortcut to Rule.use: [ { loader } ]. See Rule.use and UseEntry.loader for details.
 
-// 配置src/globalStyles下面的为全局样式
-// Global Css: set src/globalStyles to global css
-// ------------------------------------
-
-webpackConfig.module.rules.push({
-  test    : /\.(css|scss)$/,
-  include : [
-    project.paths.client('globalStyles'),
-    project.paths.examples('globalStyles'),
-    /node_modules/
-  ],
-  loader  : extractCss.extract({
-    fallback: 'style-loader',
-    use: [
-      'css-loader',
-      postCssLoaderConfig,
-      'sass-loader'
-    ]
-  })
-});
-
 // CSS Modules
 // ------------------------------------
 
 webpackConfig.module.rules.push({
   test    : /\.(css|scss)$/,
-  exclude : [
-    project.paths.client('globalStyles'),
-    project.paths.examples('globalStyles'),
-    /node_modules/
-  ],
+  include : path => !path.includes('globalStyles') && !path.includes('node_modules'),
   use  : [
     'style-loader',
     {
@@ -238,6 +212,26 @@ webpackConfig.module.rules.push({
     postCssLoaderConfig,
     'sass-loader'
   ]
+});
+
+// 配置globalStyles下面的为全局样式
+// Global Css: set src/globalStyles to global css
+// ------------------------------------
+
+webpackConfig.module.rules.push({
+  test    : /\.(css|scss)$/,
+  include : [
+    /globalStyles/,
+    /node_modules/
+  ],
+  loader  : extractCssPlugin.extract({
+    fallback: 'style-loader',
+    use: [
+      'css-loader',
+      postCssLoaderConfig,
+      'sass-loader'
+    ]
+  })
 });
 
 // Images

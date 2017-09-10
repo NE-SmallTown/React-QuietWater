@@ -46,6 +46,10 @@
   },
   "homepage": "https://github.com/NE-SmallTown/react-QuietWater",
   "license": "MIT License",
+  "peerDependencies": {
+    "react": "^16.0.0-rc",
+    "react-dom": "^16.0.0-rc"
+  },
   "dependencies": {
     "classnames": "^2.2.0",
     "dompurify": "^0.8.9",
@@ -61,10 +65,9 @@
     "rc-notification": "^1.4.2",
     "rc-pagination": "^1.8.9",
     "rc-tooltip": "^3.4.3",
-    "react": "^16.0.0-rc.2",
+    "prop-types": "^15.5.10",
     "react-addons-create-fragment": "^15.5.4",
     "react-css-themr": "^2.0.0",
-    "react-dom": "^16.0.0-rc.2",
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
     "react-rte": "^0.14.2",

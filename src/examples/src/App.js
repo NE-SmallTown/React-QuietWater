@@ -37,8 +37,6 @@ export default class App extends React.PureComponent {
 
     const languageName = this.allLanguageNameArray[languageIndex];
 
-    const languageObj = require(`react-quietwater/lib/language/${languageName}`).default;
-
     this.setState({
       languageName,
       languageObj
