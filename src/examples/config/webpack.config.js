@@ -141,16 +141,19 @@ webpackConfig.module.rules = [{
       loader: 'babel-loader',
       options: Object.assign(
         project.compiler_babel,
-        { plugins: project.compiler_babel.plugins.concat([
-          [
-            'babel-plugin-react-css-modules-ne-smalltown',
-            {
-              exclude: 'globalStyles',
-              generateScopedName: cssModulesHashRule,
-              webpackHotModuleReloading: true
-            }
-          ]
-        ]) }
+        {
+          babelrc: false,
+          plugins: project.compiler_babel.plugins.concat([
+            [
+              'babel-plugin-react-css-modules-ne-smalltown',
+              {
+                exclude: 'globalStyles',
+                generateScopedName: cssModulesHashRule,
+                webpackHotModuleReloading: true
+              }
+            ]
+          ])
+        }
       )
     }
   ]
@@ -198,9 +201,17 @@ const postCssLoaderConfig = {
 
 webpackConfig.module.rules.push({
   test    : /\.(css|scss)$/,
-  include : path => !path.includes('globalStyles') && !path.includes('node_modules'),
+  include : path => {
+    const ret = !path.includes('globalStyles') && !path.includes('node_modules');
+
+    // console.log(`${path}: ${ret}`);
+
+    return ret;
+  },
   use  : [
-    'style-loader',
+    {
+      loader: 'style-loader'
+    },
     {
       loader: 'css-loader',
       options: {

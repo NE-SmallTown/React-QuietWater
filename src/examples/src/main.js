@@ -24,7 +24,7 @@ import { network } from '../../utils/network';
 // to make we can resolve below 2 css as global css.
 // for react-quietwater user, use import 'react-quietwater/lib/cssDist/React-QuietWater-Global.scss';
 // below usage is for our examples
-// import '../../globalStyles/React-QuietWater-Global.scss';
+import '../../globalStyles/React-QuietWater-Global.scss';
 
 // if you use babel-plugin-react-css-modules,we need to add the '../node_modules' prefix and set exclude
 // option of the plugin to 'node_modules' to avoid the plugin to ignore our css file(i.e. not treat them
@@ -174,6 +174,7 @@ if (__DEV__) {
     // Setup hot module replacement
     module.hot.accept(
       [
+        '../../../src',
         './AppContainer',
         './routes/index'
       ],

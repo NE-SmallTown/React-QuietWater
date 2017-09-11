@@ -29,7 +29,7 @@ export default class Comment extends Model {
     switch (action.type) {
       case COMMENT_SUCCESS:
       case Conversation_SUCCESS:
-        const commentEntities = action.type === COMMENT_SUCCESS ? action.response.comments : action.response;
+        const commentEntities = (action.type === COMMENT_SUCCESS ? action.response.comments : action.response) || [];
 
         const replyId = action.type === COMMENT_SUCCESS ? action.replyId : action.response[0].reply;
 

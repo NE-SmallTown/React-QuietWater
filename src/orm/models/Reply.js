@@ -53,7 +53,7 @@ export default class Reply extends Model {
 
         break;
       case COMMENT_SUCCESS:
-        const { comments: newComments, commentCount } = action.response;
+        const { comments: newComments = [], commentCount } = action.response;
 
         const { replyId } = action;
         const reply = Reply.withId(replyId);

@@ -254,7 +254,7 @@ export default class Modal extends React.PureComponent {
     if (props.hasXIcon) {
       closer = (
         <button onClick={this.onClose} styleName={`${prefixCls}-close`}>
-          <SvgIcon iconName="icon-close-x" />
+          <SvgIcon styleName="icon-close" iconName="icon-close1" />
         </button>
       );
     }

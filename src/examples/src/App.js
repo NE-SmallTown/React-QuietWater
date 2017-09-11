@@ -13,7 +13,7 @@ import QuietWater, { LanguageProvider, globalConfig } from '../../index';
 
 import './globalStyles/global.scss';
 
-let languageObj = require(`../../language/${globalConfig.languageName}`).default;
+const languageObj = require(`../../language/${globalConfig.languageName}`).default;
 
 export default class App extends React.PureComponent {
   constructor (props) {
@@ -36,6 +36,9 @@ export default class App extends React.PureComponent {
     }
 
     const languageName = this.allLanguageNameArray[languageIndex];
+    const languageObj = require(`../../language/${languageName}`).default;
+
+    console.log(JSON.stringify(languageObj));
 
     this.setState({
       languageName,
