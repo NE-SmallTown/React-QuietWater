@@ -300,8 +300,6 @@ For a blog,the host is a article.
   }
 ```
 
-- Delete reply(todo)
-
 - Modify reply(todo)
 
 *NOTE*: Host id should be different with reply id.

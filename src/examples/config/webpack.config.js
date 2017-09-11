@@ -16,7 +16,7 @@ debug('Creating configuration.');
 const webpackConfig = {
   name    : 'client',
   target  : 'web',
-  devtool : project.compiler_devtool,
+  devtool : __DEV__ ? project.compiler_devtool : false,
   resolve : {
     alias: {
       react: project.paths.base('node_modules/react'),

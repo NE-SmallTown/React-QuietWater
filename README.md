@@ -45,7 +45,7 @@ All you need to do is complete the [config options](https://github.com/NE-SmallT
 
 ### F & Q
 
-You can view [this](https://github.com/NE-SmallTown/React-QuietWater/tree/master/src/examples/F&Q.md) to know some F & Q.
+You can view [this](https://github.com/NE-SmallTown/React-QuietWater/tree/master/F&Q.md) to know some F & Q.
 
 ### Design thinking
 
