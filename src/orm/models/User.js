@@ -53,7 +53,7 @@ export default class User extends Model {
         break;
       case COMMENT_SUCCESS:
       case Conversation_SUCCESS:
-        const commentsEntities = action.type === COMMENT_SUCCESS ? action.response.comments : action.response;
+        const commentsEntities = (action.type === COMMENT_SUCCESS ? action.response.comments : action.response) || [];
 
         for (let { author, replyTo } of commentsEntities) {
           if (!User.hasId(author.userId)) {

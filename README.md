@@ -24,13 +24,13 @@ so that's why I use it now.If you don't want to use React 16 in your project,sor
 
 ### Demo
 
-You can view the [online example](https://ne-smalltown.github.io/React-QuietWater/examples/dist).And please note that 
+You can view the [online example](https://ne-smalltown.github.io/React-QuietWater/examples).And please note that 
 although we use mock data(by [easy-mock](https://www.easy-mock.com/)) for the example but maybe the data don't have correct logic like the real world.This demo is just
 for showing the UI and the basic logic.But if you want to improve this,pr is always welcomed.
 
 > NOTE: Some functions like praise/thumbdown a reply,submit reply/comment are allowable only when you have logined.
 So for testing React-QuietWater expediently.Default our test api interface doesn't return a token of the user.So 
-We provide a [token](https://github.com/NE-SmallTown/React-QuietWater/tree/master/examples/token),you can set it to your `config.localStorage.info2Storage.userToken` (default the value is 'u_tk',
+We provide a [token](https://github.com/NE-SmallTown/React-QuietWater/tree/master/src/examples/token),you can set it to your `config.localStorage.info2Storage.userToken` (default the value is 'u_tk',
 i.e set `localstorage.u_tk` to the token value).And then you can test these functions otherwise it will redirect to the 
 login page which you set.
 
@@ -41,11 +41,11 @@ login page which you set.
 - *NOTE*: We would like to see any pr/(UI design)/(feature request)/enhancement based on our Name origin,but if they breaches our
 Motivation,we won't accpt them,so we recommend you fork or just copy our repo and modify it to whatever you want.
 
-All you need to do is complete the [config options](https://github.com/NE-SmallTown/React-QuietWater/tree/master/examples/README.md) according to your use case.
+All you need to do is complete the [config options](https://github.com/NE-SmallTown/React-QuietWater/tree/master/src/examples/README.md) according to your use case.
 
 ### F & Q
 
-You can view [this](https://github.com/NE-SmallTown/React-QuietWater/tree/master/examples/F&Q.md) to know some F & Q.
+You can view [this](https://github.com/NE-SmallTown/React-QuietWater/tree/master/src/examples/F&Q.md) to know some F & Q.
 
 ### Design thinking
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import AppContainer from './AppContainer';
-import Message from 'react-quietwater/lib/components/Message';
-import SvgIcon from 'react-quietwater/lib/components/SvgIcon';
+import Message from '../../components/Message';
+import SvgIcon from '../../components/SvgIcon';
 
 import { formatUrl } from 'url-lib';
 
@@ -13,25 +12,27 @@ import {
   getCurrentUserId,
   setCurrentUserId,
   hostUserInfo2StorageStringMap
-} from 'react-quietwater';
-import { network } from 'react-quietwater/lib/utils/network';
+} from '../../index';
+import { network } from '../../utils/network';
 
-// NOTE: please import the global css(e.g. normalize.css, rc-pagination.css,rc-message.css) and React-QuietWater's
-// css which it needs, if you don't import them,probably React-QuietWater can't work well.And you should note that
+// NOTE: please import the global css(contains normalize.css, rc-pagination.css, rc-message.css etc.) and React-QuietWater's
+// own css, if you don't import them, probably React-QuietWater can't work well.And you should note that
 // these 2 css can't be css mouduled,they should be imported as a global module rather than css moudle.So you
 // can notice that in our demo's webpack config,we exclude the import which from 'node_modules' in the
 // **css/scss modules** loader to avoid treat below 2 css as css modules and include the import which from
 // node_modules in the **css/scss loader**(note this is just a normal css loader, i.e. doesn't use css modules)
 // to make we can resolve below 2 css as global css.
-import 'react-quietwater/lib/cssDist/React-QuietWater-Global.scss';
+// for react-quietwater user, use import 'react-quietwater/lib/cssDist/React-QuietWater-Global.scss';
+// below usage is for our examples
+import '../../globalStyles/React-QuietWater-Global.scss';
 
 // if you use babel-plugin-react-css-modules,we need to add the '../node_modules' prefix and set exclude
 // option of the plugin to 'node_modules' to avoid the plugin to ignore our css file(i.e. not treat them
 // as a css modules).And notice that if you just set the exclude option of the plugin to 'node_modules'
 // but don't add the '../node_modules' prefix,we will get error "Cannot find module 'react-quietwater/lib/
 // cssDist/React-QuietWater.scss" due to https://github.com/gajus/babel-plugin-react-css-modules/blob/master/src/index.js#L126
-// import '../node_modules/react-quietwater/lib/cssDist/React-QuietWater.css';
-import 'react-quietwater/lib/cssDist/React-QuietWater.scss';
+// for react-quietwater user, use import 'react-quietwater/lib/cssDist/React-QuietWater.scss';
+// for our examples, we don't need to import
 
 import './example.css';
 
@@ -148,7 +149,8 @@ const initGlobalSettings = () => {
 initGlobalSettings();
 
 // config our app
-const render = () => {
+let render = () => {
+  const AppContainer = require('./AppContainer').default;
   const routes = require('./routes/index').default;
 
   ReactDOM.render(
@@ -156,5 +158,32 @@ const render = () => {
     MOUNT_NODE
   );
 };
+
+if (__DEV__) {
+  if (module.hot) {
+    const renderApp = render;
+
+    render = () => {
+      try {
+        renderApp();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    // Setup hot module replacement
+    module.hot.accept(
+      [
+        '../../../src',
+        './AppContainer',
+        './routes/index'
+      ],
+      () => setImmediate(() => {
+        ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+        render();
+      })
+    );
+  }
+}
 
 render();

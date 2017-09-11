@@ -130,3 +130,8 @@
 .ant-confirm .ant-modal-body {
     padding: 30px 40px
 }
+
+.icon-close {
+    width: 16px;
+    height: 16px;
+}

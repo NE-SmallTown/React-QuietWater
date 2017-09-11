@@ -25,7 +25,12 @@ if (project.env === 'development') {
     quiet       : project.compiler_quiet,
     noInfo      : project.compiler_quiet,
     lazy        : false,
-    stats       : project.compiler_stats
+    stats       : project.compiler_stats,
+    headers: {
+      // 也可以用下面的方式
+      // https://github.com/webpack/webpack-dev-server/issues/79#issuecomment-244596129
+      'Access-Control-Allow-Origin': '*'
+    }
   }));
   app.use(require('webpack-hot-middleware')(compiler, {
     path: '/__webpack_hmr'

@@ -14,9 +14,10 @@ const config = {
   // ----------------------------------
   // Project Structure
   // ----------------------------------
-  path_base  : path.resolve(__dirname, '..'),
+  path_base  : path.resolve(__dirname, '../../../'),
+  dir_examples: 'src/examples',
   dir_client : 'src',
-  dir_dist   : 'dist',
+  dir_dist   : 'examples',
   dir_public : 'public',
   dir_server : 'server',
   dir_test   : 'tests',
@@ -34,9 +35,13 @@ const config = {
   // 用了'transform-runtime'就不能出现export *,如果非要用,可以采用下面的方式
   // https://github.com/babel/babel/issues/2877
   // https://github.com/babel/babel/issues/5501#issuecomment-287589989
-  compiler_babel : {
-    plugins        : ['transform-decorators-legacy', 'transform-object-rest-spread', 'transform-export-extensions'],
-    presets        : ['flow', 'es2015', 'react', 'stage-0']
+  compiler_babel: {
+    plugins: [
+      'babel-plugin-transform-decorators-legacy',
+      'babel-plugin-transform-object-rest-spread',
+      'babel-plugin-transform-export-extensions'
+    ],
+    presets: ['flow', 'es2015', 'react', 'stage-0']
   },
   // cheap-module-source-map works in FF, but doesn't work in Chrome
   // cheap-module-inline-source-map doesn't work in FF, but does work in Chrome
@@ -46,7 +51,7 @@ const config = {
   compiler_hash_type       : 'hash',
   compiler_fail_on_warning : false,
   compiler_quiet           : false,
-  compiler_public_path     : '',
+  compiler_public_path     : '/',
   compiler_stats           : {
     chunks : false,
     chunkModules : false,
@@ -121,6 +126,7 @@ function base () {
 
 config.paths = {
   base   : base,
+  examples: base.bind(null, config.dir_examples),
   client : base.bind(null, config.dir_client),
   public : base.bind(null, config.dir_public),
   dist   : base.bind(null, config.dir_dist)
