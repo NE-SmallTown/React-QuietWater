@@ -23,7 +23,7 @@
   "scripts": {
     "clean": "rimraf ./lib",
     "prebuild": "npm run clean",
-    "build": "./node_modules/.bin/babel src --out-dir lib --ignore src/examples/* && node ./bin/build",
+    "build": "./node_modules/.bin/babel src --out-dir lib --ignore src/examples && node ./bin/build",
     "flow": "flow",
     "lint": "eslint src tests",
     "lint:fix": "npm run lint -- --fix",
@@ -94,6 +94,7 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-istanbul": "^3.0.0",
     "babel-plugin-react-css-modules-ne-smalltown": "^2.8.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
