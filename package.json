@@ -3,9 +3,13 @@
   "version": "0.2.3",
   "description": "One comment system based on react.",
   "keywords": [
+    "components",
     "react-component",
     "react",
-    "comment"
+    "comment",
+    "comment-system",
+    "blog",
+    "blog-comment"
   ],
   "main": "lib/index.js",
   "engines": {
@@ -19,7 +23,7 @@
   "scripts": {
     "clean": "rimraf ./lib",
     "prebuild": "npm run clean",
-    "build": "cd ./node_modules/.bin && babel ../../src --ignore ../../src/examples --out-dir ../../lib && cd ../../ && node ./bin/build",
+    "build": "./node_modules/.bin/babel src --out-dir lib --ignore src/examples/* && node ./bin/build",
     "flow": "flow",
     "lint": "eslint examples server src tests",
     "lint:fix": "npm run lint -- --fix",
